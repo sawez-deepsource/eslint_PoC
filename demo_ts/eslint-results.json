@@ -137,6 +137,17 @@
               "text": "void "
             },
             "desc": "Add void operator to ignore."
+          },
+          {
+            "messageId": "floatingFixAwait",
+            "fix": {
+              "range": [
+                545,
+                545
+              ],
+              "text": "await "
+            },
+            "desc": "Add await operator."
           }
         ]
       }
@@ -148,16 +159,7 @@
     "fixableErrorCount": 0,
     "fixableWarningCount": 0,
     "source": "import { OrderID, UserID, ApiResponse } from \"../types\";\nimport { createOrder, processOrder } from \"../services/orderService\";\n\nexport async function handleCreateOrder(\n  req: any,\n): Promise<ApiResponse<unknown>> {\n  const { id, userId, amount } = req.body;\n  return createOrder(id as OrderID, userId as UserID, Number(amount));\n}\n\nexport async function handleProcessOrder(\n  req: any,\n): Promise<ApiResponse<unknown>> {\n  const { id } = req.params;\n  const result = await processOrder(id as OrderID);\n\n  // no-misused-promises (intentional)\n  Promise.resolve(result).then(() => {});\n\n  return result;\n}\n",
-    "usedDeprecatedRules": [
-      {
-        "ruleId": "no-extra-semi",
-        "replacedBy": []
-      },
-      {
-        "ruleId": "no-mixed-spaces-and-tabs",
-        "replacedBy": []
-      }
-    ]
+    "usedDeprecatedRules": []
   },
   {
     "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/controllers/userController.ts",
@@ -358,7 +360,7 @@
       {
         "ruleId": "@typescript-eslint/strict-boolean-expressions",
         "severity": 2,
-        "message": "Unexpected any value in conditional. An explicit comparison or type cast is required.",
+        "message": "Unexpected any value in conditional. An explicit comparison or type conversion is required.",
         "line": 35,
         "column": 7,
         "nodeType": "MemberExpression",
@@ -375,7 +377,7 @@
               ],
               "text": "Boolean(result.data)"
             },
-            "desc": "Explicitly cast value to a boolean (`Boolean(value)`)"
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
           }
         ]
       }
@@ -387,16 +389,7 @@
     "fixableErrorCount": 0,
     "fixableWarningCount": 0,
     "source": "import { UserID, ApiResponse } from \"../types\";\nimport {\n  createUser,\n  deactivateUser,\n  getUserProfile,\n} from \"../services/userService\";\n\nexport async function handleCreateUser(\n  req: any,\n): Promise<ApiResponse<unknown>> {\n  const { id, name, email } = req.body;\n\n  // no-unsafe-assignment / no-unsafe-member-access\n  return createUser(id as UserID, name, email);\n}\n\nexport async function handleDeactivateUser(\n  req: any,\n): Promise<ApiResponse<unknown>> {\n  const { id } = req.params;\n  return deactivateUser(id as UserID);\n}\n\nexport async function handleGetProfile(\n  req: any,\n): Promise<ApiResponse<unknown>> {\n  const { id } = req.params;\n  const result = await getUserProfile(id as UserID);\n\n  if (!result.success) {\n    return result;\n  }\n\n  // strict-boolean-expressions\n  if (result.data) {\n    return result;\n  }\n\n  return { success: false, error: { code: \"EMPTY\", message: \"No data\" } };\n}\n",
-    "usedDeprecatedRules": [
-      {
-        "ruleId": "no-extra-semi",
-        "replacedBy": []
-      },
-      {
-        "ruleId": "no-mixed-spaces-and-tabs",
-        "replacedBy": []
-      }
-    ]
+    "usedDeprecatedRules": []
   },
   {
     "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/db.ts",
@@ -410,7 +403,20 @@
         "nodeType": "FunctionDeclaration",
         "messageId": "missingAwait",
         "endLine": 6,
-        "endColumn": 35
+        "endColumn": 35,
+        "suggestions": [
+          {
+            "messageId": "removeAsync",
+            "fix": {
+              "range": [
+                163,
+                220
+              ],
+              "text": "function fetchUserRaw(id: string): unknown"
+            },
+            "desc": "Remove 'async'."
+          }
+        ]
       },
       {
         "ruleId": "@typescript-eslint/require-await",
@@ -421,7 +427,20 @@
         "nodeType": "FunctionDeclaration",
         "messageId": "missingAwait",
         "endLine": 10,
-        "endColumn": 36
+        "endColumn": 36,
+        "suggestions": [
+          {
+            "messageId": "removeAsync",
+            "fix": {
+              "range": [
+                261,
+                315
+              ],
+              "text": "function fetchOrderRaw(id: string): any"
+            },
+            "desc": "Remove 'async'."
+          }
+        ]
       },
       {
         "ruleId": "@typescript-eslint/no-explicit-any",
@@ -467,7 +486,20 @@
         "nodeType": "FunctionDeclaration",
         "messageId": "missingAwait",
         "endLine": 14,
-        "endColumn": 31
+        "endColumn": 31,
+        "suggestions": [
+          {
+            "messageId": "removeAsync",
+            "fix": {
+              "range": [
+                357,
+                407
+              ],
+              "text": "function saveUser(user: User): void"
+            },
+            "desc": "Remove 'async'."
+          }
+        ]
       },
       {
         "ruleId": "@typescript-eslint/require-await",
@@ -478,12 +510,25 @@
         "nodeType": "FunctionDeclaration",
         "messageId": "missingAwait",
         "endLine": 18,
-        "endColumn": 32
+        "endColumn": 32,
+        "suggestions": [
+          {
+            "messageId": "removeAsync",
+            "fix": {
+              "range": [
+                453,
+                506
+              ],
+              "text": "function saveOrder(order: Order): void"
+            },
+            "desc": "Remove 'async'."
+          }
+        ]
       },
       {
         "ruleId": "@typescript-eslint/strict-boolean-expressions",
         "severity": 2,
-        "message": "Unexpected any value in conditional. An explicit comparison or type cast is required.",
+        "message": "Unexpected any value in conditional. An explicit comparison or type conversion is required.",
         "line": 24,
         "column": 8,
         "nodeType": "Identifier",
@@ -500,7 +545,7 @@
               ],
               "text": "(Boolean(raw))"
             },
-            "desc": "Explicitly cast value to a boolean (`Boolean(value)`)"
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
           }
         ]
       },
@@ -518,7 +563,7 @@
       {
         "ruleId": "@typescript-eslint/strict-boolean-expressions",
         "severity": 2,
-        "message": "Unexpected any value in conditional. An explicit comparison or type cast is required.",
+        "message": "Unexpected any value in conditional. An explicit comparison or type conversion is required.",
         "line": 30,
         "column": 8,
         "nodeType": "Identifier",
@@ -535,7 +580,7 @@
               ],
               "text": "(Boolean(raw))"
             },
-            "desc": "Explicitly cast value to a boolean (`Boolean(value)`)"
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
           }
         ]
       }
@@ -547,16 +592,7 @@
     "fixableErrorCount": 0,
     "fixableWarningCount": 0,
     "source": "import { User, Order, UserID, OrderID } from \"./types\";\n\nconst fakeUserTable: Record<string, User> = {};\nconst fakeOrderTable: Record<string, Order> = {};\n\nexport async function fetchUserRaw(id: string): Promise<unknown> {\n  return fakeUserTable[id];\n}\n\nexport async function fetchOrderRaw(id: string): Promise<any> {\n  return fakeOrderTable[id];\n}\n\nexport async function saveUser(user: User): Promise<void> {\n  fakeUserTable[user.id] = user;\n}\n\nexport async function saveOrder(order: Order): Promise<void> {\n  fakeOrderTable[order.id] = order;\n}\n\nexport async function getUserById(id: UserID): Promise<User | null> {\n  const raw = await fetchUserRaw(id);\n  if (!raw) return null;\n  return raw as User;\n}\n\nexport async function getOrderById(id: OrderID): Promise<Order | null> {\n  const raw = await fetchOrderRaw(id);\n  if (!raw) return null;\n  return raw as Order;\n}\n",
-    "usedDeprecatedRules": [
-      {
-        "ruleId": "no-extra-semi",
-        "replacedBy": []
-      },
-      {
-        "ruleId": "no-mixed-spaces-and-tabs",
-        "replacedBy": []
-      }
-    ]
+    "usedDeprecatedRules": []
   },
   {
     "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/index.ts",
@@ -582,6 +618,17 @@
               "text": "void "
             },
             "desc": "Add void operator to ignore."
+          },
+          {
+            "messageId": "floatingFixAwait",
+            "fix": {
+              "range": [
+                75,
+                75
+              ],
+              "text": "await "
+            },
+            "desc": "Add await operator."
           }
         ]
       }
@@ -593,16 +640,7 @@
     "fixableErrorCount": 0,
     "fixableWarningCount": 0,
     "source": "import { runDemo } from \"./server\";\n\n// no-floating-promises (intentional)\nrunDemo();\n",
-    "usedDeprecatedRules": [
-      {
-        "ruleId": "no-extra-semi",
-        "replacedBy": []
-      },
-      {
-        "ruleId": "no-mixed-spaces-and-tabs",
-        "replacedBy": []
-      }
-    ]
+    "usedDeprecatedRules": []
   },
   {
     "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/server.ts",
@@ -685,16 +723,7 @@
     "fixableErrorCount": 0,
     "fixableWarningCount": 0,
     "source": "import { handleCreateUser } from \"./controllers/userController\";\nimport { handleCreateOrder } from \"./controllers/orderController\";\n\nexport async function runDemo() {\n  await handleCreateUser({\n    body: { id: \"u1\", name: \"Alice\", email: null },\n  } as any);\n  await handleCreateOrder({\n    body: { id: \"o1\", userId: \"u1\", amount: 100 },\n  } as any);\n}\n",
-    "usedDeprecatedRules": [
-      {
-        "ruleId": "no-extra-semi",
-        "replacedBy": []
-      },
-      {
-        "ruleId": "no-mixed-spaces-and-tabs",
-        "replacedBy": []
-      }
-    ]
+    "usedDeprecatedRules": []
   },
   {
     "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/services/orderService.ts",
@@ -718,16 +747,7 @@
     "fixableErrorCount": 0,
     "fixableWarningCount": 0,
     "source": "import { Order, OrderID, UserID, ApiResponse } from \"../types\";\nimport { getOrderById, saveOrder, getUserById } from \"../db\";\nimport { delay } from \"../utils\";\n\nexport async function createOrder(\n  id: OrderID,\n  userId: UserID,\n  amount: number,\n): Promise<ApiResponse<Order>> {\n  const user = await getUserById(userId);\n  if (!user) {\n    return {\n      success: false,\n      error: { code: \"USER_NOT_FOUND\", message: \"User does not exist\" },\n    };\n  }\n\n  const order: Order = {\n    id,\n    userId,\n    amount,\n    status: \"pending\",\n    createdAt: new Date(),\n  };\n\n  await saveOrder(order);\n  return { success: true, data: order };\n}\n\nexport async function processOrder(id: OrderID): Promise<ApiResponse<Order>> {\n  const order = await getOrderById(id);\n\n  if (!order) {\n    return {\n      success: false,\n      error: { code: \"ORDER_NOT_FOUND\", message: \"Order not found\" },\n    };\n  }\n\n  if (order.amount <= 0) {\n    return {\n      success: false,\n      error: { code: \"INVALID_AMOUNT\", message: \"Amount must be positive\" },\n    };\n  }\n\n  if (order.status === \"pending\") {\n    order.status = \"paid\";\n  } else if (order.status === \"paid\") {\n    return {\n      success: false,\n      error: { code: \"ALREADY_PAID\", message: \"Order already paid\" },\n    };\n  } else if (order.status === \"cancelled\") {\n    return {\n      success: false,\n      error: { code: \"CANCELLED\", message: \"Order cancelled\" },\n    };\n  } else {\n    // Exhaustiveness check\n    return {\n      success: false,\n      error: { code: \"UNKNOWN\", message: \"Unknown status\" },\n    };\n  }\n\n  // no-misused-promises\n  setTimeout(async () => {\n    await delay(100);\n  }, 0);\n\n  await saveOrder(order);\n  return { success: true, data: order };\n}\n",
-    "usedDeprecatedRules": [
-      {
-        "ruleId": "no-extra-semi",
-        "replacedBy": []
-      },
-      {
-        "ruleId": "no-mixed-spaces-and-tabs",
-        "replacedBy": []
-      }
-    ]
+    "usedDeprecatedRules": []
   },
   {
     "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/services/userService.ts",
@@ -753,6 +773,17 @@
               "text": "void "
             },
             "desc": "Add void operator to ignore."
+          },
+          {
+            "messageId": "floatingFixAwait",
+            "fix": {
+              "range": [
+                842,
+                842
+              ],
+              "text": "await "
+            },
+            "desc": "Add await operator."
           }
         ]
       }
@@ -764,93 +795,622 @@
     "fixableErrorCount": 0,
     "fixableWarningCount": 0,
     "source": "import { User, UserID, ApiResponse } from \"../types\";\nimport { getUserById, saveUser } from \"../db\";\nimport { delay, riskyBoolean } from \"../utils\";\n\nexport async function createUser(\n  id: UserID,\n  name: string,\n  email: string | null,\n): Promise<ApiResponse<User>> {\n  const user: User = {\n    id,\n    name,\n    email,\n    isActive: true,\n    metadata: {},\n  };\n\n  await saveUser(user);\n  return { success: true, data: user };\n}\n\nexport async function deactivateUser(id: UserID): Promise<ApiResponse<User>> {\n  const user = await getUserById(id);\n\n  if (!user) {\n    return {\n      success: false,\n      error: { code: \"NOT_FOUND\", message: \"User not found\" },\n    };\n  }\n\n  // strict-boolean-expressions + unsafe member access\n  if (riskyBoolean(user.metadata)) {\n    user.isActive = false;\n  }\n\n  // no-floating-promises (intentional)\n  delay(1000);\n\n  await saveUser(user);\n  return { success: true, data: user };\n}\n\nexport async function getUserProfile(\n  id: UserID,\n): Promise<ApiResponse<unknown>> {\n  const user = await getUserById(id);\n\n  if (!user) {\n    return {\n      success: false,\n      error: { code: \"NOT_FOUND\", message: \"User not found\" },\n    };\n  }\n\n  // no-unsafe-assignment\n  const profile: unknown = {\n    id: user.id,\n    name: user.name,\n    email: user.email,\n  };\n\n  return { success: true, data: profile };\n}\n",
-    "usedDeprecatedRules": [
-      {
-        "ruleId": "no-extra-semi",
-        "replacedBy": []
-      },
-      {
-        "ruleId": "no-mixed-spaces-and-tabs",
-        "replacedBy": []
-      }
-    ]
+    "usedDeprecatedRules": []
   },
   {
-    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/tools/eslinst_dump.ts",
+    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/tools/baseline.ts",
     "messages": [
       {
-        "ruleId": "@typescript-eslint/no-unsafe-assignment",
+        "ruleId": "@typescript-eslint/no-explicit-any",
         "severity": 2,
-        "message": "Unsafe assignment of an `any` value.",
-        "line": 4,
-        "column": 7,
-        "nodeType": "VariableDeclarator",
-        "messageId": "anyAssignment",
-        "endLine": 4,
-        "endColumn": 28
+        "message": "Unexpected any. Specify a different type.",
+        "line": 55,
+        "column": 19,
+        "nodeType": "TSAnyKeyword",
+        "messageId": "unexpectedAny",
+        "endLine": 55,
+        "endColumn": 22,
+        "suggestions": [
+          {
+            "messageId": "suggestUnknown",
+            "fix": {
+              "range": [
+                1583,
+                1586
+              ],
+              "text": "unknown"
+            },
+            "desc": "Use `unknown` instead, this will force you to explicitly, and safely assert the type is correct."
+          },
+          {
+            "messageId": "suggestNever",
+            "fix": {
+              "range": [
+                1583,
+                1586
+              ],
+              "text": "never"
+            },
+            "desc": "Use `never` instead, this is useful when instantiating generic type parameters that you don't need to know the type of."
+          }
+        ]
       },
       {
-        "ruleId": "@typescript-eslint/no-unsafe-call",
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
         "severity": 2,
-        "message": "Unsafe construction of an any type value.",
-        "line": 4,
-        "column": 16,
-        "nodeType": "NewExpression",
-        "messageId": "unsafeNew",
-        "endLine": 4,
-        "endColumn": 28
+        "message": "Unsafe member access .message on an `any` value.",
+        "line": 61,
+        "column": 25,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 61,
+        "endColumn": 32
       },
       {
-        "ruleId": "@typescript-eslint/no-unsafe-assignment",
+        "ruleId": "@typescript-eslint/strict-boolean-expressions",
         "severity": 2,
-        "message": "Unsafe assignment of an `any` value.",
-        "line": 5,
-        "column": 7,
-        "nodeType": "VariableDeclarator",
-        "messageId": "anyAssignment",
-        "endLine": 5,
-        "endColumn": 56
+        "message": "Unexpected any value in conditional. An explicit comparison or type conversion is required.",
+        "line": 63,
+        "column": 9,
+        "nodeType": "CallExpression",
+        "messageId": "conditionErrorAny",
+        "endLine": 63,
+        "endColumn": 49,
+        "suggestions": [
+          {
+            "messageId": "conditionFixCastBoolean",
+            "fix": {
+              "range": [
+                1773,
+                1813
+              ],
+              "text": "Boolean(error.message.includes(\"parserServices\"))"
+            },
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
+          }
+        ]
       },
       {
         "ruleId": "@typescript-eslint/no-unsafe-call",
         "severity": 2,
         "message": "Unsafe call of an `any` typed value.",
-        "line": 5,
-        "column": 23,
+        "line": 63,
+        "column": 9,
         "nodeType": "MemberExpression",
         "messageId": "unsafeCall",
-        "endLine": 5,
-        "endColumn": 39
+        "endLine": 63,
+        "endColumn": 31
       },
       {
         "ruleId": "@typescript-eslint/no-unsafe-member-access",
         "severity": 2,
-        "message": "Unsafe member access .lintFiles on an `any` value.",
-        "line": 5,
-        "column": 30,
+        "message": "Unsafe member access .message on an `any` value.",
+        "line": 63,
+        "column": 15,
         "nodeType": "Identifier",
         "messageId": "unsafeMemberExpression",
-        "endLine": 5,
-        "endColumn": 39
+        "endLine": 63,
+        "endColumn": 22
+      },
+      {
+        "ruleId": "@typescript-eslint/strict-boolean-expressions",
+        "severity": 2,
+        "message": "Unexpected nullable string value in conditional. Please handle the nullish/empty cases explicitly.",
+        "line": 102,
+        "column": 22,
+        "nodeType": "MemberExpression",
+        "messageId": "conditionErrorNullableString",
+        "endLine": 102,
+        "endColumn": 32,
+        "suggestions": [
+          {
+            "messageId": "conditionFixCompareNullish",
+            "fix": {
+              "range": [
+                3068,
+                3078
+              ],
+              "text": "(msg.ruleId != null)"
+            },
+            "desc": "Change condition to check for null/undefined (`value != null`)"
+          },
+          {
+            "messageId": "conditionFixDefaultEmptyString",
+            "fix": {
+              "range": [
+                3068,
+                3078
+              ],
+              "text": "(msg.ruleId ?? \"\")"
+            },
+            "desc": "Explicitly treat nullish value the same as an empty string (`value ?? \"\"`)"
+          },
+          {
+            "messageId": "conditionFixCastBoolean",
+            "fix": {
+              "range": [
+                3068,
+                3078
+              ],
+              "text": "(Boolean(msg.ruleId))"
+            },
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/strict-boolean-expressions",
+        "severity": 2,
+        "message": "Unexpected nullable number value in conditional. Please handle the nullish/zero/NaN cases explicitly.",
+        "line": 103,
+        "column": 33,
+        "nodeType": "CallExpression",
+        "messageId": "conditionErrorNullableNumber",
+        "endLine": 103,
+        "endColumn": 55,
+        "suggestions": [
+          {
+            "messageId": "conditionFixCompareNullish",
+            "fix": {
+              "range": [
+                3125,
+                3147
+              ],
+              "text": "(issuesByRule.get(rule) != null)"
+            },
+            "desc": "Change condition to check for null/undefined (`value != null`)"
+          },
+          {
+            "messageId": "conditionFixDefaultZero",
+            "fix": {
+              "range": [
+                3125,
+                3147
+              ],
+              "text": "(issuesByRule.get(rule) ?? 0)"
+            },
+            "desc": "Explicitly treat nullish value the same as 0 (`value ?? 0`)"
+          },
+          {
+            "messageId": "conditionFixCastBoolean",
+            "fix": {
+              "range": [
+                3125,
+                3147
+              ],
+              "text": "(Boolean(issuesByRule.get(rule)))"
+            },
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Unsafe member access .message on an `any` value.",
+        "line": 119,
+        "column": 36,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 119,
+        "endColumn": 43
       }
     ],
     "suppressedMessages": [],
-    "errorCount": 5,
+    "errorCount": 8,
     "fatalErrorCount": 0,
     "warningCount": 0,
     "fixableErrorCount": 0,
     "fixableWarningCount": 0,
-    "source": "import { ESLint } from \"eslint\";\nimport fs from \"fs\";\n\nconst eslint = new ESLint();\nconst results = await eslint.lintFiles([\"src/**/*.ts\"]);\nfs.writeFileSync(\"eslint-results.json\", JSON.stringify(results, null, 2));\n",
-    "usedDeprecatedRules": [
+    "source": "// src/tools/baseline.ts\n\nimport fs from \"fs\";\nimport path from \"path\";\nimport { ESLint } from \"eslint\";\nimport { MemProfiler } from \"./mem-profiler.ts\";\nimport { ConfigConverter } from \"./config-converter.ts\";\n\nconst projectRoot = process.cwd();\n\nasync function main() {\n  console.log(\"🚀 Starting ESLint Baseline\\n\");\n\n  // 1. Load legacy config\n  const legacyConfigPath = path.join(projectRoot, \".eslintrc.json\");\n\n  if (!fs.existsSync(legacyConfigPath)) {\n    console.error(\"❌ No .eslintrc.json found\");\n    process.exit(1);\n  }\n\n  const legacyConfig = ConfigConverter.loadLegacyConfig(legacyConfigPath);\n  console.log(\"✓ Legacy config loaded\");\n  console.log(`  - Parser: ${legacyConfig.parser}`);\n  console.log(`  - Rules: ${Object.keys(legacyConfig.rules || {}).length}\\n`);\n\n  // 2. Convert to flat config\n  const { source } = ConfigConverter.convert(legacyConfig);\n  const flatConfigPath = path.join(projectRoot, \"eslint.config.mjs\");\n  ConfigConverter.writeFlatConfig(source, flatConfigPath);\n  console.log(\"✓ Flat config written\\n\");\n\n  // 3. Start profiling\n  const profiler = new MemProfiler();\n  profiler.start(100);\n  profiler.sample(\"before-eslint\");\n\n  // 4. Initialize ESLint\n  const eslint = new ESLint({\n    cwd: projectRoot,\n    overrideConfigFile: flatConfigPath,\n    cache: false,\n  });\n\n  profiler.sample(\"after-init\");\n  console.log(\"✓ ESLint initialized\\n\");\n\n  // 5. Run ESLint\n  console.log(\"🔍 Linting src/**/*.ts...\\n\");\n\n  let results;\n  try {\n    results = await eslint.lintFiles([\"src/**/*.ts\"]);\n    profiler.sample(\"after-lint\");\n  } catch (error: any) {\n    profiler.sample(\"error\");\n    profiler.stop();\n    profiler.dump(\"memory-timeline-error.json\");\n\n    console.error(\"❌ ESLint failed:\");\n    console.error(error.message);\n\n    if (error.message.includes(\"parserServices\")) {\n      console.error(\"\\n💡 Parser issue detected. Check:\");\n      console.error(\"   - TypeScript ESLint version (need v8+ for ESLint v9)\");\n      console.error(\"   - tsconfig.json exists and includes src files\");\n    }\n\n    process.exit(1);\n  }\n\n  // 6. Save results\n  fs.writeFileSync(\"eslint-results.json\", JSON.stringify(results, null, 2));\n  profiler.stop();\n  profiler.dump(\"memory-timeline.json\");\n\n  // 7. Summary\n  const totalIssues = results.reduce(\n    (s, r) => s + r.errorCount + r.warningCount,\n    0,\n  );\n  const totalErrors = results.reduce((s, r) => s + r.errorCount, 0);\n  const totalWarnings = results.reduce((s, r) => s + r.warningCount, 0);\n\n  console.log(\"✅ Complete!\\n\");\n  console.log(\"📊 Results:\");\n  console.log(`  - Files: ${results.length}`);\n  console.log(`  - Issues: ${totalIssues}`);\n  console.log(`    • Errors: ${totalErrors}`);\n  console.log(`    • Warnings: ${totalWarnings}\\n`);\n\n  console.log(\"📁 Output:\");\n  console.log(\"  - eslint-results.json\");\n  console.log(\"  - memory-timeline.json\");\n  console.log(\"  - eslint.config.mjs\");\n\n  // Top issues\n  if (totalIssues > 0) {\n    const issuesByRule = new Map<string, number>();\n    results.forEach((r) => {\n      r.messages.forEach((msg) => {\n        const rule = msg.ruleId || \"unknown\";\n        issuesByRule.set(rule, (issuesByRule.get(rule) || 0) + 1);\n      });\n    });\n\n    const top5 = Array.from(issuesByRule.entries())\n      .sort((a, b) => b[1] - a[1])\n      .slice(0, 5);\n\n    console.log(\"\\n🔝 Top 5 Issues:\");\n    top5.forEach(([rule, count], i) => {\n      console.log(`  ${i + 1}. ${rule}: ${count}x`);\n    });\n  }\n}\n\nmain().catch((err) => {\n  console.error(\"\\n💥 Error:\", err.message);\n  process.exit(1);\n});\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/tools/config-converter.ts",
+    "messages": [
       {
-        "ruleId": "no-extra-semi",
-        "replacedBy": []
+        "ruleId": "@typescript-eslint/no-explicit-any",
+        "severity": 2,
+        "message": "Unexpected any. Specify a different type.",
+        "line": 8,
+        "column": 34,
+        "nodeType": "TSAnyKeyword",
+        "messageId": "unexpectedAny",
+        "endLine": 8,
+        "endColumn": 37,
+        "suggestions": [
+          {
+            "messageId": "suggestUnknown",
+            "fix": {
+              "range": [
+                155,
+                158
+              ],
+              "text": "unknown"
+            },
+            "desc": "Use `unknown` instead, this will force you to explicitly, and safely assert the type is correct."
+          },
+          {
+            "messageId": "suggestNever",
+            "fix": {
+              "range": [
+                155,
+                158
+              ],
+              "text": "never"
+            },
+            "desc": "Use `never` instead, this is useful when instantiating generic type parameters that you don't need to know the type of."
+          }
+        ]
       },
       {
-        "ruleId": "no-mixed-spaces-and-tabs",
-        "replacedBy": []
+        "ruleId": "@typescript-eslint/no-explicit-any",
+        "severity": 2,
+        "message": "Unexpected any. Specify a different type.",
+        "line": 10,
+        "column": 26,
+        "nodeType": "TSAnyKeyword",
+        "messageId": "unexpectedAny",
+        "endLine": 10,
+        "endColumn": 29,
+        "suggestions": [
+          {
+            "messageId": "suggestUnknown",
+            "fix": {
+              "range": [
+                208,
+                211
+              ],
+              "text": "unknown"
+            },
+            "desc": "Use `unknown` instead, this will force you to explicitly, and safely assert the type is correct."
+          },
+          {
+            "messageId": "suggestNever",
+            "fix": {
+              "range": [
+                208,
+                211
+              ],
+              "text": "never"
+            },
+            "desc": "Use `never` instead, this is useful when instantiating generic type parameters that you don't need to know the type of."
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/strict-boolean-expressions",
+        "severity": 2,
+        "message": "Unexpected nullable boolean value in conditional. Please handle the nullish case explicitly.",
+        "line": 27,
+        "column": 7,
+        "nodeType": "ChainExpression",
+        "messageId": "conditionErrorNullableBoolean",
+        "endLine": 27,
+        "endColumn": 59,
+        "suggestions": [
+          {
+            "messageId": "conditionFixDefaultFalse",
+            "fix": {
+              "range": [
+                643,
+                695
+              ],
+              "text": "((config.parser?.includes(\"@typescript-eslint/parser\")) ?? false)"
+            },
+            "desc": "Explicitly treat nullish value the same as false (`value ?? false`)"
+          },
+          {
+            "messageId": "conditionFixCompareTrue",
+            "fix": {
+              "range": [
+                643,
+                695
+              ],
+              "text": "((config.parser?.includes(\"@typescript-eslint/parser\")) === true)"
+            },
+            "desc": "Change condition to check if true (`value === true`)"
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/strict-boolean-expressions",
+        "severity": 2,
+        "message": "Unexpected nullable boolean value in conditional. Please handle the nullish case explicitly.",
+        "line": 28,
+        "column": 7,
+        "nodeType": "ChainExpression",
+        "messageId": "conditionErrorNullableBoolean",
+        "endLine": 28,
+        "endColumn": 53,
+        "suggestions": [
+          {
+            "messageId": "conditionFixDefaultFalse",
+            "fix": {
+              "range": [
+                705,
+                751
+              ],
+              "text": "((config.plugins?.includes(\"@typescript-eslint\")) ?? false)"
+            },
+            "desc": "Explicitly treat nullish value the same as false (`value ?? false`)"
+          },
+          {
+            "messageId": "conditionFixCompareTrue",
+            "fix": {
+              "range": [
+                705,
+                751
+              ],
+              "text": "((config.plugins?.includes(\"@typescript-eslint\")) === true)"
+            },
+            "desc": "Change condition to check if true (`value === true`)"
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/strict-boolean-expressions",
+        "severity": 2,
+        "message": "Unexpected nullable boolean value in conditional. Please handle the nullish case explicitly.",
+        "line": 29,
+        "column": 7,
+        "nodeType": "ChainExpression",
+        "messageId": "conditionErrorNullableBoolean",
+        "endLine": 29,
+        "endColumn": 68,
+        "suggestions": [
+          {
+            "messageId": "conditionFixDefaultFalse",
+            "fix": {
+              "range": [
+                761,
+                822
+              ],
+              "text": "((config.extends?.some((e) => e.includes(\"@typescript-eslint\"))) ?? false)"
+            },
+            "desc": "Explicitly treat nullish value the same as false (`value ?? false`)"
+          },
+          {
+            "messageId": "conditionFixCompareTrue",
+            "fix": {
+              "range": [
+                761,
+                822
+              ],
+              "text": "((config.extends?.some((e) => e.includes(\"@typescript-eslint\"))) === true)"
+            },
+            "desc": "Change condition to check if true (`value === true`)"
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-assignment",
+        "severity": 2,
+        "message": "Unsafe assignment of an `any` value.",
+        "line": 63,
+        "column": 11,
+        "nodeType": "VariableDeclarator",
+        "messageId": "anyAssignment",
+        "endLine": 63,
+        "endColumn": 63
+      },
+      {
+        "ruleId": "@typescript-eslint/strict-boolean-expressions",
+        "severity": 2,
+        "message": "Unexpected any value in conditional. An explicit comparison or type conversion is required.",
+        "line": 63,
+        "column": 21,
+        "nodeType": "MemberExpression",
+        "messageId": "conditionErrorAny",
+        "endLine": 63,
+        "endColumn": 42,
+        "suggestions": [
+          {
+            "messageId": "conditionFixCastBoolean",
+            "fix": {
+              "range": [
+                1767,
+                1788
+              ],
+              "text": "(Boolean(parserOptions.project))"
+            },
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-return",
+        "severity": 2,
+        "message": "Unsafe return of a value of type `any`.",
+        "line": 100,
+        "column": 5,
+        "nodeType": "ReturnStatement",
+        "messageId": "unsafeReturn",
+        "endLine": 100,
+        "endColumn": 32
       }
-    ]
+    ],
+    "suppressedMessages": [],
+    "errorCount": 8,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "// src/tools/config-converter.ts\n\nimport fs from \"fs\";\n\ninterface LegacyConfig {\n  extends?: string[];\n  parser?: string;\n  parserOptions?: Record<string, any>;\n  plugins?: string[];\n  rules?: Record<string, any>;\n}\n\nexport class ConfigConverter {\n  static convert(legacyConfig: LegacyConfig) {\n    const isTypeScript = this.usesTypeScript(legacyConfig);\n\n    if (!isTypeScript) {\n      throw new Error(\"Only TypeScript projects are supported in this PoC\");\n    }\n\n    const source = this.generateTypeScriptConfig(legacyConfig);\n    return { source };\n  }\n\n  private static usesTypeScript(config: LegacyConfig): boolean {\n    return !!(\n      config.parser?.includes(\"@typescript-eslint/parser\") ||\n      config.plugins?.includes(\"@typescript-eslint\") ||\n      config.extends?.some((e) => e.includes(\"@typescript-eslint\"))\n    );\n  }\n\n  private static generateTypeScriptConfig(config: LegacyConfig): string {\n    // Build rules\n    const rulesets: string[] = [];\n    const extendsArray = config.extends || [];\n\n    if (extendsArray.includes(\"plugin:@typescript-eslint/recommended\")) {\n      rulesets.push(\"...tsPlugin.configs.recommended.rules\");\n    }\n\n    if (\n      extendsArray.some(\n        (e) =>\n          e.includes(\"recommended-requiring-type-checking\") ||\n          e.includes(\"recommended-type-checked\"),\n      )\n    ) {\n      rulesets.push(\n        \"...tsPlugin.configs['recommended-requiring-type-checking'].rules\",\n      );\n    }\n\n    // User custom rules\n    const userRules = Object.entries(config.rules || {}).map(\n      ([key, value]) => `\"${key}\": ${JSON.stringify(value)}`,\n    );\n\n    const allRules = [...rulesets, ...userRules].join(\",\\n      \");\n\n    // Parser options\n    const parserOptions = config.parserOptions || {};\n    const project = parserOptions.project || \"./tsconfig.json\";\n\n    return `import tsParser from \"@typescript-eslint/parser\";\nimport tsPlugin from \"@typescript-eslint/eslint-plugin\";\nimport path from \"node:path\";\nimport { fileURLToPath } from \"node:url\";\n\nconst __filename = fileURLToPath(import.meta.url);\nconst __dirname = path.dirname(__filename);\n\nexport default [\n  {\n    ignores: [\"eslint.config.mjs\", \"dist/**\", \"node_modules/**\"],\n  },\n  {\n    files: [\"**/*.ts\", \"**/*.tsx\"],\n    languageOptions: {\n      parser: tsParser,\n      parserOptions: {\n        project: ${JSON.stringify(project)},\n        tsconfigRootDir: __dirname,\n      },\n      ecmaVersion: \"latest\",\n      sourceType: \"module\",\n    },\n    plugins: {\n      \"@typescript-eslint\": tsPlugin,\n    },\n    rules: {\n      ${allRules}\n    },\n  },\n];`;\n  }\n\n  static loadLegacyConfig(configPath: string): LegacyConfig {\n    const content = fs.readFileSync(configPath, \"utf8\");\n    return JSON.parse(content);\n  }\n\n  static writeFlatConfig(source: string, outputPath: string): void {\n    fs.writeFileSync(outputPath, source, \"utf8\");\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/tools/eslinst_dump.ts",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/tools/mem-profiler.ts",
+    "messages": [
+      {
+        "ruleId": "@typescript-eslint/no-explicit-any",
+        "severity": 2,
+        "message": "Unexpected any. Specify a different type.",
+        "line": 8,
+        "column": 21,
+        "nodeType": "TSAnyKeyword",
+        "messageId": "unexpectedAny",
+        "endLine": 8,
+        "endColumn": 24,
+        "suggestions": [
+          {
+            "messageId": "suggestUnknown",
+            "fix": {
+              "range": [
+                144,
+                147
+              ],
+              "text": "unknown"
+            },
+            "desc": "Use `unknown` instead, this will force you to explicitly, and safely assert the type is correct."
+          },
+          {
+            "messageId": "suggestNever",
+            "fix": {
+              "range": [
+                144,
+                147
+              ],
+              "text": "never"
+            },
+            "desc": "Use `never` instead, this is useful when instantiating generic type parameters that you don't need to know the type of."
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-assignment",
+        "severity": 2,
+        "message": "Unsafe assignment of an `any` value.",
+        "line": 35,
+        "column": 7,
+        "nodeType": "Property",
+        "messageId": "anyAssignment",
+        "endLine": 35,
+        "endColumn": 44
+      },
+      {
+        "ruleId": "@typescript-eslint/no-explicit-any",
+        "severity": 2,
+        "message": "Unexpected any. Specify a different type.",
+        "line": 35,
+        "column": 27,
+        "nodeType": "TSAnyKeyword",
+        "messageId": "unexpectedAny",
+        "endLine": 35,
+        "endColumn": 30,
+        "suggestions": [
+          {
+            "messageId": "suggestUnknown",
+            "fix": {
+              "range": [
+                730,
+                733
+              ],
+              "text": "unknown"
+            },
+            "desc": "Use `unknown` instead, this will force you to explicitly, and safely assert the type is correct."
+          },
+          {
+            "messageId": "suggestNever",
+            "fix": {
+              "range": [
+                730,
+                733
+              ],
+              "text": "never"
+            },
+            "desc": "Use `never` instead, this is useful when instantiating generic type parameters that you don't need to know the type of."
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Unsafe member access .arrayBuffers on an `any` value.",
+        "line": 35,
+        "column": 32,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 35,
+        "endColumn": 44
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-argument",
+        "severity": 2,
+        "message": "Unsafe argument of type `any` assigned to a parameter of type `number`.",
+        "line": 42,
+        "column": 26,
+        "nodeType": "MemberExpression",
+        "messageId": "unsafeArgument",
+        "endLine": 42,
+        "endColumn": 49
+      },
+      {
+        "ruleId": "@typescript-eslint/no-explicit-any",
+        "severity": 2,
+        "message": "Unexpected any. Specify a different type.",
+        "line": 42,
+        "column": 32,
+        "nodeType": "TSAnyKeyword",
+        "messageId": "unexpectedAny",
+        "endLine": 42,
+        "endColumn": 35,
+        "suggestions": [
+          {
+            "messageId": "suggestUnknown",
+            "fix": {
+              "range": [
+                958,
+                961
+              ],
+              "text": "unknown"
+            },
+            "desc": "Use `unknown` instead, this will force you to explicitly, and safely assert the type is correct."
+          },
+          {
+            "messageId": "suggestNever",
+            "fix": {
+              "range": [
+                958,
+                961
+              ],
+              "text": "never"
+            },
+            "desc": "Use `never` instead, this is useful when instantiating generic type parameters that you don't need to know the type of."
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Unsafe member access .arrayBuffers on an `any` value.",
+        "line": 42,
+        "column": 37,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 42,
+        "endColumn": 49
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 7,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import fs from \"fs\";\n\nfunction mb(n: number) {\n  return Number((n / 1024 / 1024).toFixed(2));\n}\n\nexport class MemProfiler {\n  private timeline: any[] = [];\n  private timer: NodeJS.Timer | null = null;\n\n  start(intervalMs = 100) {\n    this.timer = setInterval(() => {\n      this.sample(\"interval\");\n    }, intervalMs);\n  }\n\n  stop() {\n    if (this.timer) clearInterval(this.timer);\n    this.timer = null;\n  }\n\n  sample(label: string) {\n    const m = process.memoryUsage();\n\n    this.timeline.push({\n      ts: Date.now(),\n      label,\n      pid: process.pid,\n\n      // raw bytes (for exact thresholds)\n      rss: m.rss,\n      heapTotal: m.heapTotal,\n      heapUsed: m.heapUsed,\n      external: m.external,\n      arrayBuffers: (m as any).arrayBuffers,\n\n      // human readable (for debugging / graphs)\n      rssMB: mb(m.rss),\n      heapTotalMB: mb(m.heapTotal),\n      heapUsedMB: mb(m.heapUsed),\n      externalMB: mb(m.external),\n      arrayBuffersMB: mb((m as any).arrayBuffers),\n    });\n  }\n\n  dump(file = \"memory-timeline.json\") {\n    fs.writeFileSync(file, JSON.stringify(this.timeline, null, 2));\n  }\n}\n",
+    "usedDeprecatedRules": []
   },
   {
     "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/tools/tsc_ast_dump.ts",
@@ -858,7 +1418,7 @@
       {
         "ruleId": "@typescript-eslint/no-unsafe-member-access",
         "severity": 2,
-        "message": "Computed name [node.kind] resolves to an any value.",
+        "message": "Computed name [node.kind] resolves to an `any` value.",
         "line": 15,
         "column": 25,
         "nodeType": "MemberExpression",
@@ -979,7 +1539,7 @@
       {
         "ruleId": "@typescript-eslint/strict-boolean-expressions",
         "severity": 2,
-        "message": "Unexpected any value in conditional. An explicit comparison or type cast is required.",
+        "message": "Unexpected any value in conditional. An explicit comparison or type conversion is required.",
         "line": 27,
         "column": 7,
         "nodeType": "MemberExpression",
@@ -996,7 +1556,7 @@
               ],
               "text": "Boolean(node.flags)"
             },
-            "desc": "Explicitly cast value to a boolean (`Boolean(value)`)"
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
           }
         ]
       },
@@ -1036,7 +1596,7 @@
       {
         "ruleId": "@typescript-eslint/strict-boolean-expressions",
         "severity": 2,
-        "message": "Unexpected any value in conditional. An explicit comparison or type cast is required.",
+        "message": "Unexpected any value in conditional. An explicit comparison or type conversion is required.",
         "line": 32,
         "column": 7,
         "nodeType": "MemberExpression",
@@ -1053,7 +1613,7 @@
               ],
               "text": "Boolean(node.modifiers)"
             },
-            "desc": "Explicitly cast value to a boolean (`Boolean(value)`)"
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
           }
         ]
       },
@@ -1104,7 +1664,7 @@
       {
         "ruleId": "@typescript-eslint/no-unsafe-member-access",
         "severity": 2,
-        "message": "Computed name [m.kind] resolves to an any value.",
+        "message": "Computed name [m.kind] resolves to an `any` value.",
         "line": 33,
         "column": 61,
         "nodeType": "MemberExpression",
@@ -1133,60 +1693,16 @@
         "messageId": "unsafeArgument",
         "endLine": 38,
         "endColumn": 23
-      },
-      {
-        "ruleId": "no-useless-escape",
-        "severity": 2,
-        "message": "Unnecessary escape character: \\/.",
-        "line": 63,
-        "column": 16,
-        "nodeType": "Literal",
-        "messageId": "unnecessaryEscape",
-        "endLine": 63,
-        "endColumn": 17,
-        "suggestions": [
-          {
-            "messageId": "removeEscape",
-            "fix": {
-              "range": [
-                1414,
-                1415
-              ],
-              "text": ""
-            },
-            "desc": "Remove the `\\`. This maintains the current functionality."
-          },
-          {
-            "messageId": "escapeBackslash",
-            "fix": {
-              "range": [
-                1414,
-                1414
-              ],
-              "text": "\\"
-            },
-            "desc": "Replace the `\\` with `\\\\` to include the actual backslash character."
-          }
-        ]
       }
     ],
     "suppressedMessages": [],
-    "errorCount": 24,
+    "errorCount": 23,
     "fatalErrorCount": 0,
     "warningCount": 0,
     "fixableErrorCount": 0,
     "fixableWarningCount": 0,
     "source": "import fs from \"fs\";\nimport path from \"path\";\nimport glob from \"glob\";\nimport ts from \"typescript\";\n\nconst projectRoot = process.cwd();\nconst files = glob.sync(\"src/**/*.ts\", { absolute: true });\nconst outDir = path.join(projectRoot, \"ast-dump\");\n\nfs.mkdirSync(outDir, { recursive: true });\n\n// Custom serializer to handle TypeScript AST nodes\nfunction serializeNode(node, sourceFile) {\n  const obj = {\n    kind: ts.SyntaxKind[node.kind],\n    kindNum: node.kind,\n    pos: node.pos,\n    end: node.end,\n  };\n\n  // Add text for identifier-like nodes\n  if (node.kind === ts.SyntaxKind.Identifier) {\n    obj.text = node.text;\n  }\n\n  // Add flags if present\n  if (node.flags) {\n    obj.flags = node.flags;\n  }\n\n  // Add modifiers if present\n  if (node.modifiers) {\n    obj.modifiers = node.modifiers.map((m) => ts.SyntaxKind[m.kind]);\n  }\n\n  // Recursively serialize children\n  const children = [];\n  ts.forEachChild(node, (child) => {\n    children.push(serializeNode(child, sourceFile));\n  });\n\n  if (children.length > 0) {\n    obj.children = children;\n  }\n\n  return obj;\n}\n\nfor (const filePath of files) {\n  const code = fs.readFileSync(filePath, \"utf8\");\n  const sourceFile = ts.createSourceFile(\n    filePath,\n    code,\n    ts.ScriptTarget.Latest,\n    true,\n    ts.ScriptKind.TS,\n  );\n\n  const ast = serializeNode(sourceFile, sourceFile);\n\n  const relative = path\n    .relative(projectRoot, filePath)\n    .replace(/[\\/\\\\]/g, \"__\");\n  const outFile = path.join(outDir, relative + \".ast.json\");\n  fs.writeFileSync(outFile, JSON.stringify(ast, null, 2));\n  console.log(`AST written: ${outFile}`);\n}\n\nconsole.log(\"All ASTs dumped to ast-dump/\");\n",
-    "usedDeprecatedRules": [
-      {
-        "ruleId": "no-extra-semi",
-        "replacedBy": []
-      },
-      {
-        "ruleId": "no-mixed-spaces-and-tabs",
-        "replacedBy": []
-      }
-    ]
+    "usedDeprecatedRules": []
   },
   {
     "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/types.ts",
@@ -1210,16 +1726,7 @@
     "fixableErrorCount": 0,
     "fixableWarningCount": 0,
     "source": "export type UserID = string & { readonly brand: unique symbol };\nexport type OrderID = string & { readonly brand: unique symbol };\n\nexport interface User {\n  id: UserID;\n  name: string;\n  email: string | null;\n  isActive: boolean;\n  metadata?: Record<string, unknown>;\n}\n\nexport interface Order {\n  id: OrderID;\n  userId: UserID;\n  amount: number;\n  status: \"pending\" | \"paid\" | \"cancelled\";\n  createdAt: Date;\n  notes?: string;\n}\n\nexport interface ApiResponse<T> {\n  success: boolean;\n  data?: T;\n  error?: {\n    code: string;\n    message: string;\n  };\n}\n\nexport type Maybe<T> = T | null | undefined;\n\nexport function assertNever(x: never): never {\n  throw new Error(\"Unexpected object: \" + x);\n}\n",
-    "usedDeprecatedRules": [
-      {
-        "ruleId": "no-extra-semi",
-        "replacedBy": []
-      },
-      {
-        "ruleId": "no-mixed-spaces-and-tabs",
-        "replacedBy": []
-      }
-    ]
+    "usedDeprecatedRules": []
   },
   {
     "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/utils.ts",
@@ -1266,14 +1773,14 @@
               ],
               "text": "(!Boolean(value))"
             },
-            "desc": "Explicitly cast value to a boolean (`Boolean(value)`)"
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
           }
         ]
       },
       {
         "ruleId": "@typescript-eslint/strict-boolean-expressions",
         "severity": 2,
-        "message": "Unexpected any value in conditional. An explicit comparison or type cast is required.",
+        "message": "Unexpected any value in conditional. An explicit comparison or type conversion is required.",
         "line": 18,
         "column": 7,
         "nodeType": "Identifier",
@@ -1290,7 +1797,7 @@
               ],
               "text": "Boolean(value)"
             },
-            "desc": "Explicitly cast value to a boolean (`Boolean(value)`)"
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
           }
         ]
       }
@@ -1302,15 +1809,6 @@
     "fixableErrorCount": 0,
     "fixableWarningCount": 0,
     "source": "import { Maybe } from \"./types\";\n\nexport function isNonEmptyString(value: Maybe<string>): boolean {\n  return !!value && value.trim().length > 0;\n}\n\nexport async function delay(ms: number): Promise<void> {\n  return new Promise((resolve) => setTimeout(resolve, ms));\n}\n\nexport function fireAndForget(p: Promise<unknown>): void {\n  // Intentionally not awaited\n  p.then(() => {}).catch(() => {});\n}\n\nexport function riskyBoolean(value: unknown): boolean {\n  // strict-boolean-expressions will complain\n  if (value) {\n    return true;\n  }\n  return false;\n}\n",
-    "usedDeprecatedRules": [
-      {
-        "ruleId": "no-extra-semi",
-        "replacedBy": []
-      },
-      {
-        "ruleId": "no-mixed-spaces-and-tabs",
-        "replacedBy": []
-      }
-    ]
+    "usedDeprecatedRules": []
   }
 ]
