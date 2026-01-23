@@ -112,10 +112,14 @@ async function main() {
     top5.forEach(([rule, count], i) => {
       console.log(`  ${i + 1}. ${rule}: ${count}x`);
     });
+
+    console.log("Sleeping to allow observation...");
+    await new Promise((res) => setTimeout(res, 30000)); // 30s
   }
 }
 
 main().catch((err) => {
   console.error("\n💥 Error:", err.message);
+
   process.exit(1);
 });
