@@ -1,0 +1,1184 @@
+{
+  "kind": "SourceFile",
+  "kindNum": 312,
+  "pos": 0,
+  "end": 908,
+  "children": [
+    {
+      "kind": "ImportDeclaration",
+      "kindNum": 272,
+      "pos": 0,
+      "end": 47,
+      "children": [
+        {
+          "kind": "ImportClause",
+          "kindNum": 273,
+          "pos": 6,
+          "end": 30,
+          "children": [
+            {
+              "kind": "NamedImports",
+              "kindNum": 275,
+              "pos": 6,
+              "end": 30,
+              "children": [
+                {
+                  "kind": "ImportSpecifier",
+                  "kindNum": 276,
+                  "pos": 8,
+                  "end": 15,
+                  "children": [
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 8,
+                      "end": 15,
+                      "text": "UserID"
+                    }
+                  ]
+                },
+                {
+                  "kind": "ImportSpecifier",
+                  "kindNum": 276,
+                  "pos": 16,
+                  "end": 28,
+                  "children": [
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 16,
+                      "end": 28,
+                      "text": "ApiResponse"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "StringLiteral",
+          "kindNum": 11,
+          "pos": 35,
+          "end": 46
+        }
+      ]
+    },
+    {
+      "kind": "ImportDeclaration",
+      "kindNum": 272,
+      "pos": 47,
+      "end": 140,
+      "children": [
+        {
+          "kind": "ImportClause",
+          "kindNum": 273,
+          "pos": 54,
+          "end": 108,
+          "children": [
+            {
+              "kind": "NamedImports",
+              "kindNum": 275,
+              "pos": 54,
+              "end": 108,
+              "children": [
+                {
+                  "kind": "ImportSpecifier",
+                  "kindNum": 276,
+                  "pos": 56,
+                  "end": 69,
+                  "children": [
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 56,
+                      "end": 69,
+                      "text": "createUser"
+                    }
+                  ]
+                },
+                {
+                  "kind": "ImportSpecifier",
+                  "kindNum": 276,
+                  "pos": 70,
+                  "end": 87,
+                  "children": [
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 70,
+                      "end": 87,
+                      "text": "deactivateUser"
+                    }
+                  ]
+                },
+                {
+                  "kind": "ImportSpecifier",
+                  "kindNum": 276,
+                  "pos": 88,
+                  "end": 105,
+                  "children": [
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 88,
+                      "end": 105,
+                      "text": "getUserProfile"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "StringLiteral",
+          "kindNum": 11,
+          "pos": 113,
+          "end": 139
+        }
+      ]
+    },
+    {
+      "kind": "FunctionDeclaration",
+      "kindNum": 262,
+      "pos": 140,
+      "end": 371,
+      "modifiers": [
+        "ExportKeyword",
+        "AsyncKeyword"
+      ],
+      "children": [
+        {
+          "kind": "ExportKeyword",
+          "kindNum": 95,
+          "pos": 140,
+          "end": 148
+        },
+        {
+          "kind": "AsyncKeyword",
+          "kindNum": 134,
+          "pos": 148,
+          "end": 154
+        },
+        {
+          "kind": "Identifier",
+          "kindNum": 80,
+          "pos": 163,
+          "end": 180,
+          "text": "handleCreateUser"
+        },
+        {
+          "kind": "Parameter",
+          "kindNum": 169,
+          "pos": 181,
+          "end": 192,
+          "flags": 65536,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 181,
+              "end": 187,
+              "text": "req",
+              "flags": 65536
+            },
+            {
+              "kind": "AnyKeyword",
+              "kindNum": 133,
+              "pos": 188,
+              "end": 192
+            }
+          ]
+        },
+        {
+          "kind": "TypeReference",
+          "kindNum": 183,
+          "pos": 196,
+          "end": 226,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 196,
+              "end": 204,
+              "text": "Promise"
+            },
+            {
+              "kind": "TypeReference",
+              "kindNum": 183,
+              "pos": 205,
+              "end": 225,
+              "children": [
+                {
+                  "kind": "Identifier",
+                  "kindNum": 80,
+                  "pos": 205,
+                  "end": 216,
+                  "text": "ApiResponse"
+                },
+                {
+                  "kind": "UnknownKeyword",
+                  "kindNum": 159,
+                  "pos": 217,
+                  "end": 224
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Block",
+          "kindNum": 241,
+          "pos": 226,
+          "end": 371,
+          "flags": 65536,
+          "children": [
+            {
+              "kind": "FirstStatement",
+              "kindNum": 243,
+              "pos": 228,
+              "end": 268,
+              "flags": 65536,
+              "children": [
+                {
+                  "kind": "VariableDeclarationList",
+                  "kindNum": 261,
+                  "pos": 228,
+                  "end": 267,
+                  "flags": 65538,
+                  "children": [
+                    {
+                      "kind": "VariableDeclaration",
+                      "kindNum": 260,
+                      "pos": 236,
+                      "end": 267,
+                      "flags": 65536,
+                      "children": [
+                        {
+                          "kind": "ObjectBindingPattern",
+                          "kindNum": 206,
+                          "pos": 236,
+                          "end": 256,
+                          "flags": 65536,
+                          "children": [
+                            {
+                              "kind": "BindingElement",
+                              "kindNum": 208,
+                              "pos": 238,
+                              "end": 241,
+                              "flags": 65536,
+                              "children": [
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 238,
+                                  "end": 241,
+                                  "text": "id",
+                                  "flags": 65536
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "BindingElement",
+                              "kindNum": 208,
+                              "pos": 242,
+                              "end": 247,
+                              "flags": 65536,
+                              "children": [
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 242,
+                                  "end": 247,
+                                  "text": "name",
+                                  "flags": 65536
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "BindingElement",
+                              "kindNum": 208,
+                              "pos": 248,
+                              "end": 254,
+                              "flags": 65536,
+                              "children": [
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 248,
+                                  "end": 254,
+                                  "text": "email",
+                                  "flags": 65536
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "PropertyAccessExpression",
+                          "kindNum": 211,
+                          "pos": 258,
+                          "end": 267,
+                          "flags": 65536,
+                          "children": [
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 258,
+                              "end": 262,
+                              "text": "req",
+                              "flags": 65536
+                            },
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 263,
+                              "end": 267,
+                              "text": "body",
+                              "flags": 65536
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "ReturnStatement",
+              "kindNum": 253,
+              "pos": 268,
+              "end": 369,
+              "flags": 65536,
+              "children": [
+                {
+                  "kind": "CallExpression",
+                  "kindNum": 213,
+                  "pos": 330,
+                  "end": 368,
+                  "flags": 65536,
+                  "children": [
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 330,
+                      "end": 341,
+                      "text": "createUser",
+                      "flags": 65536
+                    },
+                    {
+                      "kind": "AsExpression",
+                      "kindNum": 234,
+                      "pos": 342,
+                      "end": 354,
+                      "flags": 65536,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 342,
+                          "end": 344,
+                          "text": "id",
+                          "flags": 65536
+                        },
+                        {
+                          "kind": "TypeReference",
+                          "kindNum": 183,
+                          "pos": 347,
+                          "end": 354,
+                          "children": [
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 347,
+                              "end": 354,
+                              "text": "UserID"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 355,
+                      "end": 360,
+                      "text": "name",
+                      "flags": 65536
+                    },
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 361,
+                      "end": 367,
+                      "text": "email",
+                      "flags": 65536
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "FunctionDeclaration",
+      "kindNum": 262,
+      "pos": 371,
+      "end": 533,
+      "modifiers": [
+        "ExportKeyword",
+        "AsyncKeyword"
+      ],
+      "children": [
+        {
+          "kind": "ExportKeyword",
+          "kindNum": 95,
+          "pos": 371,
+          "end": 379
+        },
+        {
+          "kind": "AsyncKeyword",
+          "kindNum": 134,
+          "pos": 379,
+          "end": 385
+        },
+        {
+          "kind": "Identifier",
+          "kindNum": 80,
+          "pos": 394,
+          "end": 415,
+          "text": "handleDeactivateUser"
+        },
+        {
+          "kind": "Parameter",
+          "kindNum": 169,
+          "pos": 416,
+          "end": 427,
+          "flags": 65536,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 416,
+              "end": 422,
+              "text": "req",
+              "flags": 65536
+            },
+            {
+              "kind": "AnyKeyword",
+              "kindNum": 133,
+              "pos": 423,
+              "end": 427
+            }
+          ]
+        },
+        {
+          "kind": "TypeReference",
+          "kindNum": 183,
+          "pos": 431,
+          "end": 461,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 431,
+              "end": 439,
+              "text": "Promise"
+            },
+            {
+              "kind": "TypeReference",
+              "kindNum": 183,
+              "pos": 440,
+              "end": 460,
+              "children": [
+                {
+                  "kind": "Identifier",
+                  "kindNum": 80,
+                  "pos": 440,
+                  "end": 451,
+                  "text": "ApiResponse"
+                },
+                {
+                  "kind": "UnknownKeyword",
+                  "kindNum": 159,
+                  "pos": 452,
+                  "end": 459
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Block",
+          "kindNum": 241,
+          "pos": 461,
+          "end": 533,
+          "flags": 65536,
+          "children": [
+            {
+              "kind": "FirstStatement",
+              "kindNum": 243,
+              "pos": 463,
+              "end": 492,
+              "flags": 65536,
+              "children": [
+                {
+                  "kind": "VariableDeclarationList",
+                  "kindNum": 261,
+                  "pos": 463,
+                  "end": 491,
+                  "flags": 65538,
+                  "children": [
+                    {
+                      "kind": "VariableDeclaration",
+                      "kindNum": 260,
+                      "pos": 471,
+                      "end": 491,
+                      "flags": 65536,
+                      "children": [
+                        {
+                          "kind": "ObjectBindingPattern",
+                          "kindNum": 206,
+                          "pos": 471,
+                          "end": 478,
+                          "flags": 65536,
+                          "children": [
+                            {
+                              "kind": "BindingElement",
+                              "kindNum": 208,
+                              "pos": 473,
+                              "end": 476,
+                              "flags": 65536,
+                              "children": [
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 473,
+                                  "end": 476,
+                                  "text": "id",
+                                  "flags": 65536
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "PropertyAccessExpression",
+                          "kindNum": 211,
+                          "pos": 480,
+                          "end": 491,
+                          "flags": 65536,
+                          "children": [
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 480,
+                              "end": 484,
+                              "text": "req",
+                              "flags": 65536
+                            },
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 485,
+                              "end": 491,
+                              "text": "params",
+                              "flags": 65536
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "ReturnStatement",
+              "kindNum": 253,
+              "pos": 492,
+              "end": 531,
+              "flags": 65536,
+              "children": [
+                {
+                  "kind": "CallExpression",
+                  "kindNum": 213,
+                  "pos": 501,
+                  "end": 530,
+                  "flags": 65536,
+                  "children": [
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 501,
+                      "end": 516,
+                      "text": "deactivateUser",
+                      "flags": 65536
+                    },
+                    {
+                      "kind": "AsExpression",
+                      "kindNum": 234,
+                      "pos": 517,
+                      "end": 529,
+                      "flags": 65536,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 517,
+                          "end": 519,
+                          "text": "id",
+                          "flags": 65536
+                        },
+                        {
+                          "kind": "TypeReference",
+                          "kindNum": 183,
+                          "pos": 522,
+                          "end": 529,
+                          "children": [
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 522,
+                              "end": 529,
+                              "text": "UserID"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "FunctionDeclaration",
+      "kindNum": 262,
+      "pos": 533,
+      "end": 907,
+      "modifiers": [
+        "ExportKeyword",
+        "AsyncKeyword"
+      ],
+      "children": [
+        {
+          "kind": "ExportKeyword",
+          "kindNum": 95,
+          "pos": 533,
+          "end": 541
+        },
+        {
+          "kind": "AsyncKeyword",
+          "kindNum": 134,
+          "pos": 541,
+          "end": 547
+        },
+        {
+          "kind": "Identifier",
+          "kindNum": 80,
+          "pos": 556,
+          "end": 573,
+          "text": "handleGetProfile"
+        },
+        {
+          "kind": "Parameter",
+          "kindNum": 169,
+          "pos": 574,
+          "end": 585,
+          "flags": 65536,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 574,
+              "end": 580,
+              "text": "req",
+              "flags": 65536
+            },
+            {
+              "kind": "AnyKeyword",
+              "kindNum": 133,
+              "pos": 581,
+              "end": 585
+            }
+          ]
+        },
+        {
+          "kind": "TypeReference",
+          "kindNum": 183,
+          "pos": 589,
+          "end": 619,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 589,
+              "end": 597,
+              "text": "Promise"
+            },
+            {
+              "kind": "TypeReference",
+              "kindNum": 183,
+              "pos": 598,
+              "end": 618,
+              "children": [
+                {
+                  "kind": "Identifier",
+                  "kindNum": 80,
+                  "pos": 598,
+                  "end": 609,
+                  "text": "ApiResponse"
+                },
+                {
+                  "kind": "UnknownKeyword",
+                  "kindNum": 159,
+                  "pos": 610,
+                  "end": 617
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Block",
+          "kindNum": 241,
+          "pos": 619,
+          "end": 907,
+          "flags": 65536,
+          "children": [
+            {
+              "kind": "FirstStatement",
+              "kindNum": 243,
+              "pos": 621,
+              "end": 650,
+              "flags": 65536,
+              "children": [
+                {
+                  "kind": "VariableDeclarationList",
+                  "kindNum": 261,
+                  "pos": 621,
+                  "end": 649,
+                  "flags": 65538,
+                  "children": [
+                    {
+                      "kind": "VariableDeclaration",
+                      "kindNum": 260,
+                      "pos": 629,
+                      "end": 649,
+                      "flags": 65536,
+                      "children": [
+                        {
+                          "kind": "ObjectBindingPattern",
+                          "kindNum": 206,
+                          "pos": 629,
+                          "end": 636,
+                          "flags": 65536,
+                          "children": [
+                            {
+                              "kind": "BindingElement",
+                              "kindNum": 208,
+                              "pos": 631,
+                              "end": 634,
+                              "flags": 65536,
+                              "children": [
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 631,
+                                  "end": 634,
+                                  "text": "id",
+                                  "flags": 65536
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "PropertyAccessExpression",
+                          "kindNum": 211,
+                          "pos": 638,
+                          "end": 649,
+                          "flags": 65536,
+                          "children": [
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 638,
+                              "end": 642,
+                              "text": "req",
+                              "flags": 65536
+                            },
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 643,
+                              "end": 649,
+                              "text": "params",
+                              "flags": 65536
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "FirstStatement",
+              "kindNum": 243,
+              "pos": 650,
+              "end": 703,
+              "flags": 65536,
+              "children": [
+                {
+                  "kind": "VariableDeclarationList",
+                  "kindNum": 261,
+                  "pos": 650,
+                  "end": 702,
+                  "flags": 65538,
+                  "children": [
+                    {
+                      "kind": "VariableDeclaration",
+                      "kindNum": 260,
+                      "pos": 658,
+                      "end": 702,
+                      "flags": 65536,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 658,
+                          "end": 665,
+                          "text": "result",
+                          "flags": 65536
+                        },
+                        {
+                          "kind": "AwaitExpression",
+                          "kindNum": 223,
+                          "pos": 667,
+                          "end": 702,
+                          "flags": 65536,
+                          "children": [
+                            {
+                              "kind": "CallExpression",
+                              "kindNum": 213,
+                              "pos": 673,
+                              "end": 702,
+                              "flags": 65536,
+                              "children": [
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 673,
+                                  "end": 688,
+                                  "text": "getUserProfile",
+                                  "flags": 65536
+                                },
+                                {
+                                  "kind": "AsExpression",
+                                  "kindNum": 234,
+                                  "pos": 689,
+                                  "end": 701,
+                                  "flags": 65536,
+                                  "children": [
+                                    {
+                                      "kind": "Identifier",
+                                      "kindNum": 80,
+                                      "pos": 689,
+                                      "end": 691,
+                                      "text": "id",
+                                      "flags": 65536
+                                    },
+                                    {
+                                      "kind": "TypeReference",
+                                      "kindNum": 183,
+                                      "pos": 694,
+                                      "end": 701,
+                                      "children": [
+                                        {
+                                          "kind": "Identifier",
+                                          "kindNum": 80,
+                                          "pos": 694,
+                                          "end": 701,
+                                          "text": "UserID"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "IfStatement",
+              "kindNum": 245,
+              "pos": 703,
+              "end": 752,
+              "flags": 65536,
+              "children": [
+                {
+                  "kind": "PrefixUnaryExpression",
+                  "kindNum": 224,
+                  "pos": 711,
+                  "end": 726,
+                  "flags": 65536,
+                  "children": [
+                    {
+                      "kind": "PropertyAccessExpression",
+                      "kindNum": 211,
+                      "pos": 712,
+                      "end": 726,
+                      "flags": 65536,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 712,
+                          "end": 718,
+                          "text": "result",
+                          "flags": 65536
+                        },
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 719,
+                          "end": 726,
+                          "text": "success",
+                          "flags": 65536
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "kind": "Block",
+                  "kindNum": 241,
+                  "pos": 727,
+                  "end": 752,
+                  "flags": 65536,
+                  "children": [
+                    {
+                      "kind": "ReturnStatement",
+                      "kindNum": 253,
+                      "pos": 729,
+                      "end": 748,
+                      "flags": 65536,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 740,
+                          "end": 747,
+                          "text": "result",
+                          "flags": 65536
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "IfStatement",
+              "kindNum": 245,
+              "pos": 752,
+              "end": 829,
+              "flags": 65536,
+              "children": [
+                {
+                  "kind": "PropertyAccessExpression",
+                  "kindNum": 211,
+                  "pos": 792,
+                  "end": 803,
+                  "flags": 65536,
+                  "children": [
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 792,
+                      "end": 798,
+                      "text": "result",
+                      "flags": 65536
+                    },
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 799,
+                      "end": 803,
+                      "text": "data",
+                      "flags": 65536
+                    }
+                  ]
+                },
+                {
+                  "kind": "Block",
+                  "kindNum": 241,
+                  "pos": 804,
+                  "end": 829,
+                  "flags": 65536,
+                  "children": [
+                    {
+                      "kind": "ReturnStatement",
+                      "kindNum": 253,
+                      "pos": 806,
+                      "end": 825,
+                      "flags": 65536,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 817,
+                          "end": 824,
+                          "text": "result",
+                          "flags": 65536
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "ReturnStatement",
+              "kindNum": 253,
+              "pos": 829,
+              "end": 905,
+              "flags": 65536,
+              "children": [
+                {
+                  "kind": "ObjectLiteralExpression",
+                  "kindNum": 210,
+                  "pos": 839,
+                  "end": 904,
+                  "flags": 65536,
+                  "children": [
+                    {
+                      "kind": "PropertyAssignment",
+                      "kindNum": 303,
+                      "pos": 841,
+                      "end": 856,
+                      "flags": 65536,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 841,
+                          "end": 849,
+                          "text": "success",
+                          "flags": 65536
+                        },
+                        {
+                          "kind": "FalseKeyword",
+                          "kindNum": 97,
+                          "pos": 850,
+                          "end": 856,
+                          "flags": 65536
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "PropertyAssignment",
+                      "kindNum": 303,
+                      "pos": 857,
+                      "end": 902,
+                      "flags": 65536,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 857,
+                          "end": 863,
+                          "text": "error",
+                          "flags": 65536
+                        },
+                        {
+                          "kind": "ObjectLiteralExpression",
+                          "kindNum": 210,
+                          "pos": 864,
+                          "end": 902,
+                          "flags": 65536,
+                          "children": [
+                            {
+                              "kind": "PropertyAssignment",
+                              "kindNum": 303,
+                              "pos": 866,
+                              "end": 880,
+                              "flags": 65536,
+                              "children": [
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 866,
+                                  "end": 871,
+                                  "text": "code",
+                                  "flags": 65536
+                                },
+                                {
+                                  "kind": "StringLiteral",
+                                  "kindNum": 11,
+                                  "pos": 872,
+                                  "end": 880,
+                                  "flags": 65536
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "PropertyAssignment",
+                              "kindNum": 303,
+                              "pos": 881,
+                              "end": 900,
+                              "flags": 65536,
+                              "children": [
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 881,
+                                  "end": 889,
+                                  "text": "message",
+                                  "flags": 65536
+                                },
+                                {
+                                  "kind": "StringLiteral",
+                                  "kindNum": 11,
+                                  "pos": 890,
+                                  "end": 900,
+                                  "flags": 65536
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "EndOfFileToken",
+      "kindNum": 1,
+      "pos": 907,
+      "end": 908
+    }
+  ]
+}

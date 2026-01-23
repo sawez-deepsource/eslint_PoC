@@ -1,0 +1,954 @@
+{
+  "kind": "SourceFile",
+  "kindNum": 312,
+  "pos": 0,
+  "end": 698,
+  "children": [
+    {
+      "kind": "TypeAliasDeclaration",
+      "kindNum": 265,
+      "pos": 0,
+      "end": 64,
+      "modifiers": [
+        "ExportKeyword"
+      ],
+      "children": [
+        {
+          "kind": "ExportKeyword",
+          "kindNum": 95,
+          "pos": 0,
+          "end": 6
+        },
+        {
+          "kind": "Identifier",
+          "kindNum": 80,
+          "pos": 11,
+          "end": 18,
+          "text": "UserID"
+        },
+        {
+          "kind": "IntersectionType",
+          "kindNum": 193,
+          "pos": 20,
+          "end": 63,
+          "children": [
+            {
+              "kind": "StringKeyword",
+              "kindNum": 154,
+              "pos": 20,
+              "end": 27
+            },
+            {
+              "kind": "TypeLiteral",
+              "kindNum": 187,
+              "pos": 29,
+              "end": 63,
+              "children": [
+                {
+                  "kind": "PropertySignature",
+                  "kindNum": 171,
+                  "pos": 31,
+                  "end": 61,
+                  "modifiers": [
+                    "ReadonlyKeyword"
+                  ],
+                  "children": [
+                    {
+                      "kind": "ReadonlyKeyword",
+                      "kindNum": 148,
+                      "pos": 31,
+                      "end": 40
+                    },
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 40,
+                      "end": 46,
+                      "text": "brand"
+                    },
+                    {
+                      "kind": "TypeOperator",
+                      "kindNum": 198,
+                      "pos": 47,
+                      "end": 61,
+                      "children": [
+                        {
+                          "kind": "SymbolKeyword",
+                          "kindNum": 155,
+                          "pos": 54,
+                          "end": 61
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "TypeAliasDeclaration",
+      "kindNum": 265,
+      "pos": 64,
+      "end": 130,
+      "modifiers": [
+        "ExportKeyword"
+      ],
+      "children": [
+        {
+          "kind": "ExportKeyword",
+          "kindNum": 95,
+          "pos": 64,
+          "end": 71
+        },
+        {
+          "kind": "Identifier",
+          "kindNum": 80,
+          "pos": 76,
+          "end": 84,
+          "text": "OrderID"
+        },
+        {
+          "kind": "IntersectionType",
+          "kindNum": 193,
+          "pos": 86,
+          "end": 129,
+          "children": [
+            {
+              "kind": "StringKeyword",
+              "kindNum": 154,
+              "pos": 86,
+              "end": 93
+            },
+            {
+              "kind": "TypeLiteral",
+              "kindNum": 187,
+              "pos": 95,
+              "end": 129,
+              "children": [
+                {
+                  "kind": "PropertySignature",
+                  "kindNum": 171,
+                  "pos": 97,
+                  "end": 127,
+                  "modifiers": [
+                    "ReadonlyKeyword"
+                  ],
+                  "children": [
+                    {
+                      "kind": "ReadonlyKeyword",
+                      "kindNum": 148,
+                      "pos": 97,
+                      "end": 106
+                    },
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 106,
+                      "end": 112,
+                      "text": "brand"
+                    },
+                    {
+                      "kind": "TypeOperator",
+                      "kindNum": 198,
+                      "pos": 113,
+                      "end": 127,
+                      "children": [
+                        {
+                          "kind": "SymbolKeyword",
+                          "kindNum": 155,
+                          "pos": 120,
+                          "end": 127
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "InterfaceDeclaration",
+      "kindNum": 264,
+      "pos": 130,
+      "end": 270,
+      "modifiers": [
+        "ExportKeyword"
+      ],
+      "children": [
+        {
+          "kind": "ExportKeyword",
+          "kindNum": 95,
+          "pos": 130,
+          "end": 138
+        },
+        {
+          "kind": "Identifier",
+          "kindNum": 80,
+          "pos": 148,
+          "end": 153,
+          "text": "User"
+        },
+        {
+          "kind": "PropertySignature",
+          "kindNum": 171,
+          "pos": 155,
+          "end": 169,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 155,
+              "end": 160,
+              "text": "id"
+            },
+            {
+              "kind": "TypeReference",
+              "kindNum": 183,
+              "pos": 161,
+              "end": 168,
+              "children": [
+                {
+                  "kind": "Identifier",
+                  "kindNum": 80,
+                  "pos": 161,
+                  "end": 168,
+                  "text": "UserID"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "PropertySignature",
+          "kindNum": 171,
+          "pos": 169,
+          "end": 185,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 169,
+              "end": 176,
+              "text": "name"
+            },
+            {
+              "kind": "StringKeyword",
+              "kindNum": 154,
+              "pos": 177,
+              "end": 184
+            }
+          ]
+        },
+        {
+          "kind": "PropertySignature",
+          "kindNum": 171,
+          "pos": 185,
+          "end": 209,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 185,
+              "end": 193,
+              "text": "email"
+            },
+            {
+              "kind": "UnionType",
+              "kindNum": 192,
+              "pos": 194,
+              "end": 208,
+              "children": [
+                {
+                  "kind": "StringKeyword",
+                  "kindNum": 154,
+                  "pos": 194,
+                  "end": 201
+                },
+                {
+                  "kind": "LiteralType",
+                  "kindNum": 201,
+                  "pos": 203,
+                  "end": 208,
+                  "children": [
+                    {
+                      "kind": "NullKeyword",
+                      "kindNum": 106,
+                      "pos": 203,
+                      "end": 208
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "PropertySignature",
+          "kindNum": 171,
+          "pos": 209,
+          "end": 230,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 209,
+              "end": 220,
+              "text": "isActive"
+            },
+            {
+              "kind": "BooleanKeyword",
+              "kindNum": 136,
+              "pos": 221,
+              "end": 229
+            }
+          ]
+        },
+        {
+          "kind": "PropertySignature",
+          "kindNum": 171,
+          "pos": 230,
+          "end": 268,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 230,
+              "end": 241,
+              "text": "metadata"
+            },
+            {
+              "kind": "QuestionToken",
+              "kindNum": 58,
+              "pos": 241,
+              "end": 242
+            },
+            {
+              "kind": "TypeReference",
+              "kindNum": 183,
+              "pos": 243,
+              "end": 267,
+              "children": [
+                {
+                  "kind": "Identifier",
+                  "kindNum": 80,
+                  "pos": 243,
+                  "end": 250,
+                  "text": "Record"
+                },
+                {
+                  "kind": "StringKeyword",
+                  "kindNum": 154,
+                  "pos": 251,
+                  "end": 257
+                },
+                {
+                  "kind": "UnknownKeyword",
+                  "kindNum": 159,
+                  "pos": 258,
+                  "end": 266
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "InterfaceDeclaration",
+      "kindNum": 264,
+      "pos": 270,
+      "end": 430,
+      "modifiers": [
+        "ExportKeyword"
+      ],
+      "children": [
+        {
+          "kind": "ExportKeyword",
+          "kindNum": 95,
+          "pos": 270,
+          "end": 278
+        },
+        {
+          "kind": "Identifier",
+          "kindNum": 80,
+          "pos": 288,
+          "end": 294,
+          "text": "Order"
+        },
+        {
+          "kind": "PropertySignature",
+          "kindNum": 171,
+          "pos": 296,
+          "end": 311,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 296,
+              "end": 301,
+              "text": "id"
+            },
+            {
+              "kind": "TypeReference",
+              "kindNum": 183,
+              "pos": 302,
+              "end": 310,
+              "children": [
+                {
+                  "kind": "Identifier",
+                  "kindNum": 80,
+                  "pos": 302,
+                  "end": 310,
+                  "text": "OrderID"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "PropertySignature",
+          "kindNum": 171,
+          "pos": 311,
+          "end": 329,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 311,
+              "end": 320,
+              "text": "userId"
+            },
+            {
+              "kind": "TypeReference",
+              "kindNum": 183,
+              "pos": 321,
+              "end": 328,
+              "children": [
+                {
+                  "kind": "Identifier",
+                  "kindNum": 80,
+                  "pos": 321,
+                  "end": 328,
+                  "text": "UserID"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "PropertySignature",
+          "kindNum": 171,
+          "pos": 329,
+          "end": 347,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 329,
+              "end": 338,
+              "text": "amount"
+            },
+            {
+              "kind": "NumberKeyword",
+              "kindNum": 150,
+              "pos": 339,
+              "end": 346
+            }
+          ]
+        },
+        {
+          "kind": "PropertySignature",
+          "kindNum": 171,
+          "pos": 347,
+          "end": 391,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 347,
+              "end": 356,
+              "text": "status"
+            },
+            {
+              "kind": "UnionType",
+              "kindNum": 192,
+              "pos": 357,
+              "end": 390,
+              "children": [
+                {
+                  "kind": "LiteralType",
+                  "kindNum": 201,
+                  "pos": 357,
+                  "end": 367,
+                  "children": [
+                    {
+                      "kind": "StringLiteral",
+                      "kindNum": 11,
+                      "pos": 357,
+                      "end": 367
+                    }
+                  ]
+                },
+                {
+                  "kind": "LiteralType",
+                  "kindNum": 201,
+                  "pos": 369,
+                  "end": 376,
+                  "children": [
+                    {
+                      "kind": "StringLiteral",
+                      "kindNum": 11,
+                      "pos": 369,
+                      "end": 376
+                    }
+                  ]
+                },
+                {
+                  "kind": "LiteralType",
+                  "kindNum": 201,
+                  "pos": 378,
+                  "end": 390,
+                  "children": [
+                    {
+                      "kind": "StringLiteral",
+                      "kindNum": 11,
+                      "pos": 378,
+                      "end": 390
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "PropertySignature",
+          "kindNum": 171,
+          "pos": 391,
+          "end": 410,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 391,
+              "end": 403,
+              "text": "createdAt"
+            },
+            {
+              "kind": "TypeReference",
+              "kindNum": 183,
+              "pos": 404,
+              "end": 409,
+              "children": [
+                {
+                  "kind": "Identifier",
+                  "kindNum": 80,
+                  "pos": 404,
+                  "end": 409,
+                  "text": "Date"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "PropertySignature",
+          "kindNum": 171,
+          "pos": 410,
+          "end": 428,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 410,
+              "end": 418,
+              "text": "notes"
+            },
+            {
+              "kind": "QuestionToken",
+              "kindNum": 58,
+              "pos": 418,
+              "end": 419
+            },
+            {
+              "kind": "StringKeyword",
+              "kindNum": 154,
+              "pos": 420,
+              "end": 427
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "InterfaceDeclaration",
+      "kindNum": 264,
+      "pos": 430,
+      "end": 555,
+      "modifiers": [
+        "ExportKeyword"
+      ],
+      "children": [
+        {
+          "kind": "ExportKeyword",
+          "kindNum": 95,
+          "pos": 430,
+          "end": 438
+        },
+        {
+          "kind": "Identifier",
+          "kindNum": 80,
+          "pos": 448,
+          "end": 460,
+          "text": "ApiResponse"
+        },
+        {
+          "kind": "TypeParameter",
+          "kindNum": 168,
+          "pos": 461,
+          "end": 462,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 461,
+              "end": 462,
+              "text": "T"
+            }
+          ]
+        },
+        {
+          "kind": "PropertySignature",
+          "kindNum": 171,
+          "pos": 465,
+          "end": 485,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 465,
+              "end": 475,
+              "text": "success"
+            },
+            {
+              "kind": "BooleanKeyword",
+              "kindNum": 136,
+              "pos": 476,
+              "end": 484
+            }
+          ]
+        },
+        {
+          "kind": "PropertySignature",
+          "kindNum": 171,
+          "pos": 485,
+          "end": 497,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 485,
+              "end": 492,
+              "text": "data"
+            },
+            {
+              "kind": "QuestionToken",
+              "kindNum": 58,
+              "pos": 492,
+              "end": 493
+            },
+            {
+              "kind": "TypeReference",
+              "kindNum": 183,
+              "pos": 494,
+              "end": 496,
+              "children": [
+                {
+                  "kind": "Identifier",
+                  "kindNum": 80,
+                  "pos": 494,
+                  "end": 496,
+                  "text": "T"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "PropertySignature",
+          "kindNum": 171,
+          "pos": 497,
+          "end": 553,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 497,
+              "end": 505,
+              "text": "error"
+            },
+            {
+              "kind": "QuestionToken",
+              "kindNum": 58,
+              "pos": 505,
+              "end": 506
+            },
+            {
+              "kind": "TypeLiteral",
+              "kindNum": 187,
+              "pos": 507,
+              "end": 552,
+              "children": [
+                {
+                  "kind": "PropertySignature",
+                  "kindNum": 171,
+                  "pos": 509,
+                  "end": 527,
+                  "children": [
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 509,
+                      "end": 518,
+                      "text": "code"
+                    },
+                    {
+                      "kind": "StringKeyword",
+                      "kindNum": 154,
+                      "pos": 519,
+                      "end": 526
+                    }
+                  ]
+                },
+                {
+                  "kind": "PropertySignature",
+                  "kindNum": 171,
+                  "pos": 527,
+                  "end": 548,
+                  "children": [
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 527,
+                      "end": 539,
+                      "text": "message"
+                    },
+                    {
+                      "kind": "StringKeyword",
+                      "kindNum": 154,
+                      "pos": 540,
+                      "end": 547
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "TypeAliasDeclaration",
+      "kindNum": 265,
+      "pos": 555,
+      "end": 601,
+      "modifiers": [
+        "ExportKeyword"
+      ],
+      "children": [
+        {
+          "kind": "ExportKeyword",
+          "kindNum": 95,
+          "pos": 555,
+          "end": 563
+        },
+        {
+          "kind": "Identifier",
+          "kindNum": 80,
+          "pos": 568,
+          "end": 574,
+          "text": "Maybe"
+        },
+        {
+          "kind": "TypeParameter",
+          "kindNum": 168,
+          "pos": 575,
+          "end": 576,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 575,
+              "end": 576,
+              "text": "T"
+            }
+          ]
+        },
+        {
+          "kind": "UnionType",
+          "kindNum": 192,
+          "pos": 579,
+          "end": 600,
+          "children": [
+            {
+              "kind": "TypeReference",
+              "kindNum": 183,
+              "pos": 579,
+              "end": 581,
+              "children": [
+                {
+                  "kind": "Identifier",
+                  "kindNum": 80,
+                  "pos": 579,
+                  "end": 581,
+                  "text": "T"
+                }
+              ]
+            },
+            {
+              "kind": "LiteralType",
+              "kindNum": 201,
+              "pos": 583,
+              "end": 588,
+              "children": [
+                {
+                  "kind": "NullKeyword",
+                  "kindNum": 106,
+                  "pos": 583,
+                  "end": 588
+                }
+              ]
+            },
+            {
+              "kind": "UndefinedKeyword",
+              "kindNum": 157,
+              "pos": 590,
+              "end": 600
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "FunctionDeclaration",
+      "kindNum": 262,
+      "pos": 601,
+      "end": 697,
+      "modifiers": [
+        "ExportKeyword"
+      ],
+      "children": [
+        {
+          "kind": "ExportKeyword",
+          "kindNum": 95,
+          "pos": 601,
+          "end": 609
+        },
+        {
+          "kind": "Identifier",
+          "kindNum": 80,
+          "pos": 618,
+          "end": 630,
+          "text": "assertNever"
+        },
+        {
+          "kind": "Parameter",
+          "kindNum": 169,
+          "pos": 631,
+          "end": 639,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 631,
+              "end": 632,
+              "text": "x"
+            },
+            {
+              "kind": "NeverKeyword",
+              "kindNum": 146,
+              "pos": 633,
+              "end": 639
+            }
+          ]
+        },
+        {
+          "kind": "NeverKeyword",
+          "kindNum": 146,
+          "pos": 641,
+          "end": 647
+        },
+        {
+          "kind": "Block",
+          "kindNum": 241,
+          "pos": 647,
+          "end": 697,
+          "children": [
+            {
+              "kind": "ThrowStatement",
+              "kindNum": 257,
+              "pos": 649,
+              "end": 695,
+              "children": [
+                {
+                  "kind": "NewExpression",
+                  "kindNum": 214,
+                  "pos": 657,
+                  "end": 694,
+                  "children": [
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 661,
+                      "end": 667,
+                      "text": "Error"
+                    },
+                    {
+                      "kind": "BinaryExpression",
+                      "kindNum": 226,
+                      "pos": 668,
+                      "end": 693,
+                      "children": [
+                        {
+                          "kind": "StringLiteral",
+                          "kindNum": 11,
+                          "pos": 668,
+                          "end": 689
+                        },
+                        {
+                          "kind": "PlusToken",
+                          "kindNum": 40,
+                          "pos": 689,
+                          "end": 691
+                        },
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 691,
+                          "end": 693,
+                          "text": "x"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "EndOfFileToken",
+      "kindNum": 1,
+      "pos": 697,
+      "end": 698
+    }
+  ]
+}

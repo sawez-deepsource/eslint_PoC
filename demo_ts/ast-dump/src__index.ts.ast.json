@@ -1,0 +1,82 @@
+{
+  "kind": "SourceFile",
+  "kindNum": 312,
+  "pos": 0,
+  "end": 86,
+  "children": [
+    {
+      "kind": "ImportDeclaration",
+      "kindNum": 272,
+      "pos": 0,
+      "end": 35,
+      "children": [
+        {
+          "kind": "ImportClause",
+          "kindNum": 273,
+          "pos": 6,
+          "end": 18,
+          "children": [
+            {
+              "kind": "NamedImports",
+              "kindNum": 275,
+              "pos": 6,
+              "end": 18,
+              "children": [
+                {
+                  "kind": "ImportSpecifier",
+                  "kindNum": 276,
+                  "pos": 8,
+                  "end": 16,
+                  "children": [
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 8,
+                      "end": 16,
+                      "text": "runDemo"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "StringLiteral",
+          "kindNum": 11,
+          "pos": 23,
+          "end": 34
+        }
+      ]
+    },
+    {
+      "kind": "ExpressionStatement",
+      "kindNum": 244,
+      "pos": 35,
+      "end": 85,
+      "children": [
+        {
+          "kind": "CallExpression",
+          "kindNum": 213,
+          "pos": 35,
+          "end": 84,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 35,
+              "end": 82,
+              "text": "runDemo"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "EndOfFileToken",
+      "kindNum": 1,
+      "pos": 85,
+      "end": 86
+    }
+  ]
+}

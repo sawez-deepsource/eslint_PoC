@@ -1,0 +1,2246 @@
+{
+  "kind": "SourceFile",
+  "kindNum": 312,
+  "pos": 0,
+  "end": 1640,
+  "children": [
+    {
+      "kind": "ImportDeclaration",
+      "kindNum": 272,
+      "pos": 0,
+      "end": 20,
+      "children": [
+        {
+          "kind": "ImportClause",
+          "kindNum": 273,
+          "pos": 6,
+          "end": 9,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 6,
+              "end": 9,
+              "text": "fs"
+            }
+          ]
+        },
+        {
+          "kind": "StringLiteral",
+          "kindNum": 11,
+          "pos": 14,
+          "end": 19
+        }
+      ]
+    },
+    {
+      "kind": "ImportDeclaration",
+      "kindNum": 272,
+      "pos": 20,
+      "end": 45,
+      "children": [
+        {
+          "kind": "ImportClause",
+          "kindNum": 273,
+          "pos": 27,
+          "end": 32,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 27,
+              "end": 32,
+              "text": "path"
+            }
+          ]
+        },
+        {
+          "kind": "StringLiteral",
+          "kindNum": 11,
+          "pos": 37,
+          "end": 44
+        }
+      ]
+    },
+    {
+      "kind": "ImportDeclaration",
+      "kindNum": 272,
+      "pos": 45,
+      "end": 70,
+      "children": [
+        {
+          "kind": "ImportClause",
+          "kindNum": 273,
+          "pos": 52,
+          "end": 57,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 52,
+              "end": 57,
+              "text": "glob"
+            }
+          ]
+        },
+        {
+          "kind": "StringLiteral",
+          "kindNum": 11,
+          "pos": 62,
+          "end": 69
+        }
+      ]
+    },
+    {
+      "kind": "ImportDeclaration",
+      "kindNum": 272,
+      "pos": 70,
+      "end": 99,
+      "children": [
+        {
+          "kind": "ImportClause",
+          "kindNum": 273,
+          "pos": 77,
+          "end": 80,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 77,
+              "end": 80,
+              "text": "ts"
+            }
+          ]
+        },
+        {
+          "kind": "StringLiteral",
+          "kindNum": 11,
+          "pos": 85,
+          "end": 98
+        }
+      ]
+    },
+    {
+      "kind": "FirstStatement",
+      "kindNum": 243,
+      "pos": 99,
+      "end": 135,
+      "children": [
+        {
+          "kind": "VariableDeclarationList",
+          "kindNum": 261,
+          "pos": 99,
+          "end": 134,
+          "flags": 2,
+          "children": [
+            {
+              "kind": "VariableDeclaration",
+              "kindNum": 260,
+              "pos": 106,
+              "end": 134,
+              "children": [
+                {
+                  "kind": "Identifier",
+                  "kindNum": 80,
+                  "pos": 106,
+                  "end": 118,
+                  "text": "projectRoot"
+                },
+                {
+                  "kind": "CallExpression",
+                  "kindNum": 213,
+                  "pos": 120,
+                  "end": 134,
+                  "children": [
+                    {
+                      "kind": "PropertyAccessExpression",
+                      "kindNum": 211,
+                      "pos": 120,
+                      "end": 132,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 120,
+                          "end": 128,
+                          "text": "process"
+                        },
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 129,
+                          "end": 132,
+                          "text": "cwd"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "FirstStatement",
+      "kindNum": 243,
+      "pos": 135,
+      "end": 195,
+      "children": [
+        {
+          "kind": "VariableDeclarationList",
+          "kindNum": 261,
+          "pos": 135,
+          "end": 194,
+          "flags": 2,
+          "children": [
+            {
+              "kind": "VariableDeclaration",
+              "kindNum": 260,
+              "pos": 141,
+              "end": 194,
+              "children": [
+                {
+                  "kind": "Identifier",
+                  "kindNum": 80,
+                  "pos": 141,
+                  "end": 147,
+                  "text": "files"
+                },
+                {
+                  "kind": "CallExpression",
+                  "kindNum": 213,
+                  "pos": 149,
+                  "end": 194,
+                  "children": [
+                    {
+                      "kind": "PropertyAccessExpression",
+                      "kindNum": 211,
+                      "pos": 149,
+                      "end": 159,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 149,
+                          "end": 154,
+                          "text": "glob"
+                        },
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 155,
+                          "end": 159,
+                          "text": "sync"
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "StringLiteral",
+                      "kindNum": 11,
+                      "pos": 160,
+                      "end": 173
+                    },
+                    {
+                      "kind": "ObjectLiteralExpression",
+                      "kindNum": 210,
+                      "pos": 174,
+                      "end": 193,
+                      "children": [
+                        {
+                          "kind": "PropertyAssignment",
+                          "kindNum": 303,
+                          "pos": 176,
+                          "end": 191,
+                          "children": [
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 176,
+                              "end": 185,
+                              "text": "absolute"
+                            },
+                            {
+                              "kind": "TrueKeyword",
+                              "kindNum": 112,
+                              "pos": 186,
+                              "end": 191
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "FirstStatement",
+      "kindNum": 243,
+      "pos": 195,
+      "end": 246,
+      "children": [
+        {
+          "kind": "VariableDeclarationList",
+          "kindNum": 261,
+          "pos": 195,
+          "end": 245,
+          "flags": 2,
+          "children": [
+            {
+              "kind": "VariableDeclaration",
+              "kindNum": 260,
+              "pos": 201,
+              "end": 245,
+              "children": [
+                {
+                  "kind": "Identifier",
+                  "kindNum": 80,
+                  "pos": 201,
+                  "end": 208,
+                  "text": "outDir"
+                },
+                {
+                  "kind": "CallExpression",
+                  "kindNum": 213,
+                  "pos": 210,
+                  "end": 245,
+                  "children": [
+                    {
+                      "kind": "PropertyAccessExpression",
+                      "kindNum": 211,
+                      "pos": 210,
+                      "end": 220,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 210,
+                          "end": 215,
+                          "text": "path"
+                        },
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 216,
+                          "end": 220,
+                          "text": "join"
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 221,
+                      "end": 232,
+                      "text": "projectRoot"
+                    },
+                    {
+                      "kind": "StringLiteral",
+                      "kindNum": 11,
+                      "pos": 233,
+                      "end": 244
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "ExpressionStatement",
+      "kindNum": 244,
+      "pos": 246,
+      "end": 290,
+      "children": [
+        {
+          "kind": "CallExpression",
+          "kindNum": 213,
+          "pos": 246,
+          "end": 289,
+          "children": [
+            {
+              "kind": "PropertyAccessExpression",
+              "kindNum": 211,
+              "pos": 246,
+              "end": 260,
+              "children": [
+                {
+                  "kind": "Identifier",
+                  "kindNum": 80,
+                  "pos": 246,
+                  "end": 250,
+                  "text": "fs"
+                },
+                {
+                  "kind": "Identifier",
+                  "kindNum": 80,
+                  "pos": 251,
+                  "end": 260,
+                  "text": "mkdirSync"
+                }
+              ]
+            },
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 261,
+              "end": 267,
+              "text": "outDir"
+            },
+            {
+              "kind": "ObjectLiteralExpression",
+              "kindNum": 210,
+              "pos": 268,
+              "end": 288,
+              "children": [
+                {
+                  "kind": "PropertyAssignment",
+                  "kindNum": 303,
+                  "pos": 270,
+                  "end": 286,
+                  "children": [
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 270,
+                      "end": 280,
+                      "text": "recursive"
+                    },
+                    {
+                      "kind": "TrueKeyword",
+                      "kindNum": 112,
+                      "pos": 281,
+                      "end": 286
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "FunctionDeclaration",
+      "kindNum": 262,
+      "pos": 290,
+      "end": 1068,
+      "children": [
+        {
+          "kind": "Identifier",
+          "kindNum": 80,
+          "pos": 352,
+          "end": 366,
+          "text": "serializeNode"
+        },
+        {
+          "kind": "Parameter",
+          "kindNum": 169,
+          "pos": 367,
+          "end": 371,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 367,
+              "end": 371,
+              "text": "node"
+            }
+          ]
+        },
+        {
+          "kind": "Parameter",
+          "kindNum": 169,
+          "pos": 372,
+          "end": 383,
+          "children": [
+            {
+              "kind": "Identifier",
+              "kindNum": 80,
+              "pos": 372,
+              "end": 383,
+              "text": "sourceFile"
+            }
+          ]
+        },
+        {
+          "kind": "Block",
+          "kindNum": 241,
+          "pos": 384,
+          "end": 1068,
+          "children": [
+            {
+              "kind": "FirstStatement",
+              "kindNum": 243,
+              "pos": 386,
+              "end": 505,
+              "children": [
+                {
+                  "kind": "VariableDeclarationList",
+                  "kindNum": 261,
+                  "pos": 386,
+                  "end": 504,
+                  "flags": 2,
+                  "children": [
+                    {
+                      "kind": "VariableDeclaration",
+                      "kindNum": 260,
+                      "pos": 394,
+                      "end": 504,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 394,
+                          "end": 398,
+                          "text": "obj"
+                        },
+                        {
+                          "kind": "ObjectLiteralExpression",
+                          "kindNum": 210,
+                          "pos": 400,
+                          "end": 504,
+                          "children": [
+                            {
+                              "kind": "PropertyAssignment",
+                              "kindNum": 303,
+                              "pos": 402,
+                              "end": 437,
+                              "children": [
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 402,
+                                  "end": 411,
+                                  "text": "kind"
+                                },
+                                {
+                                  "kind": "ElementAccessExpression",
+                                  "kindNum": 212,
+                                  "pos": 412,
+                                  "end": 437,
+                                  "children": [
+                                    {
+                                      "kind": "PropertyAccessExpression",
+                                      "kindNum": 211,
+                                      "pos": 412,
+                                      "end": 426,
+                                      "children": [
+                                        {
+                                          "kind": "Identifier",
+                                          "kindNum": 80,
+                                          "pos": 412,
+                                          "end": 415,
+                                          "text": "ts"
+                                        },
+                                        {
+                                          "kind": "Identifier",
+                                          "kindNum": 80,
+                                          "pos": 416,
+                                          "end": 426,
+                                          "text": "SyntaxKind"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "kind": "PropertyAccessExpression",
+                                      "kindNum": 211,
+                                      "pos": 427,
+                                      "end": 436,
+                                      "children": [
+                                        {
+                                          "kind": "Identifier",
+                                          "kindNum": 80,
+                                          "pos": 427,
+                                          "end": 431,
+                                          "text": "node"
+                                        },
+                                        {
+                                          "kind": "Identifier",
+                                          "kindNum": 80,
+                                          "pos": 432,
+                                          "end": 436,
+                                          "text": "kind"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "PropertyAssignment",
+                              "kindNum": 303,
+                              "pos": 438,
+                              "end": 461,
+                              "children": [
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 438,
+                                  "end": 450,
+                                  "text": "kindNum"
+                                },
+                                {
+                                  "kind": "PropertyAccessExpression",
+                                  "kindNum": 211,
+                                  "pos": 451,
+                                  "end": 461,
+                                  "children": [
+                                    {
+                                      "kind": "Identifier",
+                                      "kindNum": 80,
+                                      "pos": 451,
+                                      "end": 456,
+                                      "text": "node"
+                                    },
+                                    {
+                                      "kind": "Identifier",
+                                      "kindNum": 80,
+                                      "pos": 457,
+                                      "end": 461,
+                                      "text": "kind"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "PropertyAssignment",
+                              "kindNum": 303,
+                              "pos": 462,
+                              "end": 480,
+                              "children": [
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 462,
+                                  "end": 470,
+                                  "text": "pos"
+                                },
+                                {
+                                  "kind": "PropertyAccessExpression",
+                                  "kindNum": 211,
+                                  "pos": 471,
+                                  "end": 480,
+                                  "children": [
+                                    {
+                                      "kind": "Identifier",
+                                      "kindNum": 80,
+                                      "pos": 471,
+                                      "end": 476,
+                                      "text": "node"
+                                    },
+                                    {
+                                      "kind": "Identifier",
+                                      "kindNum": 80,
+                                      "pos": 477,
+                                      "end": 480,
+                                      "text": "pos"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "PropertyAssignment",
+                              "kindNum": 303,
+                              "pos": 481,
+                              "end": 499,
+                              "children": [
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 481,
+                                  "end": 489,
+                                  "text": "end"
+                                },
+                                {
+                                  "kind": "PropertyAccessExpression",
+                                  "kindNum": 211,
+                                  "pos": 490,
+                                  "end": 499,
+                                  "children": [
+                                    {
+                                      "kind": "Identifier",
+                                      "kindNum": 80,
+                                      "pos": 490,
+                                      "end": 495,
+                                      "text": "node"
+                                    },
+                                    {
+                                      "kind": "Identifier",
+                                      "kindNum": 80,
+                                      "pos": 496,
+                                      "end": 499,
+                                      "text": "end"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "IfStatement",
+              "kindNum": 245,
+              "pos": 505,
+              "end": 624,
+              "children": [
+                {
+                  "kind": "BinaryExpression",
+                  "kindNum": 226,
+                  "pos": 553,
+                  "end": 591,
+                  "children": [
+                    {
+                      "kind": "PropertyAccessExpression",
+                      "kindNum": 211,
+                      "pos": 553,
+                      "end": 562,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 553,
+                          "end": 557,
+                          "text": "node"
+                        },
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 558,
+                          "end": 562,
+                          "text": "kind"
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "EqualsEqualsEqualsToken",
+                      "kindNum": 37,
+                      "pos": 562,
+                      "end": 566
+                    },
+                    {
+                      "kind": "PropertyAccessExpression",
+                      "kindNum": 211,
+                      "pos": 566,
+                      "end": 591,
+                      "children": [
+                        {
+                          "kind": "PropertyAccessExpression",
+                          "kindNum": 211,
+                          "pos": 566,
+                          "end": 580,
+                          "children": [
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 566,
+                              "end": 569,
+                              "text": "ts"
+                            },
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 570,
+                              "end": 580,
+                              "text": "SyntaxKind"
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 581,
+                          "end": 591,
+                          "text": "Identifier"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "kind": "Block",
+                  "kindNum": 241,
+                  "pos": 592,
+                  "end": 624,
+                  "children": [
+                    {
+                      "kind": "ExpressionStatement",
+                      "kindNum": 244,
+                      "pos": 594,
+                      "end": 620,
+                      "children": [
+                        {
+                          "kind": "BinaryExpression",
+                          "kindNum": 226,
+                          "pos": 594,
+                          "end": 619,
+                          "children": [
+                            {
+                              "kind": "PropertyAccessExpression",
+                              "kindNum": 211,
+                              "pos": 594,
+                              "end": 607,
+                              "children": [
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 594,
+                                  "end": 602,
+                                  "text": "obj"
+                                },
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 603,
+                                  "end": 607,
+                                  "text": "text"
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "FirstAssignment",
+                              "kindNum": 64,
+                              "pos": 607,
+                              "end": 609
+                            },
+                            {
+                              "kind": "PropertyAccessExpression",
+                              "kindNum": 211,
+                              "pos": 609,
+                              "end": 619,
+                              "children": [
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 609,
+                                  "end": 614,
+                                  "text": "node"
+                                },
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 615,
+                                  "end": 619,
+                                  "text": "text"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "IfStatement",
+              "kindNum": 245,
+              "pos": 624,
+              "end": 703,
+              "children": [
+                {
+                  "kind": "PropertyAccessExpression",
+                  "kindNum": 211,
+                  "pos": 658,
+                  "end": 668,
+                  "children": [
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 658,
+                      "end": 662,
+                      "text": "node"
+                    },
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 663,
+                      "end": 668,
+                      "text": "flags"
+                    }
+                  ]
+                },
+                {
+                  "kind": "Block",
+                  "kindNum": 241,
+                  "pos": 669,
+                  "end": 703,
+                  "children": [
+                    {
+                      "kind": "ExpressionStatement",
+                      "kindNum": 244,
+                      "pos": 671,
+                      "end": 699,
+                      "children": [
+                        {
+                          "kind": "BinaryExpression",
+                          "kindNum": 226,
+                          "pos": 671,
+                          "end": 698,
+                          "children": [
+                            {
+                              "kind": "PropertyAccessExpression",
+                              "kindNum": 211,
+                              "pos": 671,
+                              "end": 685,
+                              "children": [
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 671,
+                                  "end": 679,
+                                  "text": "obj"
+                                },
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 680,
+                                  "end": 685,
+                                  "text": "flags"
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "FirstAssignment",
+                              "kindNum": 64,
+                              "pos": 685,
+                              "end": 687
+                            },
+                            {
+                              "kind": "PropertyAccessExpression",
+                              "kindNum": 211,
+                              "pos": 687,
+                              "end": 698,
+                              "children": [
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 687,
+                                  "end": 692,
+                                  "text": "node"
+                                },
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 693,
+                                  "end": 698,
+                                  "text": "flags"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "IfStatement",
+              "kindNum": 245,
+              "pos": 703,
+              "end": 832,
+              "children": [
+                {
+                  "kind": "PropertyAccessExpression",
+                  "kindNum": 211,
+                  "pos": 741,
+                  "end": 755,
+                  "children": [
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 741,
+                      "end": 745,
+                      "text": "node"
+                    },
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 746,
+                      "end": 755,
+                      "text": "modifiers"
+                    }
+                  ]
+                },
+                {
+                  "kind": "Block",
+                  "kindNum": 241,
+                  "pos": 756,
+                  "end": 832,
+                  "children": [
+                    {
+                      "kind": "ExpressionStatement",
+                      "kindNum": 244,
+                      "pos": 758,
+                      "end": 828,
+                      "children": [
+                        {
+                          "kind": "BinaryExpression",
+                          "kindNum": 226,
+                          "pos": 758,
+                          "end": 827,
+                          "children": [
+                            {
+                              "kind": "PropertyAccessExpression",
+                              "kindNum": 211,
+                              "pos": 758,
+                              "end": 776,
+                              "children": [
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 758,
+                                  "end": 766,
+                                  "text": "obj"
+                                },
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 767,
+                                  "end": 776,
+                                  "text": "modifiers"
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "FirstAssignment",
+                              "kindNum": 64,
+                              "pos": 776,
+                              "end": 778
+                            },
+                            {
+                              "kind": "CallExpression",
+                              "kindNum": 213,
+                              "pos": 778,
+                              "end": 827,
+                              "children": [
+                                {
+                                  "kind": "PropertyAccessExpression",
+                                  "kindNum": 211,
+                                  "pos": 778,
+                                  "end": 797,
+                                  "children": [
+                                    {
+                                      "kind": "PropertyAccessExpression",
+                                      "kindNum": 211,
+                                      "pos": 778,
+                                      "end": 793,
+                                      "children": [
+                                        {
+                                          "kind": "Identifier",
+                                          "kindNum": 80,
+                                          "pos": 778,
+                                          "end": 783,
+                                          "text": "node"
+                                        },
+                                        {
+                                          "kind": "Identifier",
+                                          "kindNum": 80,
+                                          "pos": 784,
+                                          "end": 793,
+                                          "text": "modifiers"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "kind": "Identifier",
+                                      "kindNum": 80,
+                                      "pos": 794,
+                                      "end": 797,
+                                      "text": "map"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "kind": "ArrowFunction",
+                                  "kindNum": 219,
+                                  "pos": 798,
+                                  "end": 826,
+                                  "children": [
+                                    {
+                                      "kind": "Parameter",
+                                      "kindNum": 169,
+                                      "pos": 799,
+                                      "end": 800,
+                                      "children": [
+                                        {
+                                          "kind": "Identifier",
+                                          "kindNum": 80,
+                                          "pos": 799,
+                                          "end": 800,
+                                          "text": "m"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "kind": "EqualsGreaterThanToken",
+                                      "kindNum": 39,
+                                      "pos": 801,
+                                      "end": 804
+                                    },
+                                    {
+                                      "kind": "ElementAccessExpression",
+                                      "kindNum": 212,
+                                      "pos": 804,
+                                      "end": 826,
+                                      "children": [
+                                        {
+                                          "kind": "PropertyAccessExpression",
+                                          "kindNum": 211,
+                                          "pos": 804,
+                                          "end": 818,
+                                          "children": [
+                                            {
+                                              "kind": "Identifier",
+                                              "kindNum": 80,
+                                              "pos": 804,
+                                              "end": 807,
+                                              "text": "ts"
+                                            },
+                                            {
+                                              "kind": "Identifier",
+                                              "kindNum": 80,
+                                              "pos": 808,
+                                              "end": 818,
+                                              "text": "SyntaxKind"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "kind": "PropertyAccessExpression",
+                                          "kindNum": 211,
+                                          "pos": 819,
+                                          "end": 825,
+                                          "children": [
+                                            {
+                                              "kind": "Identifier",
+                                              "kindNum": 80,
+                                              "pos": 819,
+                                              "end": 820,
+                                              "text": "m"
+                                            },
+                                            {
+                                              "kind": "Identifier",
+                                              "kindNum": 80,
+                                              "pos": 821,
+                                              "end": 825,
+                                              "text": "kind"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "FirstStatement",
+              "kindNum": 243,
+              "pos": 832,
+              "end": 892,
+              "children": [
+                {
+                  "kind": "VariableDeclarationList",
+                  "kindNum": 261,
+                  "pos": 832,
+                  "end": 891,
+                  "flags": 2,
+                  "children": [
+                    {
+                      "kind": "VariableDeclaration",
+                      "kindNum": 260,
+                      "pos": 877,
+                      "end": 891,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 877,
+                          "end": 886,
+                          "text": "children"
+                        },
+                        {
+                          "kind": "ArrayLiteralExpression",
+                          "kindNum": 209,
+                          "pos": 888,
+                          "end": 891
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "ExpressionStatement",
+              "kindNum": 244,
+              "pos": 892,
+              "end": 988,
+              "children": [
+                {
+                  "kind": "CallExpression",
+                  "kindNum": 213,
+                  "pos": 892,
+                  "end": 987,
+                  "children": [
+                    {
+                      "kind": "PropertyAccessExpression",
+                      "kindNum": 211,
+                      "pos": 892,
+                      "end": 910,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 892,
+                          "end": 897,
+                          "text": "ts"
+                        },
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 898,
+                          "end": 910,
+                          "text": "forEachChild"
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 911,
+                      "end": 915,
+                      "text": "node"
+                    },
+                    {
+                      "kind": "ArrowFunction",
+                      "kindNum": 219,
+                      "pos": 916,
+                      "end": 986,
+                      "children": [
+                        {
+                          "kind": "Parameter",
+                          "kindNum": 169,
+                          "pos": 918,
+                          "end": 923,
+                          "children": [
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 918,
+                              "end": 923,
+                              "text": "child"
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "EqualsGreaterThanToken",
+                          "kindNum": 39,
+                          "pos": 924,
+                          "end": 927
+                        },
+                        {
+                          "kind": "Block",
+                          "kindNum": 241,
+                          "pos": 927,
+                          "end": 986,
+                          "children": [
+                            {
+                              "kind": "ExpressionStatement",
+                              "kindNum": 244,
+                              "pos": 929,
+                              "end": 982,
+                              "children": [
+                                {
+                                  "kind": "CallExpression",
+                                  "kindNum": 213,
+                                  "pos": 929,
+                                  "end": 981,
+                                  "children": [
+                                    {
+                                      "kind": "PropertyAccessExpression",
+                                      "kindNum": 211,
+                                      "pos": 929,
+                                      "end": 947,
+                                      "children": [
+                                        {
+                                          "kind": "Identifier",
+                                          "kindNum": 80,
+                                          "pos": 929,
+                                          "end": 942,
+                                          "text": "children"
+                                        },
+                                        {
+                                          "kind": "Identifier",
+                                          "kindNum": 80,
+                                          "pos": 943,
+                                          "end": 947,
+                                          "text": "push"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "kind": "CallExpression",
+                                      "kindNum": 213,
+                                      "pos": 948,
+                                      "end": 980,
+                                      "children": [
+                                        {
+                                          "kind": "Identifier",
+                                          "kindNum": 80,
+                                          "pos": 948,
+                                          "end": 961,
+                                          "text": "serializeNode"
+                                        },
+                                        {
+                                          "kind": "Identifier",
+                                          "kindNum": 80,
+                                          "pos": 962,
+                                          "end": 967,
+                                          "text": "child"
+                                        },
+                                        {
+                                          "kind": "Identifier",
+                                          "kindNum": 80,
+                                          "pos": 968,
+                                          "end": 979,
+                                          "text": "sourceFile"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "IfStatement",
+              "kindNum": 245,
+              "pos": 988,
+              "end": 1051,
+              "children": [
+                {
+                  "kind": "BinaryExpression",
+                  "kindNum": 226,
+                  "pos": 996,
+                  "end": 1015,
+                  "children": [
+                    {
+                      "kind": "PropertyAccessExpression",
+                      "kindNum": 211,
+                      "pos": 996,
+                      "end": 1011,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 996,
+                          "end": 1004,
+                          "text": "children"
+                        },
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 1005,
+                          "end": 1011,
+                          "text": "length"
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "GreaterThanToken",
+                      "kindNum": 32,
+                      "pos": 1011,
+                      "end": 1013
+                    },
+                    {
+                      "kind": "FirstLiteralToken",
+                      "kindNum": 9,
+                      "pos": 1013,
+                      "end": 1015
+                    }
+                  ]
+                },
+                {
+                  "kind": "Block",
+                  "kindNum": 241,
+                  "pos": 1016,
+                  "end": 1051,
+                  "children": [
+                    {
+                      "kind": "ExpressionStatement",
+                      "kindNum": 244,
+                      "pos": 1018,
+                      "end": 1047,
+                      "children": [
+                        {
+                          "kind": "BinaryExpression",
+                          "kindNum": 226,
+                          "pos": 1018,
+                          "end": 1046,
+                          "children": [
+                            {
+                              "kind": "PropertyAccessExpression",
+                              "kindNum": 211,
+                              "pos": 1018,
+                              "end": 1035,
+                              "children": [
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 1018,
+                                  "end": 1026,
+                                  "text": "obj"
+                                },
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 1027,
+                                  "end": 1035,
+                                  "text": "children"
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "FirstAssignment",
+                              "kindNum": 64,
+                              "pos": 1035,
+                              "end": 1037
+                            },
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 1037,
+                              "end": 1046,
+                              "text": "children"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "ReturnStatement",
+              "kindNum": 253,
+              "pos": 1051,
+              "end": 1066,
+              "children": [
+                {
+                  "kind": "Identifier",
+                  "kindNum": 80,
+                  "pos": 1061,
+                  "end": 1065,
+                  "text": "obj"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "ForOfStatement",
+      "kindNum": 250,
+      "pos": 1068,
+      "end": 1593,
+      "children": [
+        {
+          "kind": "VariableDeclarationList",
+          "kindNum": 261,
+          "pos": 1075,
+          "end": 1089,
+          "flags": 2,
+          "children": [
+            {
+              "kind": "VariableDeclaration",
+              "kindNum": 260,
+              "pos": 1080,
+              "end": 1089,
+              "flags": 8192,
+              "children": [
+                {
+                  "kind": "Identifier",
+                  "kindNum": 80,
+                  "pos": 1080,
+                  "end": 1089,
+                  "text": "filePath",
+                  "flags": 8192
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Identifier",
+          "kindNum": 80,
+          "pos": 1092,
+          "end": 1098,
+          "text": "files"
+        },
+        {
+          "kind": "Block",
+          "kindNum": 241,
+          "pos": 1099,
+          "end": 1593,
+          "children": [
+            {
+              "kind": "FirstStatement",
+              "kindNum": 243,
+              "pos": 1101,
+              "end": 1151,
+              "children": [
+                {
+                  "kind": "VariableDeclarationList",
+                  "kindNum": 261,
+                  "pos": 1101,
+                  "end": 1150,
+                  "flags": 2,
+                  "children": [
+                    {
+                      "kind": "VariableDeclaration",
+                      "kindNum": 260,
+                      "pos": 1109,
+                      "end": 1150,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 1109,
+                          "end": 1114,
+                          "text": "code"
+                        },
+                        {
+                          "kind": "CallExpression",
+                          "kindNum": 213,
+                          "pos": 1116,
+                          "end": 1150,
+                          "children": [
+                            {
+                              "kind": "PropertyAccessExpression",
+                              "kindNum": 211,
+                              "pos": 1116,
+                              "end": 1132,
+                              "children": [
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 1116,
+                                  "end": 1119,
+                                  "text": "fs"
+                                },
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 1120,
+                                  "end": 1132,
+                                  "text": "readFileSync"
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 1133,
+                              "end": 1141,
+                              "text": "filePath"
+                            },
+                            {
+                              "kind": "StringLiteral",
+                              "kindNum": 11,
+                              "pos": 1142,
+                              "end": 1149
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "FirstStatement",
+              "kindNum": 243,
+              "pos": 1151,
+              "end": 1282,
+              "children": [
+                {
+                  "kind": "VariableDeclarationList",
+                  "kindNum": 261,
+                  "pos": 1151,
+                  "end": 1281,
+                  "flags": 2,
+                  "children": [
+                    {
+                      "kind": "VariableDeclaration",
+                      "kindNum": 260,
+                      "pos": 1159,
+                      "end": 1281,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 1159,
+                          "end": 1170,
+                          "text": "sourceFile"
+                        },
+                        {
+                          "kind": "CallExpression",
+                          "kindNum": 213,
+                          "pos": 1172,
+                          "end": 1281,
+                          "children": [
+                            {
+                              "kind": "PropertyAccessExpression",
+                              "kindNum": 211,
+                              "pos": 1172,
+                              "end": 1192,
+                              "children": [
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 1172,
+                                  "end": 1175,
+                                  "text": "ts"
+                                },
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 1176,
+                                  "end": 1192,
+                                  "text": "createSourceFile"
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 1193,
+                              "end": 1206,
+                              "text": "filePath"
+                            },
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 1207,
+                              "end": 1216,
+                              "text": "code"
+                            },
+                            {
+                              "kind": "PropertyAccessExpression",
+                              "kindNum": 211,
+                              "pos": 1217,
+                              "end": 1244,
+                              "children": [
+                                {
+                                  "kind": "PropertyAccessExpression",
+                                  "kindNum": 211,
+                                  "pos": 1217,
+                                  "end": 1237,
+                                  "children": [
+                                    {
+                                      "kind": "Identifier",
+                                      "kindNum": 80,
+                                      "pos": 1217,
+                                      "end": 1224,
+                                      "text": "ts"
+                                    },
+                                    {
+                                      "kind": "Identifier",
+                                      "kindNum": 80,
+                                      "pos": 1225,
+                                      "end": 1237,
+                                      "text": "ScriptTarget"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 1238,
+                                  "end": 1244,
+                                  "text": "Latest"
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "TrueKeyword",
+                              "kindNum": 112,
+                              "pos": 1245,
+                              "end": 1254
+                            },
+                            {
+                              "kind": "PropertyAccessExpression",
+                              "kindNum": 211,
+                              "pos": 1255,
+                              "end": 1276,
+                              "children": [
+                                {
+                                  "kind": "PropertyAccessExpression",
+                                  "kindNum": 211,
+                                  "pos": 1255,
+                                  "end": 1273,
+                                  "children": [
+                                    {
+                                      "kind": "Identifier",
+                                      "kindNum": 80,
+                                      "pos": 1255,
+                                      "end": 1262,
+                                      "text": "ts"
+                                    },
+                                    {
+                                      "kind": "Identifier",
+                                      "kindNum": 80,
+                                      "pos": 1263,
+                                      "end": 1273,
+                                      "text": "ScriptKind"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 1274,
+                                  "end": 1276,
+                                  "text": "TS"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "FirstStatement",
+              "kindNum": 243,
+              "pos": 1282,
+              "end": 1336,
+              "children": [
+                {
+                  "kind": "VariableDeclarationList",
+                  "kindNum": 261,
+                  "pos": 1282,
+                  "end": 1335,
+                  "flags": 2,
+                  "children": [
+                    {
+                      "kind": "VariableDeclaration",
+                      "kindNum": 260,
+                      "pos": 1291,
+                      "end": 1335,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 1291,
+                          "end": 1295,
+                          "text": "ast"
+                        },
+                        {
+                          "kind": "CallExpression",
+                          "kindNum": 213,
+                          "pos": 1297,
+                          "end": 1335,
+                          "children": [
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 1297,
+                              "end": 1311,
+                              "text": "serializeNode"
+                            },
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 1312,
+                              "end": 1322,
+                              "text": "sourceFile"
+                            },
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 1323,
+                              "end": 1334,
+                              "text": "sourceFile"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "FirstStatement",
+              "kindNum": 243,
+              "pos": 1336,
+              "end": 1429,
+              "children": [
+                {
+                  "kind": "VariableDeclarationList",
+                  "kindNum": 261,
+                  "pos": 1336,
+                  "end": 1428,
+                  "flags": 2,
+                  "children": [
+                    {
+                      "kind": "VariableDeclaration",
+                      "kindNum": 260,
+                      "pos": 1345,
+                      "end": 1428,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 1345,
+                          "end": 1354,
+                          "text": "relative"
+                        },
+                        {
+                          "kind": "CallExpression",
+                          "kindNum": 213,
+                          "pos": 1356,
+                          "end": 1428,
+                          "children": [
+                            {
+                              "kind": "PropertyAccessExpression",
+                              "kindNum": 211,
+                              "pos": 1356,
+                              "end": 1411,
+                              "children": [
+                                {
+                                  "kind": "CallExpression",
+                                  "kindNum": 213,
+                                  "pos": 1356,
+                                  "end": 1398,
+                                  "children": [
+                                    {
+                                      "kind": "PropertyAccessExpression",
+                                      "kindNum": 211,
+                                      "pos": 1356,
+                                      "end": 1375,
+                                      "children": [
+                                        {
+                                          "kind": "Identifier",
+                                          "kindNum": 80,
+                                          "pos": 1356,
+                                          "end": 1361,
+                                          "text": "path"
+                                        },
+                                        {
+                                          "kind": "Identifier",
+                                          "kindNum": 80,
+                                          "pos": 1367,
+                                          "end": 1375,
+                                          "text": "relative"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "kind": "Identifier",
+                                      "kindNum": 80,
+                                      "pos": 1376,
+                                      "end": 1387,
+                                      "text": "projectRoot"
+                                    },
+                                    {
+                                      "kind": "Identifier",
+                                      "kindNum": 80,
+                                      "pos": 1388,
+                                      "end": 1397,
+                                      "text": "filePath"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 1404,
+                                  "end": 1411,
+                                  "text": "replace"
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "RegularExpressionLiteral",
+                              "kindNum": 14,
+                              "pos": 1412,
+                              "end": 1421
+                            },
+                            {
+                              "kind": "StringLiteral",
+                              "kindNum": 11,
+                              "pos": 1422,
+                              "end": 1427
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "FirstStatement",
+              "kindNum": 243,
+              "pos": 1429,
+              "end": 1490,
+              "children": [
+                {
+                  "kind": "VariableDeclarationList",
+                  "kindNum": 261,
+                  "pos": 1429,
+                  "end": 1489,
+                  "flags": 2,
+                  "children": [
+                    {
+                      "kind": "VariableDeclaration",
+                      "kindNum": 260,
+                      "pos": 1437,
+                      "end": 1489,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 1437,
+                          "end": 1445,
+                          "text": "outFile"
+                        },
+                        {
+                          "kind": "CallExpression",
+                          "kindNum": 213,
+                          "pos": 1447,
+                          "end": 1489,
+                          "children": [
+                            {
+                              "kind": "PropertyAccessExpression",
+                              "kindNum": 211,
+                              "pos": 1447,
+                              "end": 1457,
+                              "children": [
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 1447,
+                                  "end": 1452,
+                                  "text": "path"
+                                },
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 1453,
+                                  "end": 1457,
+                                  "text": "join"
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 1458,
+                              "end": 1464,
+                              "text": "outDir"
+                            },
+                            {
+                              "kind": "BinaryExpression",
+                              "kindNum": 226,
+                              "pos": 1465,
+                              "end": 1488,
+                              "children": [
+                                {
+                                  "kind": "Identifier",
+                                  "kindNum": 80,
+                                  "pos": 1465,
+                                  "end": 1474,
+                                  "text": "relative"
+                                },
+                                {
+                                  "kind": "PlusToken",
+                                  "kindNum": 40,
+                                  "pos": 1474,
+                                  "end": 1476
+                                },
+                                {
+                                  "kind": "StringLiteral",
+                                  "kindNum": 11,
+                                  "pos": 1476,
+                                  "end": 1488
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "ExpressionStatement",
+              "kindNum": 244,
+              "pos": 1490,
+              "end": 1549,
+              "children": [
+                {
+                  "kind": "CallExpression",
+                  "kindNum": 213,
+                  "pos": 1490,
+                  "end": 1548,
+                  "children": [
+                    {
+                      "kind": "PropertyAccessExpression",
+                      "kindNum": 211,
+                      "pos": 1490,
+                      "end": 1509,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 1490,
+                          "end": 1495,
+                          "text": "fs"
+                        },
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 1496,
+                          "end": 1509,
+                          "text": "writeFileSync"
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Identifier",
+                      "kindNum": 80,
+                      "pos": 1510,
+                      "end": 1517,
+                      "text": "outFile"
+                    },
+                    {
+                      "kind": "CallExpression",
+                      "kindNum": 213,
+                      "pos": 1518,
+                      "end": 1547,
+                      "children": [
+                        {
+                          "kind": "PropertyAccessExpression",
+                          "kindNum": 211,
+                          "pos": 1518,
+                          "end": 1533,
+                          "children": [
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 1518,
+                              "end": 1523,
+                              "text": "JSON"
+                            },
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 1524,
+                              "end": 1533,
+                              "text": "stringify"
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 1534,
+                          "end": 1537,
+                          "text": "ast"
+                        },
+                        {
+                          "kind": "NullKeyword",
+                          "kindNum": 106,
+                          "pos": 1538,
+                          "end": 1543
+                        },
+                        {
+                          "kind": "FirstLiteralToken",
+                          "kindNum": 9,
+                          "pos": 1544,
+                          "end": 1546
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "ExpressionStatement",
+              "kindNum": 244,
+              "pos": 1549,
+              "end": 1591,
+              "children": [
+                {
+                  "kind": "CallExpression",
+                  "kindNum": 213,
+                  "pos": 1549,
+                  "end": 1590,
+                  "children": [
+                    {
+                      "kind": "PropertyAccessExpression",
+                      "kindNum": 211,
+                      "pos": 1549,
+                      "end": 1563,
+                      "children": [
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 1549,
+                          "end": 1559,
+                          "text": "console"
+                        },
+                        {
+                          "kind": "Identifier",
+                          "kindNum": 80,
+                          "pos": 1560,
+                          "end": 1563,
+                          "text": "log"
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "TemplateExpression",
+                      "kindNum": 228,
+                      "pos": 1564,
+                      "end": 1589,
+                      "children": [
+                        {
+                          "kind": "TemplateHead",
+                          "kindNum": 16,
+                          "pos": 1564,
+                          "end": 1580
+                        },
+                        {
+                          "kind": "TemplateSpan",
+                          "kindNum": 239,
+                          "pos": 1580,
+                          "end": 1589,
+                          "children": [
+                            {
+                              "kind": "Identifier",
+                              "kindNum": 80,
+                              "pos": 1580,
+                              "end": 1587,
+                              "text": "outFile"
+                            },
+                            {
+                              "kind": "LastTemplateToken",
+                              "kindNum": 18,
+                              "pos": 1587,
+                              "end": 1589
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "ExpressionStatement",
+      "kindNum": 244,
+      "pos": 1593,
+      "end": 1639,
+      "children": [
+        {
+          "kind": "CallExpression",
+          "kindNum": 213,
+          "pos": 1593,
+          "end": 1638,
+          "children": [
+            {
+              "kind": "PropertyAccessExpression",
+              "kindNum": 211,
+              "pos": 1593,
+              "end": 1606,
+              "children": [
+                {
+                  "kind": "Identifier",
+                  "kindNum": 80,
+                  "pos": 1593,
+                  "end": 1602,
+                  "text": "console"
+                },
+                {
+                  "kind": "Identifier",
+                  "kindNum": 80,
+                  "pos": 1603,
+                  "end": 1606,
+                  "text": "log"
+                }
+              ]
+            },
+            {
+              "kind": "StringLiteral",
+              "kindNum": 11,
+              "pos": 1607,
+              "end": 1637
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "EndOfFileToken",
+      "kindNum": 1,
+      "pos": 1639,
+      "end": 1640
+    }
+  ]
+}
