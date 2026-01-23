@@ -1,28 +1,49 @@
+// src/tools/mem-profiler.ts - Memory profiling utility
+
 import fs from "fs";
 
-function mb(n: number) {
+interface MemorySampleData {
+  ts: number;
+  label: string;
+  pid: number;
+  rss: number;
+  heapTotal: number;
+  heapUsed: number;
+  external: number;
+  arrayBuffers: number;
+  rssMB: number;
+  heapTotalMB: number;
+  heapUsedMB: number;
+  externalMB: number;
+  arrayBuffersMB: number;
+}
+
+function mb(n: number): number {
   return Number((n / 1024 / 1024).toFixed(2));
 }
 
 export class MemProfiler {
-  private timeline: any[] = [];
-  private timer: NodeJS.Timer | null = null;
+  private timeline: MemorySampleData[] = [];
+  private timer: ReturnType<typeof setInterval> | null = null;
 
-  start(intervalMs = 100) {
+  start(intervalMs = 100): void {
     this.timer = setInterval(() => {
       this.sample("interval");
     }, intervalMs);
   }
 
-  stop() {
-    if (this.timer) clearInterval(this.timer);
-    this.timer = null;
+  stop(): void {
+    if (this.timer !== null) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
   }
 
-  sample(label: string) {
+  sample(label: string): MemorySampleData {
     const m = process.memoryUsage();
+    const arrayBuffers = m.arrayBuffers ?? 0;
 
-    this.timeline.push({
+    const data: MemorySampleData = {
       ts: Date.now(),
       label,
       pid: process.pid,
@@ -32,18 +53,30 @@ export class MemProfiler {
       heapTotal: m.heapTotal,
       heapUsed: m.heapUsed,
       external: m.external,
-      arrayBuffers: (m as any).arrayBuffers,
+      arrayBuffers,
 
       // human readable (for debugging / graphs)
       rssMB: mb(m.rss),
       heapTotalMB: mb(m.heapTotal),
       heapUsedMB: mb(m.heapUsed),
       externalMB: mb(m.external),
-      arrayBuffersMB: mb((m as any).arrayBuffers),
-    });
+      arrayBuffersMB: mb(arrayBuffers),
+    };
+
+    this.timeline.push(data);
+    return data;
   }
 
-  dump(file = "memory-timeline.json") {
+  getPeakRSS(): number {
+    if (this.timeline.length === 0) return 0;
+    return Math.max(...this.timeline.map((s) => s.rss));
+  }
+
+  getTimeline(): MemorySampleData[] {
+    return this.timeline;
+  }
+
+  dump(file = "memory-timeline.json"): void {
     fs.writeFileSync(file, JSON.stringify(this.timeline, null, 2));
   }
 }

@@ -1,23 +1,17 @@
-// src/tools/config-converter.ts - Legacy to Flat config converter
+// src/tools/config-converter.ts
 
 import fs from "fs";
 
-type RuleValue = string | number | unknown[] | Record<string, unknown>;
-
-export interface LegacyConfig {
+interface LegacyConfig {
   extends?: string[];
   parser?: string;
-  parserOptions?: {
-    project?: string;
-    sourceType?: string;
-    [key: string]: unknown;
-  };
+  parserOptions?: Record<string, any>;
   plugins?: string[];
-  rules?: Record<string, RuleValue>;
+  rules?: Record<string, any>;
 }
 
 export class ConfigConverter {
-  static convert(legacyConfig: LegacyConfig): { source: string } {
+  static convert(legacyConfig: LegacyConfig) {
     const isTypeScript = this.usesTypeScript(legacyConfig);
 
     if (!isTypeScript) {
@@ -29,18 +23,17 @@ export class ConfigConverter {
   }
 
   private static usesTypeScript(config: LegacyConfig): boolean {
-    const hasParser =
-      config.parser?.includes("@typescript-eslint/parser") === true;
-    const hasPlugin = config.plugins?.includes("@typescript-eslint") === true;
-    const hasExtends =
-      config.extends?.some((e) => e.includes("@typescript-eslint")) === true;
-    return hasParser || hasPlugin || hasExtends;
+    return !!(
+      config.parser?.includes("@typescript-eslint/parser") ||
+      config.plugins?.includes("@typescript-eslint") ||
+      config.extends?.some((e) => e.includes("@typescript-eslint"))
+    );
   }
 
   private static generateTypeScriptConfig(config: LegacyConfig): string {
     // Build rules
     const rulesets: string[] = [];
-    const extendsArray = config.extends ?? [];
+    const extendsArray = config.extends || [];
 
     if (extendsArray.includes("plugin:@typescript-eslint/recommended")) {
       rulesets.push("...tsPlugin.configs.recommended.rules");
@@ -59,15 +52,15 @@ export class ConfigConverter {
     }
 
     // User custom rules
-    const userRules = Object.entries(config.rules ?? {}).map(
+    const userRules = Object.entries(config.rules || {}).map(
       ([key, value]) => `"${key}": ${JSON.stringify(value)}`,
     );
 
     const allRules = [...rulesets, ...userRules].join(",\n      ");
 
     // Parser options
-    const parserOptions = config.parserOptions ?? {};
-    const project = parserOptions.project ?? "./tsconfig.json";
+    const parserOptions = config.parserOptions || {};
+    const project = parserOptions.project || "./tsconfig.json";
 
     return `import tsParser from "@typescript-eslint/parser";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
@@ -104,7 +97,7 @@ export default [
 
   static loadLegacyConfig(configPath: string): LegacyConfig {
     const content = fs.readFileSync(configPath, "utf8");
-    return JSON.parse(content) as LegacyConfig;
+    return JSON.parse(content);
   }
 
   static writeFlatConfig(source: string, outputPath: string): void {
