@@ -5,7 +5,16 @@
   "type": "module",
   "scripts": {
     "build": "tsc --noEmit",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "baseline": "npx ts-node src/tools/baseline.ts",
+    "master": "npx tsx src/tools/master.ts",
+    "master:help": "npx tsx src/tools/master.ts --help",
+    "test:oom-recover": "npx tsx src/tools/master.ts --test=oom-single",
+    "test:oom-fail": "npx tsx src/tools/master.ts --test=oom-persistent",
+    "test:parse-error": "npx tsx src/tools/master.ts --test=parse-error",
+    "test:rule-crash": "npx tsx src/tools/master.ts --test=rule-crash",
+    "test:random": "npx tsx src/tools/master.ts --test=random-oom",
+    "test:all": "npx tsx src/tools/master.ts --test=all"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.3",
@@ -17,6 +26,7 @@
     "eslint": "^9.39.2",
     "glob": "^13.0.0",
     "ts-node": "^10.9.2",
+    "tsx": "^4.19.0",
     "typescript": "5.3.3"
   }
 }

@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Baseline vs Master-Worker Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: #0f172a;
+        color: #e2e8f0;
+        padding: 2rem;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 0.5rem;
+        color: #38bdf8;
+      }
+      .subtitle {
+        text-align: center;
+        color: #64748b;
+        margin-bottom: 2rem;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+      .card {
+        background: #1e293b;
+        border-radius: 12px;
+        padding: 1.5rem;
+        border: 1px solid #334155;
+      }
+      .card.full {
+        grid-column: 1 / -1;
+      }
+      .card h2 {
+        color: #38bdf8;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+      }
+      .chart-container {
+        position: relative;
+        height: 300px;
+      }
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+      }
+      .stat {
+        text-align: center;
+        padding: 1rem;
+        background: #0f172a;
+        border-radius: 8px;
+      }
+      .stat-value {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #22c55e;
+      }
+      .stat-value.warn {
+        color: #f59e0b;
+      }
+      .stat-value.bad {
+        color: #ef4444;
+      }
+      .stat-label {
+        font-size: 0.85rem;
+        color: #94a3b8;
+        margin-top: 0.25rem;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid #334155;
+      }
+      th {
+        color: #94a3b8;
+        font-weight: 500;
+      }
+      .good {
+        color: #22c55e;
+      }
+      .bad {
+        color: #ef4444;
+      }
+      .neutral {
+        color: #f59e0b;
+      }
+      .comparison {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 2rem;
+        align-items: center;
+      }
+      .vs {
+        font-size: 2rem;
+        color: #64748b;
+      }
+      .pros-cons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      .pros h3 {
+        color: #22c55e;
+      }
+      .cons h3 {
+        color: #ef4444;
+      }
+      ul {
+        padding-left: 1.25rem;
+        margin-top: 0.5rem;
+      }
+      li {
+        margin: 0.5rem 0;
+        color: #cbd5e1;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>⚡ Baseline vs Master-Worker Analysis</h1>
+    <p class="subtitle">Memory & Performance Comparison</p>
+
+    <!-- Key Metrics -->
+    <div class="card full">
+      <h2>📊 Key Metrics Comparison</h2>
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="stat-value">327 MB</div>
+          <div class="stat-label">Baseline Peak RSS</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value good">90 MB</div>
+          <div class="stat-label">Master Peak RSS</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">2.1s</div>
+          <div class="stat-label">Baseline Duration</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value warn">5.0s</div>
+          <div class="stat-label">Master Total Duration</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- Memory Timeline Chart -->
+      <div class="card">
+        <h2>📈 Baseline Memory Timeline</h2>
+        <div class="chart-container">
+          <canvas id="baselineChart"></canvas>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>📈 Master Process Memory</h2>
+        <div class="chart-container">
+          <canvas id="masterChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Workers Memory Chart -->
+      <div class="card full">
+        <h2>👷 Worker Memory Timelines</h2>
+        <div class="chart-container" style="height: 350px">
+          <canvas id="workersChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Peak Memory Comparison -->
+      <div class="card">
+        <h2>🏔️ Peak Memory Comparison</h2>
+        <div class="chart-container">
+          <canvas id="peakChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Worker Stats Table -->
+      <div class="card">
+        <h2>📋 Worker Statistics</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Worker</th>
+              <th>Files</th>
+              <th>Peak RSS</th>
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Worker 0</td>
+              <td>5</td>
+              <td>320 MB</td>
+              <td>2.2s</td>
+            </tr>
+            <tr>
+              <td>Worker 1</td>
+              <td>5</td>
+              <td>330 MB</td>
+              <td>2.4s</td>
+            </tr>
+            <tr>
+              <td>Worker 2</td>
+              <td>5</td>
+              <td>333 MB</td>
+              <td>2.5s</td>
+            </tr>
+            <tr>
+              <td>Worker 3</td>
+              <td>3</td>
+              <td>328 MB</td>
+              <td>2.3s</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Comparison Table -->
+      <div class="card full">
+        <h2>⚖️ Detailed Comparison</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Baseline</th>
+              <th>Master-Worker</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Master/Main Process RSS</td>
+              <td>327 MB</td>
+              <td>90 MB</td>
+              <td class="good">✓ 72% less memory in main process</td>
+            </tr>
+            <tr>
+              <td>Per-Worker Peak RSS</td>
+              <td>N/A</td>
+              <td>~330 MB each</td>
+              <td class="neutral">Workers isolated, can OOM safely</td>
+            </tr>
+            <tr>
+              <td>Total Peak RSS (all processes)</td>
+              <td>327 MB</td>
+              <td>~750 MB (2 concurrent)</td>
+              <td class="bad">✗ Higher total, but controlled</td>
+            </tr>
+            <tr>
+              <td>Duration</td>
+              <td>2.1s</td>
+              <td>5.0s</td>
+              <td class="bad">✗ 2.4x slower (worker spawn overhead)</td>
+            </tr>
+            <tr>
+              <td>Fault Tolerance</td>
+              <td>None</td>
+              <td>OOM recovery, retries</td>
+              <td class="good">✓ Won't crash on large repos</td>
+            </tr>
+            <tr>
+              <td>Parallelism</td>
+              <td>Single-threaded</td>
+              <td>Up to N workers</td>
+              <td class="good">✓ Scales with CPU cores</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pros and Cons -->
+      <div class="card full">
+        <h2>✅ Pros & Cons</h2>
+        <div class="pros-cons">
+          <div class="pros">
+            <h3>✅ Master-Worker Wins</h3>
+            <ul>
+              <li>
+                <strong>Fault isolation</strong> — Worker OOM doesn't kill
+                master
+              </li>
+              <li>
+                <strong>Recovery</strong> — Automatic retry with smaller batches
+              </li>
+              <li>
+                <strong>Scalable</strong> — Memory-gated spawning prevents
+                cascade OOM
+              </li>
+              <li>
+                <strong>Visibility</strong> — Per-worker memory timelines for
+                debugging
+              </li>
+              <li>
+                <strong>Large repos</strong> — Can handle repos that would OOM
+                baseline
+              </li>
+            </ul>
+          </div>
+          <div class="cons">
+            <h3>❌ Master-Worker Tradeoffs</h3>
+            <ul>
+              <li>
+                <strong>Slower</strong> — 2.4x overhead from worker spawning
+              </li>
+              <li>
+                <strong>More total memory</strong> — Each worker loads full TS
+                Program
+              </li>
+              <li>
+                <strong>Complexity</strong> — More code, IPC, state management
+              </li>
+              <li>
+                <strong>Small repos</strong> — Overkill for <50 file projects
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Verdict -->
+      <div
+        class="card full"
+        style="background: linear-gradient(135deg, #1e3a5f 0%, #1e293b 100%)"
+      >
+        <h2>🎯 Verdict</h2>
+        <div class="comparison">
+          <div style="text-align: center">
+            <div style="font-size: 3rem">🏃</div>
+            <div style="font-size: 1.2rem; font-weight: bold">Baseline</div>
+            <div style="color: #94a3b8">Fast, simple, but fragile</div>
+          </div>
+          <div class="vs">VS</div>
+          <div style="text-align: center">
+            <div style="font-size: 3rem">🏗️</div>
+            <div style="font-size: 1.2rem; font-weight: bold">
+              Master-Worker
+            </div>
+            <div style="color: #94a3b8">Slower, but bulletproof</div>
+          </div>
+        </div>
+        <div
+          style="
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #0f172a;
+            border-radius: 8px;
+          "
+        >
+          <p>
+            <strong>Use Baseline when:</strong> Small repos, CI speed matters,
+            memory is not a concern
+          </p>
+          <p style="margin-top: 0.5rem">
+            <strong>Use Master-Worker when:</strong> Large repos, production
+            stability required, need OOM recovery
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Baseline data
+      const baselineData = [
+        { ts: 0, rss: 121.66, label: "before-eslint" },
+        { ts: 3, rss: 121.79, label: "after-init" },
+        { ts: 423, rss: 186.54, label: "interval" },
+        { ts: 2094, rss: 326.79, label: "after-lint" },
+      ];
+
+      // Master data
+      const masterData = [
+        { ts: 0, rss: 89.62 },
+        { ts: 500, rss: 89.62 },
+        { ts: 1000, rss: 89.62 },
+        { ts: 1500, rss: 89.62 },
+        { ts: 2000, rss: 89.62 },
+        { ts: 2500, rss: 89.62 },
+        { ts: 3000, rss: 89.62 },
+        { ts: 3500, rss: 89.62 },
+        { ts: 4000, rss: 89.62 },
+        { ts: 4500, rss: 89.75 },
+        { ts: 5000, rss: 89.75 },
+      ];
+
+      // Worker data
+      const worker0 = [
+        { ts: 0, rss: 94 },
+        { ts: 812, rss: 208 },
+        { ts: 2150, rss: 318 },
+        { ts: 2210, rss: 320 },
+      ];
+      const worker1 = [
+        { ts: 26, rss: 98 },
+        { ts: 831, rss: 210 },
+        { ts: 2419, rss: 330 },
+      ];
+      const worker2 = [
+        { ts: 2621, rss: 94 },
+        { ts: 3439, rss: 206 },
+        { ts: 5104, rss: 332 },
+        { ts: 5141, rss: 333 },
+      ];
+      const worker3 = [
+        { ts: 2803, rss: 94 },
+        { ts: 3670, rss: 207 },
+        { ts: 5049, rss: 323 },
+        { ts: 5111, rss: 328 },
+      ];
+
+      // Chart 1: Baseline
+      new Chart(document.getElementById("baselineChart"), {
+        type: "line",
+        data: {
+          labels: baselineData.map((d) => d.ts + "ms"),
+          datasets: [
+            {
+              label: "RSS (MB)",
+              data: baselineData.map((d) => d.rss),
+              borderColor: "#ef4444",
+              backgroundColor: "rgba(239, 68, 68, 0.1)",
+              fill: true,
+              tension: 0.4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 400,
+              title: { display: true, text: "MB" },
+            },
+          },
+        },
+      });
+
+      // Chart 2: Master
+      new Chart(document.getElementById("masterChart"), {
+        type: "line",
+        data: {
+          labels: masterData.map((d) => d.ts + "ms"),
+          datasets: [
+            {
+              label: "RSS (MB)",
+              data: masterData.map((d) => d.rss),
+              borderColor: "#22c55e",
+              backgroundColor: "rgba(34, 197, 94, 0.1)",
+              fill: true,
+              tension: 0.4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 400,
+              title: { display: true, text: "MB" },
+            },
+          },
+        },
+      });
+
+      // Chart 3: Workers
+      new Chart(document.getElementById("workersChart"), {
+        type: "line",
+        data: {
+          labels: [
+            "0ms",
+            "500ms",
+            "1000ms",
+            "1500ms",
+            "2000ms",
+            "2500ms",
+            "3000ms",
+            "3500ms",
+            "4000ms",
+            "4500ms",
+            "5000ms",
+          ],
+          datasets: [
+            {
+              label: "Worker 0",
+              data: [
+                94,
+                150,
+                208,
+                280,
+                318,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+              ],
+              borderColor: "#38bdf8",
+              tension: 0.4,
+            },
+            {
+              label: "Worker 1",
+              data: [
+                98,
+                160,
+                210,
+                290,
+                330,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+              ],
+              borderColor: "#a78bfa",
+              tension: 0.4,
+            },
+            {
+              label: "Worker 2",
+              data: [null, null, null, null, null, 94, 150, 206, 280, 332, 333],
+              borderColor: "#fb923c",
+              tension: 0.4,
+            },
+            {
+              label: "Worker 3",
+              data: [null, null, null, null, null, 94, 150, 207, 280, 323, 328],
+              borderColor: "#4ade80",
+              tension: 0.4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: "top" } },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 400,
+              title: { display: true, text: "MB" },
+            },
+          },
+        },
+      });
+
+      // Chart 4: Peak comparison
+      new Chart(document.getElementById("peakChart"), {
+        type: "bar",
+        data: {
+          labels: [
+            "Baseline",
+            "Master",
+            "Worker 0",
+            "Worker 1",
+            "Worker 2",
+            "Worker 3",
+          ],
+          datasets: [
+            {
+              label: "Peak RSS (MB)",
+              data: [327, 90, 320, 330, 333, 328],
+              backgroundColor: [
+                "#ef4444",
+                "#22c55e",
+                "#38bdf8",
+                "#a78bfa",
+                "#fb923c",
+                "#4ade80",
+              ],
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 400,
+              title: { display: true, text: "MB" },
+            },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
