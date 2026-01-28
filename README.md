@@ -519,39 +519,6 @@ const x = getValue() as string;  // Useless if getValue() returns string
 await notAPromise;  // Can't detect without knowing the type
 ```
 
-### How DeepSource Likely Handles This
-
-Based on the observation that "the main codebase skips heavy type requiring rules":
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                  DEEPSOURCE APPROACH (Inferred)                 │
-│                                                                 │
-│  Strategy: Reliability over Completeness                        │
-│                                                                 │
-│  1. Use lightweight rules by default                            │
-│     - Guaranteed to work on ANY codebase size                   │
-│     - No OOM risk                                               │
-│     - Fast analysis (~2000 files/second)                        │
-│                                                                 │
-│  2. Skip type-checked rules because:                            │
-│     - Require loading full TS program                           │
-│     - Memory unpredictable (depends on customer's tsconfig)     │
-│     - OOM kills entire analysis = no results = bad UX           │
-│     - Customer codebases vary wildly (10 files to 50k files)    │
-│                                                                 │
-│  3. Trade-off accepted:                                         │
-│     - Miss ~30% of potential issues (type-aware bugs)           │
-│     - But guarantee analysis ALWAYS completes                   │
-│     - Better to find 70% reliably than 100% sometimes           │
-│                                                                 │
-│  4. Why this makes sense for SaaS:                              │
-│     - Can't predict customer's tsconfig size                    │
-│     - Can't ask customers to increase heap                      │
-│     - Must handle worst-case (giant monorepos)                  │
-│     - Reliability > feature completeness                        │
-└─────────────────────────────────────────────────────────────────┘
-```
 
 ### Performance Comparison
 
@@ -559,7 +526,7 @@ Based on the observation that "the main codebase skips heavy type requiring rule
 |--------|-------------------|-------------------|
 | Memory/worker | 250-350 MB | 900-2000+ MB |
 | Files/second | ~2000 | ~50-100 |
-| Max codebase size | **Unlimited** | ~2000 files |
+| Max codebase size | 30k+ | ~2000 files |
 | Bugs found | ~70% | ~95% |
 | OOM risk | None | High on large repos |
 
@@ -888,7 +855,6 @@ Lightweight rules (e.g., no-unused-vars, no-explicit-any):
   → Works at ANY scale
 ```
 
-**Key Insight:** If DeepSource skips type-checked rules, this PoC is **production-ready for enterprise-scale codebases**.
 
 ### Baseline vs Master-Worker Comparison
 
@@ -902,38 +868,7 @@ Lightweight rules (e.g., no-unused-vars, no-explicit-any):
 
 ---
 
-## Production Readiness Analysis
 
-### What Works (Validated) ✅
-
-| Capability | Status | Evidence |
-|------------|--------|----------|
-| Parallel worker execution | ✅ Works | All tests ran 4 workers |
-| OOM detection | ✅ Works | VS Code test detected all OOMs |
-| Batch splitting on OOM | ✅ Works | VS Code test split batches |
-| Fault isolation | ✅ Works | Master survived all worker crashes |
-| Modern ESLint 9 flat configs | ✅ Works | NestJS, TypeScript tests |
-| Complex real-world configs | ✅ Works | TypeScript's 8 custom plugins |
-| Type-checked rules | ✅ Works | NestJS, TypeScript, VS Code (with heap/scoped tsconfig) |
-| Lightweight rules at scale | ✅ Works | **VS Code 11,999 files in 6 seconds** |
-| Memory monitoring | ✅ Works | All workers reported RSS |
-| IPC communication | ✅ Works | All results collected correctly |
-| Graceful failure reporting | ✅ Works | VS Code failures logged |
-| Enterprise scale (lightweight) | ✅ Works | 12k files, ~2000 files/sec throughput |
-
-### What's Missing for Production ❌
-
-| Gap | Description | Severity |
-|-----|-------------|----------|
-| **Memory duplication** | Each worker loads full TS program independently | **Critical** |
-| **No persistent workers** | Workers spawn, lint, die (no reuse) | **High** |
-| **Large codebase OOM** | Can't handle VS Code scale (5000+ files) | **High** |
-| **No caching** | Re-analyzes all files every run | Medium |
-| **No incremental mode** | Can't analyze only changed files | Medium |
-| **No SARIF output** | Missing standard analysis format | Medium |
-| **No shared TS program** | Massive memory waste | **Critical** |
-| **No config validation** | No dry-run mode | Low |
-| **Limited error categories** | Only 4 error types | Low |
 
 ### The Critical Problem: Memory Duplication
 
@@ -980,7 +915,6 @@ OOM before linting even starts
 Batch size is IRRELEVANT - TS program loads once at startup
 ```
 
-**This is a TypeScript/Node limitation, not a PoC limitation.**
 
 ---
 
@@ -1032,19 +966,6 @@ Run 2: Analyze 1000 files → 60 seconds  ← Should be ~1 second
 ---
 
 ## Recommendations
-
-### Is This PoC Suitable for Production?
-
-**No, not as-is.** But it validates the architecture.
-
-| Question | Answer |
-|----------|--------|
-| Does the architecture work? | Yes |
-| Is it production-ready? | No |
-| Can it handle most codebases? | Yes (99% under 1000 files) |
-| Can it handle enterprise codebases? | No (5000+ files OOM) |
-| Is OOM recovery valuable? | Yes |
-| Is the effort to productionize worth it? | Depends on alternatives |
 
 ### Roadmap to Production
 
@@ -1220,17 +1141,6 @@ const CONFIG = {
   initialBatchDivisor: 4,     // files / 4 = initial batch size
 };
 ```
-
-### Tuning Guide
-
-| Scenario | Recommended Change |
-|----------|-------------------|
-| Small repo (<100 files) | `initialBatchDivisor: 2` |
-| Large repo (1000+ files) | `initialBatchDivisor: 8` |
-| More parallelism | `maxWorkers: 4` |
-| Memory constrained | `maxWorkers: 1` |
-| Frequent OOMs | `memoryThresholdPercent: 60` |
-| Large container (8GB+) | `containerLimitMB: 8192` |
 
 ### Increasing Node Heap (for large codebases)
 
@@ -1423,21 +1333,7 @@ For type-checked rules (higher memory usage):
 
 1. **Persistent workers** - Don't reload TS program for each batch
 2. **Shared TS program** - Single TS program via tsserver
-3. **Caching** - Don't re-analyze unchanged files
-4. **SARIF output** - Standard format for analysis tools
-
-### Final Verdict
-
-| Criteria | Assessment |
-|----------|------------|
-| PoC validates architecture | ✅ Yes |
-| Ready for production use | ❌ No |
-| Handles most codebases | ✅ Yes (99%) |
-| Handles enterprise scale | ❌ No (5000+ files OOM) |
-| Worth continuing development | ⚠️ Depends on alternatives |
-| Estimated effort to production | Medium-High (Phases 1-4) |
 
 ---
-
 *Last updated: January 2025*
 *Tested with: Node.js 22.x, ESLint 9.x, TypeScript-ESLint 8.x*
