@@ -1,0 +1,23 @@
+[
+  {
+    "type": "memory",
+    "workerId": 0,
+    "rss": 99696640,
+    "heapUsed": 15865624,
+    "timestamp": 1769395419468
+  },
+  {
+    "type": "memory",
+    "workerId": 0,
+    "rss": 218705920,
+    "heapUsed": 87711552,
+    "timestamp": 1769395420135
+  },
+  {
+    "type": "memory",
+    "workerId": 0,
+    "rss": 340865024,
+    "heapUsed": 185174728,
+    "timestamp": 1769395421242
+  }
+]

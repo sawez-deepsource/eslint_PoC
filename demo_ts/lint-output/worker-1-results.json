@@ -1,0 +1,456 @@
+[
+  {
+    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/tools/worker.ts",
+    "messages": [
+      {
+        "ruleId": "complexity",
+        "severity": 1,
+        "message": "Async function 'runLint' has a complexity of 12. Maximum allowed is 10.",
+        "line": 40,
+        "column": 1,
+        "nodeType": "FunctionDeclaration",
+        "messageId": "complex",
+        "endLine": 40,
+        "endColumn": 23
+      },
+      {
+        "ruleId": "@typescript-eslint/strict-boolean-expressions",
+        "severity": 2,
+        "message": "Unexpected nullable string value in conditional. Please handle the nullish/empty cases explicitly.",
+        "line": 63,
+        "column": 25,
+        "nodeType": "Identifier",
+        "messageId": "conditionErrorNullableString",
+        "endLine": 63,
+        "endColumn": 36,
+        "suggestions": [
+          {
+            "messageId": "conditionFixCompareNullish",
+            "fix": {
+              "range": [
+                1488,
+                1499
+              ],
+              "text": "(failureType != null)"
+            },
+            "desc": "Change condition to check for null/undefined (`value != null`)"
+          },
+          {
+            "messageId": "conditionFixDefaultEmptyString",
+            "fix": {
+              "range": [
+                1488,
+                1499
+              ],
+              "text": "(failureType ?? \"\")"
+            },
+            "desc": "Explicitly treat nullish value the same as an empty string (`value ?? \"\"`)"
+          },
+          {
+            "messageId": "conditionFixCastBoolean",
+            "fix": {
+              "range": [
+                1488,
+                1499
+              ],
+              "text": "(Boolean(failureType))"
+            },
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
+          }
+        ]
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 1,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "// src/tools/worker.ts - Isolated ESLint worker process\n\nimport { ESLint } from \"eslint\";\nimport { LintTask, LintResult, WorkerError, MemorySample } from \"./types.ts\";\nimport {\n  getTestConfig,\n  shouldSimulateFailure,\n  executeFailure,\n} from \"./test-scenarios.ts\";\n\nlet workerId = -1;\nlet peakRSS = 0;\n\n// Load test config once\nconst testConfig = getTestConfig();\n\nfunction sendMessage(msg: LintResult | WorkerError | MemorySample) {\n  if (process.send) {\n    process.send(msg);\n  }\n}\n\nfunction sampleMemory(): number {\n  const mem = process.memoryUsage();\n  if (mem.rss > peakRSS) {\n    peakRSS = mem.rss;\n  }\n\n  sendMessage({\n    type: \"memory\",\n    workerId,\n    rss: mem.rss,\n    heapUsed: mem.heapUsed,\n    timestamp: Date.now(),\n  });\n\n  return mem.rss;\n}\n\nasync function runLint(task: LintTask): Promise<void> {\n  workerId = task.workerId;\n  const startTime = Date.now();\n\n  console.log(\n    `[Worker ${workerId}] Starting lint of ${task.files.length} files`,\n  );\n\n  if (testConfig.scenario !== \"none\") {\n    console.log(`[Worker ${workerId}] 🧪 Test mode: ${testConfig.scenario}`);\n  }\n\n  // Start memory sampling\n  const memInterval = setInterval(() => sampleMemory(), 200);\n\n  try {\n    // ============ TEST HOOK: Pre-lint failures ============\n    // Check each file for simulated failures BEFORE linting\n    for (const file of task.files) {\n      const { shouldFail, failureType } = shouldSimulateFailure(\n        file,\n        testConfig,\n      );\n      if (shouldFail && failureType) {\n        clearInterval(memInterval);\n        executeFailure(failureType, file);\n        // If executeFailure didn't exit/throw (e.g., slow), continue\n      }\n    }\n    // ======================================================\n\n    // Initialize ESLint with the pre-generated flat config\n    const eslint = new ESLint({\n      cwd: process.cwd(),\n      overrideConfigFile: task.configPath,\n      cache: false,\n    });\n\n    sampleMemory();\n\n    // Lint the assigned files\n    const results = await eslint.lintFiles(task.files);\n\n    sampleMemory();\n    clearInterval(memInterval);\n\n    const duration = Date.now() - startTime;\n\n    console.log(\n      `[Worker ${workerId}] Completed in ${duration}ms, peak RSS: ${(peakRSS / 1024 / 1024).toFixed(1)}MB`,\n    );\n\n    // Send results back to master\n    sendMessage({\n      type: \"result\",\n      workerId,\n      results,\n      peakRSS,\n      duration,\n    });\n  } catch (error: unknown) {\n    clearInterval(memInterval);\n\n    const errMsg = error instanceof Error ? error.message : String(error);\n    console.error(`[Worker ${workerId}] Error:`, errMsg);\n\n    // Classify the error\n    let errorType: \"parse_error\" | \"rule_crash\" | \"unknown\" = \"unknown\";\n    let file: string | undefined;\n\n    if (errMsg.includes(\"Parsing error\") || errMsg.includes(\"parserServices\")) {\n      errorType = \"parse_error\";\n      // Try to extract file from error\n      const match = errMsg.match(/in\\s+([^\\s:]+)/);\n      if (match) file = match[1];\n    } else if (errMsg.includes(\"Rule \") || errMsg.includes(\"rule '\")) {\n      errorType = \"rule_crash\";\n    }\n\n    sendMessage({\n      type: \"error\",\n      workerId,\n      errorType,\n      message: errMsg,\n      file,\n    });\n  }\n\n  // Exit cleanly\n  process.exit(0);\n}\n\n// Listen for task from master\nprocess.on(\"message\", (msg: LintTask) => {\n  if (msg.type === \"lint\") {\n    runLint(msg).catch((err) => {\n      console.error(`[Worker ${workerId}] Fatal:`, err);\n      process.exit(1);\n    });\n  }\n});\n\n// Handle uncaught errors\nprocess.on(\"uncaughtException\", (err) => {\n  console.error(`[Worker ${workerId}] Uncaught:`, err.message);\n  sendMessage({\n    type: \"error\",\n    workerId,\n    errorType: \"unknown\",\n    message: err.message,\n  });\n  process.exit(1);\n});\n\nconsole.log(`[Worker] Process started, PID: ${process.pid}`);\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/tools/types.ts",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/tools/tsc_ast_dump.ts",
+    "messages": [
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Computed name [node.kind] resolves to an `any` value.",
+        "line": 15,
+        "column": 25,
+        "nodeType": "MemberExpression",
+        "messageId": "unsafeComputedMemberAccess",
+        "endLine": 15,
+        "endColumn": 34
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Unsafe member access .kind on an `any` value.",
+        "line": 15,
+        "column": 30,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 15,
+        "endColumn": 34
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-assignment",
+        "severity": 2,
+        "message": "Unsafe assignment of an `any` value.",
+        "line": 16,
+        "column": 5,
+        "nodeType": "Property",
+        "messageId": "anyAssignment",
+        "endLine": 16,
+        "endColumn": 23
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Unsafe member access .kind on an `any` value.",
+        "line": 16,
+        "column": 19,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 16,
+        "endColumn": 23
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-assignment",
+        "severity": 2,
+        "message": "Unsafe assignment of an `any` value.",
+        "line": 17,
+        "column": 5,
+        "nodeType": "Property",
+        "messageId": "anyAssignment",
+        "endLine": 17,
+        "endColumn": 18
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Unsafe member access .pos on an `any` value.",
+        "line": 17,
+        "column": 15,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 17,
+        "endColumn": 18
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-assignment",
+        "severity": 2,
+        "message": "Unsafe assignment of an `any` value.",
+        "line": 18,
+        "column": 5,
+        "nodeType": "Property",
+        "messageId": "anyAssignment",
+        "endLine": 18,
+        "endColumn": 18
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Unsafe member access .end on an `any` value.",
+        "line": 18,
+        "column": 15,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 18,
+        "endColumn": 18
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Unsafe member access .kind on an `any` value.",
+        "line": 22,
+        "column": 12,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 22,
+        "endColumn": 16
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-assignment",
+        "severity": 2,
+        "message": "Unsafe assignment of an `any` value.",
+        "line": 23,
+        "column": 5,
+        "nodeType": "AssignmentExpression",
+        "messageId": "anyAssignment",
+        "endLine": 23,
+        "endColumn": 25
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Unsafe member access .text on an `any` value.",
+        "line": 23,
+        "column": 21,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 23,
+        "endColumn": 25
+      },
+      {
+        "ruleId": "@typescript-eslint/strict-boolean-expressions",
+        "severity": 2,
+        "message": "Unexpected any value in conditional. An explicit comparison or type conversion is required.",
+        "line": 27,
+        "column": 7,
+        "nodeType": "MemberExpression",
+        "messageId": "conditionErrorAny",
+        "endLine": 27,
+        "endColumn": 17,
+        "suggestions": [
+          {
+            "messageId": "conditionFixCastBoolean",
+            "fix": {
+              "range": [
+                658,
+                668
+              ],
+              "text": "Boolean(node.flags)"
+            },
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Unsafe member access .flags on an `any` value.",
+        "line": 27,
+        "column": 12,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 27,
+        "endColumn": 17
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-assignment",
+        "severity": 2,
+        "message": "Unsafe assignment of an `any` value.",
+        "line": 28,
+        "column": 5,
+        "nodeType": "AssignmentExpression",
+        "messageId": "anyAssignment",
+        "endLine": 28,
+        "endColumn": 27
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Unsafe member access .flags on an `any` value.",
+        "line": 28,
+        "column": 22,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 28,
+        "endColumn": 27
+      },
+      {
+        "ruleId": "@typescript-eslint/strict-boolean-expressions",
+        "severity": 2,
+        "message": "Unexpected any value in conditional. An explicit comparison or type conversion is required.",
+        "line": 32,
+        "column": 7,
+        "nodeType": "MemberExpression",
+        "messageId": "conditionErrorAny",
+        "endLine": 32,
+        "endColumn": 21,
+        "suggestions": [
+          {
+            "messageId": "conditionFixCastBoolean",
+            "fix": {
+              "range": [
+                741,
+                755
+              ],
+              "text": "Boolean(node.modifiers)"
+            },
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Unsafe member access .modifiers on an `any` value.",
+        "line": 32,
+        "column": 12,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 32,
+        "endColumn": 21
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-assignment",
+        "severity": 2,
+        "message": "Unsafe assignment of an `any` value.",
+        "line": 33,
+        "column": 5,
+        "nodeType": "AssignmentExpression",
+        "messageId": "anyAssignment",
+        "endLine": 33,
+        "endColumn": 69
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-call",
+        "severity": 2,
+        "message": "Unsafe call of an `any` typed value.",
+        "line": 33,
+        "column": 21,
+        "nodeType": "MemberExpression",
+        "messageId": "unsafeCall",
+        "endLine": 33,
+        "endColumn": 39
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Unsafe member access .modifiers on an `any` value.",
+        "line": 33,
+        "column": 26,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 33,
+        "endColumn": 35
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Computed name [m.kind] resolves to an `any` value.",
+        "line": 33,
+        "column": 61,
+        "nodeType": "MemberExpression",
+        "messageId": "unsafeComputedMemberAccess",
+        "endLine": 33,
+        "endColumn": 67
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Unsafe member access .kind on an `any` value.",
+        "line": 33,
+        "column": 63,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 33,
+        "endColumn": 67
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-argument",
+        "severity": 2,
+        "message": "Unsafe argument of type `any` assigned to a parameter of type `Node`.",
+        "line": 38,
+        "column": 19,
+        "nodeType": "Identifier",
+        "messageId": "unsafeArgument",
+        "endLine": 38,
+        "endColumn": 23
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 23,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import fs from \"fs\";\nimport path from \"path\";\nimport glob from \"glob\";\nimport ts from \"typescript\";\n\nconst projectRoot = process.cwd();\nconst files = glob.sync(\"src/**/*.ts\", { absolute: true });\nconst outDir = path.join(projectRoot, \"ast-dump\");\n\nfs.mkdirSync(outDir, { recursive: true });\n\n// Custom serializer to handle TypeScript AST nodes\nfunction serializeNode(node, sourceFile) {\n  const obj = {\n    kind: ts.SyntaxKind[node.kind],\n    kindNum: node.kind,\n    pos: node.pos,\n    end: node.end,\n  };\n\n  // Add text for identifier-like nodes\n  if (node.kind === ts.SyntaxKind.Identifier) {\n    obj.text = node.text;\n  }\n\n  // Add flags if present\n  if (node.flags) {\n    obj.flags = node.flags;\n  }\n\n  // Add modifiers if present\n  if (node.modifiers) {\n    obj.modifiers = node.modifiers.map((m) => ts.SyntaxKind[m.kind]);\n  }\n\n  // Recursively serialize children\n  const children = [];\n  ts.forEachChild(node, (child) => {\n    children.push(serializeNode(child, sourceFile));\n  });\n\n  if (children.length > 0) {\n    obj.children = children;\n  }\n\n  return obj;\n}\n\nfor (const filePath of files) {\n  const code = fs.readFileSync(filePath, \"utf8\");\n  const sourceFile = ts.createSourceFile(\n    filePath,\n    code,\n    ts.ScriptTarget.Latest,\n    true,\n    ts.ScriptKind.TS,\n  );\n\n  const ast = serializeNode(sourceFile, sourceFile);\n\n  const relative = path\n    .relative(projectRoot, filePath)\n    .replace(/[\\/\\\\]/g, \"__\");\n  const outFile = path.join(outDir, relative + \".ast.json\");\n  fs.writeFileSync(outFile, JSON.stringify(ast, null, 2));\n  console.log(`AST written: ${outFile}`);\n}\n\nconsole.log(\"All ASTs dumped to ast-dump/\");\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/tools/test-scenarios.ts",
+    "messages": [
+      {
+        "ruleId": "complexity",
+        "severity": 1,
+        "message": "Function 'shouldSimulateFailure' has a complexity of 22. Maximum allowed is 10.",
+        "line": 25,
+        "column": 8,
+        "nodeType": "FunctionDeclaration",
+        "messageId": "complex",
+        "endLine": 25,
+        "endColumn": 38
+      },
+      {
+        "ruleId": "@typescript-eslint/strict-boolean-expressions",
+        "severity": 2,
+        "message": "Unexpected nullable string value in conditional. Please handle the nullish/empty cases explicitly.",
+        "line": 168,
+        "column": 22,
+        "nodeType": "MemberExpression",
+        "messageId": "conditionErrorNullableString",
+        "endLine": 168,
+        "endColumn": 50,
+        "suggestions": [
+          {
+            "messageId": "conditionFixCompareNullish",
+            "fix": {
+              "range": [
+                4765,
+                4793
+              ],
+              "text": "(process.env.TEST_OOM_RETRIES != null)"
+            },
+            "desc": "Change condition to check for null/undefined (`value != null`)"
+          },
+          {
+            "messageId": "conditionFixDefaultEmptyString",
+            "fix": {
+              "range": [
+                4765,
+                4793
+              ],
+              "text": "(process.env.TEST_OOM_RETRIES ?? \"\")"
+            },
+            "desc": "Explicitly treat nullish value the same as an empty string (`value ?? \"\"`)"
+          },
+          {
+            "messageId": "conditionFixCastBoolean",
+            "fix": {
+              "range": [
+                4765,
+                4793
+              ],
+              "text": "(Boolean(process.env.TEST_OOM_RETRIES))"
+            },
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
+          }
+        ]
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 1,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "// src/tools/test-scenarios.ts - Test utilities for simulating failures\n\nexport type TestScenario =\n  | \"none\" // Normal operation\n  | \"oom-single\" // OOM on one file (recoverable)\n  | \"oom-persistent\" // OOM that keeps failing (tests max retries)\n  | \"parse-error\" // Syntax error in file\n  | \"rule-crash\" // ESLint rule throws\n  | \"random-oom\" // Random OOM (50% chance)\n  | \"slow-worker\" // Worker takes very long (timeout test)\n  | \"all\"; // Run multiple scenarios\n\nexport interface TestConfig {\n  scenario: TestScenario;\n  targetFile?: string; // File pattern to trigger on\n  oomRetryCount?: number; // How many times to fail before succeeding (for oom-single)\n}\n\n// Track OOM attempts per file (for recoverable OOM testing)\nconst oomAttempts = new Map<string, number>();\n\n/**\n * Check if we should simulate a failure for this file\n */\nexport function shouldSimulateFailure(\n  file: string,\n  config: TestConfig,\n): { shouldFail: boolean; failureType?: string } {\n  const targetPattern = config.targetFile ?? \"orderService\";\n  const isTargetFile = file.includes(targetPattern);\n\n  switch (config.scenario) {\n    case \"none\":\n      return { shouldFail: false };\n\n    case \"oom-single\": {\n      // Fail first N times, then succeed (tests retry logic)\n      if (!isTargetFile) return { shouldFail: false };\n\n      const attempts = oomAttempts.get(file) ?? 0;\n      const maxFails = config.oomRetryCount ?? 1;\n\n      if (attempts < maxFails) {\n        oomAttempts.set(file, attempts + 1);\n        return { shouldFail: true, failureType: \"oom\" };\n      }\n      return { shouldFail: false };\n    }\n\n    case \"oom-persistent\": {\n      // Always fail on target file (tests permanent failure)\n      if (isTargetFile) {\n        return { shouldFail: true, failureType: \"oom\" };\n      }\n      return { shouldFail: false };\n    }\n\n    case \"parse-error\": {\n      if (isTargetFile) {\n        return { shouldFail: true, failureType: \"parse-error\" };\n      }\n      return { shouldFail: false };\n    }\n\n    case \"rule-crash\": {\n      if (isTargetFile) {\n        return { shouldFail: true, failureType: \"rule-crash\" };\n      }\n      return { shouldFail: false };\n    }\n\n    case \"random-oom\": {\n      // 30% chance of OOM on any file\n      if (Math.random() < 0.3) {\n        return { shouldFail: true, failureType: \"oom\" };\n      }\n      return { shouldFail: false };\n    }\n\n    case \"slow-worker\": {\n      if (isTargetFile) {\n        return { shouldFail: true, failureType: \"slow\" };\n      }\n      return { shouldFail: false };\n    }\n\n    case \"all\": {\n      // Cycle through different failures based on file\n      if (file.includes(\"orderService\")) {\n        return { shouldFail: true, failureType: \"oom\" };\n      }\n      if (file.includes(\"userService\")) {\n        return { shouldFail: true, failureType: \"parse-error\" };\n      }\n      if (file.includes(\"db\")) {\n        return { shouldFail: true, failureType: \"rule-crash\" };\n      }\n      return { shouldFail: false };\n    }\n\n    default:\n      return { shouldFail: false };\n  }\n}\n\n/**\n * Execute the simulated failure\n */\nexport function executeFailure(\n  failureType: string,\n  file: string,\n): never | void {\n  switch (failureType) {\n    case \"oom\":\n      console.log(`[TEST] 💥 Simulating OOM on ${file}`);\n      process.exit(137);\n\n    case \"parse-error\":\n      console.log(`[TEST] 💥 Simulating parse error on ${file}`);\n      throw new Error(\n        `Parsing error: Unexpected token in ${file}. Expected ';' but found 'const'.`,\n      );\n\n    case \"rule-crash\":\n      console.log(`[TEST] 💥 Simulating rule crash on ${file}`);\n      throw new Error(\n        `Rule '@typescript-eslint/no-unsafe-assignment' threw: Cannot read property 'type' of undefined`,\n      );\n\n    case \"slow\":\n      console.log(`[TEST] 🐢 Simulating slow processing on ${file}`);\n      // Block for 30 seconds\n      const start = Date.now();\n      while (Date.now() - start < 30000) {\n        // Busy wait\n      }\n      break;\n\n    default:\n      console.log(`[TEST] Unknown failure type: ${failureType}`);\n  }\n}\n\n/**\n * Parse test scenario from command line or env\n */\nexport function getTestConfig(): TestConfig {\n  // Check command line args\n  const args = process.argv.slice(2);\n\n  for (const arg of args) {\n    if (arg.startsWith(\"--test=\")) {\n      const scenario = arg.replace(\"--test=\", \"\") as TestScenario;\n      return { scenario };\n    }\n    if (arg.startsWith(\"--test-file=\")) {\n      const targetFile = arg.replace(\"--test-file=\", \"\");\n      return { scenario: \"oom-single\", targetFile };\n    }\n  }\n\n  // Check environment variable\n  const envScenario = process.env.TEST_SCENARIO as TestScenario;\n  if (envScenario) {\n    return {\n      scenario: envScenario,\n      targetFile: process.env.TEST_TARGET_FILE,\n      oomRetryCount: process.env.TEST_OOM_RETRIES\n        ? parseInt(process.env.TEST_OOM_RETRIES)\n        : undefined,\n    };\n  }\n\n  return { scenario: \"none\" };\n}\n\n/**\n * Print available test scenarios\n */\nexport function printTestHelp(): void {\n  console.log(`\n╔═══════════════════════════════════════════════════════════════════╗\n║                    TEST SCENARIOS AVAILABLE                       ║\n╠═══════════════════════════════════════════════════════════════════╣\n║                                                                   ║\n║  Usage: npm run master -- --test=<scenario>                       ║\n║                                                                   ║\n║  Scenarios:                                                       ║\n║  ──────────────────────────────────────────────────────────────── ║\n║  none           Normal operation (default)                        ║\n║  oom-single     OOM on one file, succeeds after retry             ║\n║  oom-persistent OOM that keeps failing (tests max retries)        ║\n║  parse-error    Simulates TypeScript parse error                  ║\n║  rule-crash     Simulates ESLint rule throwing error              ║\n║  random-oom     30% chance of OOM on any file                     ║\n║  slow-worker    Worker hangs for 30s (timeout test)               ║\n║  all            Multiple failure types on different files         ║\n║                                                                   ║\n║  Options:                                                         ║\n║  ──────────────────────────────────────────────────────────────── ║\n║  --test-file=<pattern>   Target specific file (default: orderService) ║\n║                                                                   ║\n║  Environment Variables:                                           ║\n║  ──────────────────────────────────────────────────────────────── ║\n║  TEST_SCENARIO=oom-single                                         ║\n║  TEST_TARGET_FILE=userService                                     ║\n║  TEST_OOM_RETRIES=2                                               ║\n║                                                                   ║\n╚═══════════════════════════════════════════════════════════════════╝\n`);\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/tools/mem-profiler.ts",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  }
+]

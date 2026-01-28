@@ -1,0 +1,418 @@
+[
+  {
+    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/services/orderService.ts",
+    "messages": [
+      {
+        "ruleId": "@typescript-eslint/no-misused-promises",
+        "severity": 2,
+        "message": "Promise returned in function argument where a void return was expected.",
+        "line": 68,
+        "column": 14,
+        "nodeType": "ArrowFunctionExpression",
+        "messageId": "voidReturnArgument",
+        "endLine": 70,
+        "endColumn": 4
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Order, OrderID, UserID, ApiResponse } from \"../types\";\nimport { getOrderById, saveOrder, getUserById } from \"../db\";\nimport { delay } from \"../utils\";\n\nexport async function createOrder(\n  id: OrderID,\n  userId: UserID,\n  amount: number,\n): Promise<ApiResponse<Order>> {\n  const user = await getUserById(userId);\n  if (!user) {\n    return {\n      success: false,\n      error: { code: \"USER_NOT_FOUND\", message: \"User does not exist\" },\n    };\n  }\n\n  const order: Order = {\n    id,\n    userId,\n    amount,\n    status: \"pending\",\n    createdAt: new Date(),\n  };\n\n  await saveOrder(order);\n  return { success: true, data: order };\n}\n\nexport async function processOrder(id: OrderID): Promise<ApiResponse<Order>> {\n  const order = await getOrderById(id);\n\n  if (!order) {\n    return {\n      success: false,\n      error: { code: \"ORDER_NOT_FOUND\", message: \"Order not found\" },\n    };\n  }\n\n  if (order.amount <= 0) {\n    return {\n      success: false,\n      error: { code: \"INVALID_AMOUNT\", message: \"Amount must be positive\" },\n    };\n  }\n\n  if (order.status === \"pending\") {\n    order.status = \"paid\";\n  } else if (order.status === \"paid\") {\n    return {\n      success: false,\n      error: { code: \"ALREADY_PAID\", message: \"Order already paid\" },\n    };\n  } else if (order.status === \"cancelled\") {\n    return {\n      success: false,\n      error: { code: \"CANCELLED\", message: \"Order cancelled\" },\n    };\n  } else {\n    // Exhaustiveness check\n    return {\n      success: false,\n      error: { code: \"UNKNOWN\", message: \"Unknown status\" },\n    };\n  }\n\n  // no-misused-promises\n  setTimeout(async () => {\n    await delay(100);\n  }, 0);\n\n  await saveOrder(order);\n  return { success: true, data: order };\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/controllers/userController.ts",
+    "messages": [
+      {
+        "ruleId": "@typescript-eslint/no-explicit-any",
+        "severity": 2,
+        "message": "Unexpected any. Specify a different type.",
+        "line": 9,
+        "column": 8,
+        "nodeType": "TSAnyKeyword",
+        "messageId": "unexpectedAny",
+        "endLine": 9,
+        "endColumn": 11,
+        "suggestions": [
+          {
+            "messageId": "suggestUnknown",
+            "fix": {
+              "range": [
+                189,
+                192
+              ],
+              "text": "unknown"
+            },
+            "desc": "Use `unknown` instead, this will force you to explicitly, and safely assert the type is correct."
+          },
+          {
+            "messageId": "suggestNever",
+            "fix": {
+              "range": [
+                189,
+                192
+              ],
+              "text": "never"
+            },
+            "desc": "Use `never` instead, this is useful when instantiating generic type parameters that you don't need to know the type of."
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-assignment",
+        "severity": 2,
+        "message": "Unsafe assignment of an `any` value.",
+        "line": 11,
+        "column": 9,
+        "nodeType": "VariableDeclarator",
+        "messageId": "anyAssignment",
+        "endLine": 11,
+        "endColumn": 39
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Unsafe member access .body on an `any` value.",
+        "line": 11,
+        "column": 35,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 11,
+        "endColumn": 39
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-argument",
+        "severity": 2,
+        "message": "Unsafe argument of type `any` assigned to a parameter of type `string`.",
+        "line": 14,
+        "column": 35,
+        "nodeType": "Identifier",
+        "messageId": "unsafeArgument",
+        "endLine": 14,
+        "endColumn": 39
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-argument",
+        "severity": 2,
+        "message": "Unsafe argument of type `any` assigned to a parameter of type `string | null`.",
+        "line": 14,
+        "column": 41,
+        "nodeType": "Identifier",
+        "messageId": "unsafeArgument",
+        "endLine": 14,
+        "endColumn": 46
+      },
+      {
+        "ruleId": "@typescript-eslint/no-explicit-any",
+        "severity": 2,
+        "message": "Unexpected any. Specify a different type.",
+        "line": 18,
+        "column": 8,
+        "nodeType": "TSAnyKeyword",
+        "messageId": "unexpectedAny",
+        "endLine": 18,
+        "endColumn": 11,
+        "suggestions": [
+          {
+            "messageId": "suggestUnknown",
+            "fix": {
+              "range": [
+                424,
+                427
+              ],
+              "text": "unknown"
+            },
+            "desc": "Use `unknown` instead, this will force you to explicitly, and safely assert the type is correct."
+          },
+          {
+            "messageId": "suggestNever",
+            "fix": {
+              "range": [
+                424,
+                427
+              ],
+              "text": "never"
+            },
+            "desc": "Use `never` instead, this is useful when instantiating generic type parameters that you don't need to know the type of."
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-assignment",
+        "severity": 2,
+        "message": "Unsafe assignment of an `any` value.",
+        "line": 20,
+        "column": 9,
+        "nodeType": "VariableDeclarator",
+        "messageId": "anyAssignment",
+        "endLine": 20,
+        "endColumn": 28
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Unsafe member access .params on an `any` value.",
+        "line": 20,
+        "column": 22,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 20,
+        "endColumn": 28
+      },
+      {
+        "ruleId": "@typescript-eslint/no-explicit-any",
+        "severity": 2,
+        "message": "Unexpected any. Specify a different type.",
+        "line": 25,
+        "column": 8,
+        "nodeType": "TSAnyKeyword",
+        "messageId": "unexpectedAny",
+        "endLine": 25,
+        "endColumn": 11,
+        "suggestions": [
+          {
+            "messageId": "suggestUnknown",
+            "fix": {
+              "range": [
+                582,
+                585
+              ],
+              "text": "unknown"
+            },
+            "desc": "Use `unknown` instead, this will force you to explicitly, and safely assert the type is correct."
+          },
+          {
+            "messageId": "suggestNever",
+            "fix": {
+              "range": [
+                582,
+                585
+              ],
+              "text": "never"
+            },
+            "desc": "Use `never` instead, this is useful when instantiating generic type parameters that you don't need to know the type of."
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-assignment",
+        "severity": 2,
+        "message": "Unsafe assignment of an `any` value.",
+        "line": 27,
+        "column": 9,
+        "nodeType": "VariableDeclarator",
+        "messageId": "anyAssignment",
+        "endLine": 27,
+        "endColumn": 28
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Unsafe member access .params on an `any` value.",
+        "line": 27,
+        "column": 22,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 27,
+        "endColumn": 28
+      },
+      {
+        "ruleId": "@typescript-eslint/strict-boolean-expressions",
+        "severity": 2,
+        "message": "Unexpected any value in conditional. An explicit comparison or type conversion is required.",
+        "line": 35,
+        "column": 7,
+        "nodeType": "MemberExpression",
+        "messageId": "conditionErrorAny",
+        "endLine": 35,
+        "endColumn": 18,
+        "suggestions": [
+          {
+            "messageId": "conditionFixCastBoolean",
+            "fix": {
+              "range": [
+                792,
+                803
+              ],
+              "text": "Boolean(result.data)"
+            },
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
+          }
+        ]
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 12,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { UserID, ApiResponse } from \"../types\";\nimport {\n  createUser,\n  deactivateUser,\n  getUserProfile,\n} from \"../services/userService\";\n\nexport async function handleCreateUser(\n  req: any,\n): Promise<ApiResponse<unknown>> {\n  const { id, name, email } = req.body;\n\n  // no-unsafe-assignment / no-unsafe-member-access\n  return createUser(id as UserID, name, email);\n}\n\nexport async function handleDeactivateUser(\n  req: any,\n): Promise<ApiResponse<unknown>> {\n  const { id } = req.params;\n  return deactivateUser(id as UserID);\n}\n\nexport async function handleGetProfile(\n  req: any,\n): Promise<ApiResponse<unknown>> {\n  const { id } = req.params;\n  const result = await getUserProfile(id as UserID);\n\n  if (!result.success) {\n    return result;\n  }\n\n  // strict-boolean-expressions\n  if (result.data) {\n    return result;\n  }\n\n  return { success: false, error: { code: \"EMPTY\", message: \"No data\" } };\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/controllers/orderController.ts",
+    "messages": [
+      {
+        "ruleId": "@typescript-eslint/no-explicit-any",
+        "severity": 2,
+        "message": "Unexpected any. Specify a different type.",
+        "line": 5,
+        "column": 8,
+        "nodeType": "TSAnyKeyword",
+        "messageId": "unexpectedAny",
+        "endLine": 5,
+        "endColumn": 11,
+        "suggestions": [
+          {
+            "messageId": "suggestUnknown",
+            "fix": {
+              "range": [
+                176,
+                179
+              ],
+              "text": "unknown"
+            },
+            "desc": "Use `unknown` instead, this will force you to explicitly, and safely assert the type is correct."
+          },
+          {
+            "messageId": "suggestNever",
+            "fix": {
+              "range": [
+                176,
+                179
+              ],
+              "text": "never"
+            },
+            "desc": "Use `never` instead, this is useful when instantiating generic type parameters that you don't need to know the type of."
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-assignment",
+        "severity": 2,
+        "message": "Unsafe assignment of an `any` value.",
+        "line": 7,
+        "column": 9,
+        "nodeType": "VariableDeclarator",
+        "messageId": "anyAssignment",
+        "endLine": 7,
+        "endColumn": 42
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Unsafe member access .body on an `any` value.",
+        "line": 7,
+        "column": 38,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 7,
+        "endColumn": 42
+      },
+      {
+        "ruleId": "@typescript-eslint/no-explicit-any",
+        "severity": 2,
+        "message": "Unexpected any. Specify a different type.",
+        "line": 12,
+        "column": 8,
+        "nodeType": "TSAnyKeyword",
+        "messageId": "unexpectedAny",
+        "endLine": 12,
+        "endColumn": 11,
+        "suggestions": [
+          {
+            "messageId": "suggestUnknown",
+            "fix": {
+              "range": [
+                382,
+                385
+              ],
+              "text": "unknown"
+            },
+            "desc": "Use `unknown` instead, this will force you to explicitly, and safely assert the type is correct."
+          },
+          {
+            "messageId": "suggestNever",
+            "fix": {
+              "range": [
+                382,
+                385
+              ],
+              "text": "never"
+            },
+            "desc": "Use `never` instead, this is useful when instantiating generic type parameters that you don't need to know the type of."
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-assignment",
+        "severity": 2,
+        "message": "Unsafe assignment of an `any` value.",
+        "line": 14,
+        "column": 9,
+        "nodeType": "VariableDeclarator",
+        "messageId": "anyAssignment",
+        "endLine": 14,
+        "endColumn": 28
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Unsafe member access .params on an `any` value.",
+        "line": 14,
+        "column": 22,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 14,
+        "endColumn": 28
+      },
+      {
+        "ruleId": "@typescript-eslint/no-floating-promises",
+        "severity": 2,
+        "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+        "line": 18,
+        "column": 3,
+        "nodeType": "ExpressionStatement",
+        "messageId": "floatingVoid",
+        "endLine": 18,
+        "endColumn": 42,
+        "suggestions": [
+          {
+            "messageId": "floatingFixVoid",
+            "fix": {
+              "range": [
+                545,
+                545
+              ],
+              "text": "void "
+            },
+            "desc": "Add void operator to ignore."
+          },
+          {
+            "messageId": "floatingFixAwait",
+            "fix": {
+              "range": [
+                545,
+                545
+              ],
+              "text": "await "
+            },
+            "desc": "Add await operator."
+          }
+        ]
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 7,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { OrderID, UserID, ApiResponse } from \"../types\";\nimport { createOrder, processOrder } from \"../services/orderService\";\n\nexport async function handleCreateOrder(\n  req: any,\n): Promise<ApiResponse<unknown>> {\n  const { id, userId, amount } = req.body;\n  return createOrder(id as OrderID, userId as UserID, Number(amount));\n}\n\nexport async function handleProcessOrder(\n  req: any,\n): Promise<ApiResponse<unknown>> {\n  const { id } = req.params;\n  const result = await processOrder(id as OrderID);\n\n  // no-misused-promises (intentional)\n  Promise.resolve(result).then(() => {});\n\n  return result;\n}\n",
+    "usedDeprecatedRules": []
+  }
+]

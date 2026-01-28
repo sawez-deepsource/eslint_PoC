@@ -1,0 +1,32 @@
+{
+  "name": "master-slave",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Master-Slave ESLint analyzer PoC for memory and error handling benchmarking",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "master": "npx tsx src/master.ts",
+    "master:help": "npx tsx src/master.ts --help",
+    "baseline": "npx tsx src/baseline.ts",
+    "baseline:help": "npx tsx src/baseline.ts --help",
+    "test:oom-recover": "npx tsx src/master.ts --test=oom-single",
+    "test:oom-fail": "npx tsx src/master.ts --test=oom-persistent",
+    "test:parse-error": "npx tsx src/master.ts --test=parse-error",
+    "test:rule-crash": "npx tsx src/master.ts --test=rule-crash",
+    "test:random": "npx tsx src/master.ts --test=random-oom",
+    "test:all": "npx tsx src/master.ts --test=all"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.3",
+    "@eslint/js": "^9.39.2",
+    "@types/glob": "^8.1.0",
+    "@types/node": "^25.0.10",
+    "@typescript-eslint/eslint-plugin": "^8.53.1",
+    "@typescript-eslint/parser": "^8.53.1",
+    "eslint": "^9.39.2",
+    "glob": "^13.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "5.3.3"
+  }
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "type": "memory",
+    "workerId": 1,
+    "rss": 101580800,
+    "heapUsed": 16890808,
+    "timestamp": 1769395419490
+  },
+  {
+    "type": "memory",
+    "workerId": 1,
+    "rss": 219848704,
+    "heapUsed": 87637192,
+    "timestamp": 1769395420137
+  },
+  {
+    "type": "memory",
+    "workerId": 1,
+    "rss": 347774976,
+    "heapUsed": 193572736,
+    "timestamp": 1769395421397
+  },
+  {
+    "type": "memory",
+    "workerId": 1,
+    "rss": 348430336,
+    "heapUsed": 199652960,
+    "timestamp": 1769395421429
+  }
+]

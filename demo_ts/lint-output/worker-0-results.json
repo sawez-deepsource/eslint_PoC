@@ -1,0 +1,443 @@
+[
+  {
+    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/utils.ts",
+    "messages": [
+      {
+        "ruleId": "@typescript-eslint/strict-boolean-expressions",
+        "severity": 2,
+        "message": "Unexpected nullable string value in conditional. Please handle the nullish/empty cases explicitly.",
+        "line": 4,
+        "column": 12,
+        "nodeType": "Identifier",
+        "messageId": "conditionErrorNullableString",
+        "endLine": 4,
+        "endColumn": 17,
+        "suggestions": [
+          {
+            "messageId": "conditionFixCompareNullish",
+            "fix": {
+              "range": [
+                110,
+                116
+              ],
+              "text": "(value == null)"
+            },
+            "desc": "Change condition to check for null/undefined (`value != null`)"
+          },
+          {
+            "messageId": "conditionFixDefaultEmptyString",
+            "fix": {
+              "range": [
+                111,
+                116
+              ],
+              "text": "(value ?? \"\")"
+            },
+            "desc": "Explicitly treat nullish value the same as an empty string (`value ?? \"\"`)"
+          },
+          {
+            "messageId": "conditionFixCastBoolean",
+            "fix": {
+              "range": [
+                110,
+                116
+              ],
+              "text": "(!Boolean(value))"
+            },
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/strict-boolean-expressions",
+        "severity": 2,
+        "message": "Unexpected any value in conditional. An explicit comparison or type conversion is required.",
+        "line": 18,
+        "column": 7,
+        "nodeType": "Identifier",
+        "messageId": "conditionErrorAny",
+        "endLine": 18,
+        "endColumn": 12,
+        "suggestions": [
+          {
+            "messageId": "conditionFixCastBoolean",
+            "fix": {
+              "range": [
+                505,
+                510
+              ],
+              "text": "Boolean(value)"
+            },
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
+          }
+        ]
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 2,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { Maybe } from \"./types\";\n\nexport function isNonEmptyString(value: Maybe<string>): boolean {\n  return !!value && value.trim().length > 0;\n}\n\nexport async function delay(ms: number): Promise<void> {\n  return new Promise((resolve) => setTimeout(resolve, ms));\n}\n\nexport function fireAndForget(p: Promise<unknown>): void {\n  // Intentionally not awaited\n  p.then(() => {}).catch(() => {});\n}\n\nexport function riskyBoolean(value: unknown): boolean {\n  // strict-boolean-expressions will complain\n  if (value) {\n    return true;\n  }\n  return false;\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/types.ts",
+    "messages": [
+      {
+        "ruleId": "@typescript-eslint/restrict-plus-operands",
+        "severity": 2,
+        "message": "Invalid operand for a '+' operation. Operands must each be a number or string, allowing a string + any of: `any`, `boolean`, `null`, `RegExp`, `undefined`. Got `never`.",
+        "line": 33,
+        "column": 43,
+        "nodeType": "Identifier",
+        "messageId": "invalid",
+        "endLine": 33,
+        "endColumn": 44
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "export type UserID = string & { readonly brand: unique symbol };\nexport type OrderID = string & { readonly brand: unique symbol };\n\nexport interface User {\n  id: UserID;\n  name: string;\n  email: string | null;\n  isActive: boolean;\n  metadata?: Record<string, unknown>;\n}\n\nexport interface Order {\n  id: OrderID;\n  userId: UserID;\n  amount: number;\n  status: \"pending\" | \"paid\" | \"cancelled\";\n  createdAt: Date;\n  notes?: string;\n}\n\nexport interface ApiResponse<T> {\n  success: boolean;\n  data?: T;\n  error?: {\n    code: string;\n    message: string;\n  };\n}\n\nexport type Maybe<T> = T | null | undefined;\n\nexport function assertNever(x: never): never {\n  throw new Error(\"Unexpected object: \" + x);\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/server.ts",
+    "messages": [
+      {
+        "ruleId": "@typescript-eslint/no-explicit-any",
+        "severity": 2,
+        "message": "Unexpected any. Specify a different type.",
+        "line": 7,
+        "column": 8,
+        "nodeType": "TSAnyKeyword",
+        "messageId": "unexpectedAny",
+        "endLine": 7,
+        "endColumn": 11,
+        "suggestions": [
+          {
+            "messageId": "suggestUnknown",
+            "fix": {
+              "range": [
+                253,
+                256
+              ],
+              "text": "unknown"
+            },
+            "desc": "Use `unknown` instead, this will force you to explicitly, and safely assert the type is correct."
+          },
+          {
+            "messageId": "suggestNever",
+            "fix": {
+              "range": [
+                253,
+                256
+              ],
+              "text": "never"
+            },
+            "desc": "Use `never` instead, this is useful when instantiating generic type parameters that you don't need to know the type of."
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-explicit-any",
+        "severity": 2,
+        "message": "Unexpected any. Specify a different type.",
+        "line": 10,
+        "column": 8,
+        "nodeType": "TSAnyKeyword",
+        "messageId": "unexpectedAny",
+        "endLine": 10,
+        "endColumn": 11,
+        "suggestions": [
+          {
+            "messageId": "suggestUnknown",
+            "fix": {
+              "range": [
+                345,
+                348
+              ],
+              "text": "unknown"
+            },
+            "desc": "Use `unknown` instead, this will force you to explicitly, and safely assert the type is correct."
+          },
+          {
+            "messageId": "suggestNever",
+            "fix": {
+              "range": [
+                345,
+                348
+              ],
+              "text": "never"
+            },
+            "desc": "Use `never` instead, this is useful when instantiating generic type parameters that you don't need to know the type of."
+          }
+        ]
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 2,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { handleCreateUser } from \"./controllers/userController\";\nimport { handleCreateOrder } from \"./controllers/orderController\";\n\nexport async function runDemo() {\n  await handleCreateUser({\n    body: { id: \"u1\", name: \"Alice\", email: null },\n  } as any);\n  await handleCreateOrder({\n    body: { id: \"o1\", userId: \"u1\", amount: 100 },\n  } as any);\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/index.ts",
+    "messages": [
+      {
+        "ruleId": "@typescript-eslint/no-floating-promises",
+        "severity": 2,
+        "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+        "line": 4,
+        "column": 1,
+        "nodeType": "ExpressionStatement",
+        "messageId": "floatingVoid",
+        "endLine": 4,
+        "endColumn": 11,
+        "suggestions": [
+          {
+            "messageId": "floatingFixVoid",
+            "fix": {
+              "range": [
+                75,
+                75
+              ],
+              "text": "void "
+            },
+            "desc": "Add void operator to ignore."
+          },
+          {
+            "messageId": "floatingFixAwait",
+            "fix": {
+              "range": [
+                75,
+                75
+              ],
+              "text": "await "
+            },
+            "desc": "Add await operator."
+          }
+        ]
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { runDemo } from \"./server\";\n\n// no-floating-promises (intentional)\nrunDemo();\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/db.ts",
+    "messages": [
+      {
+        "ruleId": "@typescript-eslint/require-await",
+        "severity": 2,
+        "message": "Async function 'fetchUserRaw' has no 'await' expression.",
+        "line": 6,
+        "column": 8,
+        "nodeType": "FunctionDeclaration",
+        "messageId": "missingAwait",
+        "endLine": 6,
+        "endColumn": 35,
+        "suggestions": [
+          {
+            "messageId": "removeAsync",
+            "fix": {
+              "range": [
+                163,
+                220
+              ],
+              "text": "function fetchUserRaw(id: string): unknown"
+            },
+            "desc": "Remove 'async'."
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/require-await",
+        "severity": 2,
+        "message": "Async function 'fetchOrderRaw' has no 'await' expression.",
+        "line": 10,
+        "column": 8,
+        "nodeType": "FunctionDeclaration",
+        "messageId": "missingAwait",
+        "endLine": 10,
+        "endColumn": 36,
+        "suggestions": [
+          {
+            "messageId": "removeAsync",
+            "fix": {
+              "range": [
+                261,
+                315
+              ],
+              "text": "function fetchOrderRaw(id: string): any"
+            },
+            "desc": "Remove 'async'."
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-explicit-any",
+        "severity": 2,
+        "message": "Unexpected any. Specify a different type.",
+        "line": 10,
+        "column": 58,
+        "nodeType": "TSAnyKeyword",
+        "messageId": "unexpectedAny",
+        "endLine": 10,
+        "endColumn": 61,
+        "suggestions": [
+          {
+            "messageId": "suggestUnknown",
+            "fix": {
+              "range": [
+                311,
+                314
+              ],
+              "text": "unknown"
+            },
+            "desc": "Use `unknown` instead, this will force you to explicitly, and safely assert the type is correct."
+          },
+          {
+            "messageId": "suggestNever",
+            "fix": {
+              "range": [
+                311,
+                314
+              ],
+              "text": "never"
+            },
+            "desc": "Use `never` instead, this is useful when instantiating generic type parameters that you don't need to know the type of."
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/require-await",
+        "severity": 2,
+        "message": "Async function 'saveUser' has no 'await' expression.",
+        "line": 14,
+        "column": 8,
+        "nodeType": "FunctionDeclaration",
+        "messageId": "missingAwait",
+        "endLine": 14,
+        "endColumn": 31,
+        "suggestions": [
+          {
+            "messageId": "removeAsync",
+            "fix": {
+              "range": [
+                357,
+                407
+              ],
+              "text": "function saveUser(user: User): void"
+            },
+            "desc": "Remove 'async'."
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/require-await",
+        "severity": 2,
+        "message": "Async function 'saveOrder' has no 'await' expression.",
+        "line": 18,
+        "column": 8,
+        "nodeType": "FunctionDeclaration",
+        "messageId": "missingAwait",
+        "endLine": 18,
+        "endColumn": 32,
+        "suggestions": [
+          {
+            "messageId": "removeAsync",
+            "fix": {
+              "range": [
+                453,
+                506
+              ],
+              "text": "function saveOrder(order: Order): void"
+            },
+            "desc": "Remove 'async'."
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/strict-boolean-expressions",
+        "severity": 2,
+        "message": "Unexpected any value in conditional. An explicit comparison or type conversion is required.",
+        "line": 24,
+        "column": 8,
+        "nodeType": "Identifier",
+        "messageId": "conditionErrorAny",
+        "endLine": 24,
+        "endColumn": 11,
+        "suggestions": [
+          {
+            "messageId": "conditionFixCastBoolean",
+            "fix": {
+              "range": [
+                663,
+                666
+              ],
+              "text": "(Boolean(raw))"
+            },
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-assignment",
+        "severity": 2,
+        "message": "Unsafe assignment of an `any` value.",
+        "line": 29,
+        "column": 9,
+        "nodeType": "VariableDeclarator",
+        "messageId": "anyAssignment",
+        "endLine": 29,
+        "endColumn": 38
+      },
+      {
+        "ruleId": "@typescript-eslint/strict-boolean-expressions",
+        "severity": 2,
+        "message": "Unexpected any value in conditional. An explicit comparison or type conversion is required.",
+        "line": 30,
+        "column": 8,
+        "nodeType": "Identifier",
+        "messageId": "conditionErrorAny",
+        "endLine": 30,
+        "endColumn": 11,
+        "suggestions": [
+          {
+            "messageId": "conditionFixCastBoolean",
+            "fix": {
+              "range": [
+                825,
+                828
+              ],
+              "text": "(Boolean(raw))"
+            },
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
+          }
+        ]
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 8,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { User, Order, UserID, OrderID } from \"./types\";\n\nconst fakeUserTable: Record<string, User> = {};\nconst fakeOrderTable: Record<string, Order> = {};\n\nexport async function fetchUserRaw(id: string): Promise<unknown> {\n  return fakeUserTable[id];\n}\n\nexport async function fetchOrderRaw(id: string): Promise<any> {\n  return fakeOrderTable[id];\n}\n\nexport async function saveUser(user: User): Promise<void> {\n  fakeUserTable[user.id] = user;\n}\n\nexport async function saveOrder(order: Order): Promise<void> {\n  fakeOrderTable[order.id] = order;\n}\n\nexport async function getUserById(id: UserID): Promise<User | null> {\n  const raw = await fetchUserRaw(id);\n  if (!raw) return null;\n  return raw as User;\n}\n\nexport async function getOrderById(id: OrderID): Promise<Order | null> {\n  const raw = await fetchOrderRaw(id);\n  if (!raw) return null;\n  return raw as Order;\n}\n",
+    "usedDeprecatedRules": []
+  }
+]

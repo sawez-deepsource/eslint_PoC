@@ -1,4 +1,4 @@
-// src/tools/worker.ts - Isolated ESLint worker process
+// src/worker.ts - Isolated ESLint worker process
 
 import { ESLint } from "eslint";
 import { LintTask, LintResult, WorkerError, MemorySample } from "./types.ts";
@@ -51,9 +51,10 @@ async function runLint(task: LintTask): Promise<void> {
   console.log(
     `[Worker ${workerId}] Starting lint of ${task.files.length} files`,
   );
+  console.log(`[Worker ${workerId}] Target: ${task.targetPath}`);
 
   if (testConfig.scenario !== "none") {
-    console.log(`[Worker ${workerId}] 🧪 Test mode: ${testConfig.scenario}`);
+    console.log(`[Worker ${workerId}] Test mode: ${testConfig.scenario}`);
   }
 
   // Start memory sampling
@@ -76,8 +77,9 @@ async function runLint(task: LintTask): Promise<void> {
     // ======================================================
 
     // Initialize ESLint with the pre-generated flat config
+    // Use target path as cwd so ESLint resolves correctly
     const eslint = new ESLint({
-      cwd: process.cwd(),
+      cwd: task.targetPath,
       overrideConfigFile: task.configPath,
       cache: false,
     });

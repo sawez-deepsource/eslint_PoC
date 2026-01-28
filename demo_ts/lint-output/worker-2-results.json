@@ -1,0 +1,469 @@
+[
+  {
+    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/tools/master.ts",
+    "messages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 1,
+        "message": "'mb' is defined but never used.",
+        "line": 55,
+        "column": 10,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 55,
+        "endColumn": 12,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": {
+              "varName": "mb"
+            },
+            "fix": {
+              "range": [
+                1533,
+                1613
+              ],
+              "text": ""
+            },
+            "desc": "Remove unused variable 'mb'."
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 2,
+        "message": "'mb' is defined but never used.",
+        "line": 55,
+        "column": 10,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 55,
+        "endColumn": 12
+      },
+      {
+        "ruleId": "@typescript-eslint/strict-boolean-expressions",
+        "severity": 2,
+        "message": "Unexpected nullable string value in conditional. Please handle the nullish/empty cases explicitly.",
+        "line": 129,
+        "column": 9,
+        "nodeType": "MemberExpression",
+        "messageId": "conditionErrorNullableString",
+        "endLine": 129,
+        "endColumn": 30,
+        "suggestions": [
+          {
+            "messageId": "conditionFixCompareNullish",
+            "fix": {
+              "range": [
+                3395,
+                3416
+              ],
+              "text": "testConfig.targetFile != null"
+            },
+            "desc": "Change condition to check for null/undefined (`value != null`)"
+          },
+          {
+            "messageId": "conditionFixDefaultEmptyString",
+            "fix": {
+              "range": [
+                3395,
+                3416
+              ],
+              "text": "testConfig.targetFile ?? \"\""
+            },
+            "desc": "Explicitly treat nullish value the same as an empty string (`value ?? \"\"`)"
+          },
+          {
+            "messageId": "conditionFixCastBoolean",
+            "fix": {
+              "range": [
+                3395,
+                3416
+              ],
+              "text": "Boolean(testConfig.targetFile)"
+            },
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/strict-boolean-expressions",
+        "severity": 2,
+        "message": "Unexpected nullable string value in conditional. Please handle the nullish/empty cases explicitly.",
+        "line": 227,
+        "column": 45,
+        "nodeType": "Identifier",
+        "messageId": "conditionErrorNullableString",
+        "endLine": 227,
+        "endColumn": 49,
+        "suggestions": [
+          {
+            "messageId": "conditionFixCompareNullish",
+            "fix": {
+              "range": [
+                6311,
+                6315
+              ],
+              "text": "(file != null)"
+            },
+            "desc": "Change condition to check for null/undefined (`value != null`)"
+          },
+          {
+            "messageId": "conditionFixDefaultEmptyString",
+            "fix": {
+              "range": [
+                6311,
+                6315
+              ],
+              "text": "(file ?? \"\")"
+            },
+            "desc": "Explicitly treat nullish value the same as an empty string (`value ?? \"\"`)"
+          },
+          {
+            "messageId": "conditionFixCastBoolean",
+            "fix": {
+              "range": [
+                6311,
+                6315
+              ],
+              "text": "(Boolean(file))"
+            },
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/strict-boolean-expressions",
+        "severity": 2,
+        "message": "Unexpected nullable string value in conditional. Please handle the nullish/empty cases explicitly.",
+        "line": 324,
+        "column": 9,
+        "nodeType": "MemberExpression",
+        "messageId": "conditionErrorNullableString",
+        "endLine": 324,
+        "endColumn": 30,
+        "suggestions": [
+          {
+            "messageId": "conditionFixCompareNullish",
+            "fix": {
+              "range": [
+                9167,
+                9188
+              ],
+              "text": "testConfig.targetFile != null"
+            },
+            "desc": "Change condition to check for null/undefined (`value != null`)"
+          },
+          {
+            "messageId": "conditionFixDefaultEmptyString",
+            "fix": {
+              "range": [
+                9167,
+                9188
+              ],
+              "text": "testConfig.targetFile ?? \"\""
+            },
+            "desc": "Explicitly treat nullish value the same as an empty string (`value ?? \"\"`)"
+          },
+          {
+            "messageId": "conditionFixCastBoolean",
+            "fix": {
+              "range": [
+                9167,
+                9188
+              ],
+              "text": "Boolean(testConfig.targetFile)"
+            },
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
+          }
+        ]
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 4,
+    "fatalErrorCount": 0,
+    "warningCount": 1,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "// src/tools/master.ts - Master orchestrator for parallel ESLint\n\nimport fs from \"fs\";\nimport path from \"path\";\nimport { fileURLToPath } from \"url\";\nimport { fork, ChildProcess } from \"child_process\";\nimport { glob } from \"glob\";\nimport { ConfigConverter } from \"./config-converter.ts\";\nimport { MemProfiler } from \"./mem-profiler.ts\";\nimport {\n  LintTask,\n  WorkerMessage,\n  Batch,\n  WorkerState,\n  FailedFile,\n  Summary,\n} from \"./types.ts\";\nimport { getTestConfig, printTestHelp } from \"./test-scenarios.ts\";\nimport { ESLint } from \"eslint\";\n\nconst __filename = fileURLToPath(import.meta.url);\nconst __dirname = path.dirname(__filename);\n\n// Check for --help flag\nif (process.argv.includes(\"--help\") || process.argv.includes(\"-h\")) {\n  printTestHelp();\n  process.exit(0);\n}\n\n// Load test config\nconst testConfig = getTestConfig();\n\n// ============ Configuration ============\nconst CONFIG = {\n  maxWorkers: 2,\n  maxRetries: 2,\n  memoryThresholdPercent: 75,\n  containerLimitMB: 4096, // 4GB default\n  initialBatchDivisor: 4, // Split files into ~4 batches initially\n};\n\nconst projectRoot = process.cwd();\nconst outputDir = path.join(projectRoot, \"lint-output\");\n\n// ============ State ============\nlet batchIdCounter = 0;\nlet workerIdCounter = 0;\nconst pendingBatches: Batch[] = [];\nconst activeWorkers: Map<number, WorkerState> = new Map();\nconst completedResults: Map<number, ESLint.LintResult[]> = new Map();\nconst failedFiles: FailedFile[] = [];\nconst workerStats: Summary[\"workers\"] = [];\n\n// ============ Helpers ============\nfunction mb(bytes: number): number {\n  return Math.round(bytes / 1024 / 1024);\n}\n\nfunction getTotalRSS(): number {\n  // Master RSS + all worker RSS\n  let total = process.memoryUsage().rss;\n  for (const worker of activeWorkers.values()) {\n    const lastSample = worker.samples[worker.samples.length - 1];\n    if (lastSample) {\n      total += lastSample.rss;\n    }\n  }\n  return total;\n}\n\nfunction canSpawnWorker(): boolean {\n  if (activeWorkers.size >= CONFIG.maxWorkers) {\n    return false;\n  }\n  const thresholdBytes =\n    (CONFIG.containerLimitMB * 1024 * 1024 * CONFIG.memoryThresholdPercent) /\n    100;\n  return getTotalRSS() < thresholdBytes;\n}\n\nfunction createBatches(files: string[]): Batch[] {\n  const batchSize = Math.max(\n    1,\n    Math.ceil(files.length / CONFIG.initialBatchDivisor),\n  );\n  const batches: Batch[] = [];\n\n  for (let i = 0; i < files.length; i += batchSize) {\n    batches.push({\n      id: batchIdCounter++,\n      files: files.slice(i, i + batchSize),\n      retries: 0,\n    });\n  }\n\n  return batches;\n}\n\nfunction splitBatch(batch: Batch): Batch[] {\n  const mid = Math.ceil(batch.files.length / 2);\n  return [\n    {\n      id: batchIdCounter++,\n      files: batch.files.slice(0, mid),\n      retries: batch.retries + 1,\n    },\n    {\n      id: batchIdCounter++,\n      files: batch.files.slice(mid),\n      retries: batch.retries + 1,\n    },\n  ];\n}\n\n// ============ Worker Management ============\nfunction spawnWorker(batch: Batch, configPath: string): void {\n  const workerId = workerIdCounter++;\n\n  console.log(\n    `\\n[Master] Spawning worker ${workerId} for batch ${batch.id} (${batch.files.length} files)`,\n  );\n\n  const workerPath = path.join(__dirname, \"worker.ts\");\n\n  // Pass test args to worker\n  const workerArgs: string[] = [];\n  if (testConfig.scenario !== \"none\") {\n    workerArgs.push(`--test=${testConfig.scenario}`);\n    if (testConfig.targetFile) {\n      workerArgs.push(`--test-file=${testConfig.targetFile}`);\n    }\n  }\n\n  const child: ChildProcess = fork(workerPath, workerArgs, {\n    execArgv: [\"--import\", \"tsx\"],\n    stdio: [\"inherit\", \"inherit\", \"inherit\", \"ipc\"],\n  });\n\n  const workerState: WorkerState = {\n    id: workerId,\n    pid: child.pid ?? 0,\n    batch,\n    startTime: Date.now(),\n    samples: [],\n  };\n\n  activeWorkers.set(workerId, workerState);\n\n  // Send lint task\n  const task: LintTask = {\n    type: \"lint\",\n    workerId,\n    configPath,\n    files: batch.files,\n  };\n  child.send(task);\n\n  // Handle messages from worker\n  child.on(\"message\", (msg: WorkerMessage) => {\n    if (msg.type === \"memory\") {\n      workerState.samples.push(msg);\n    } else if (msg.type === \"result\") {\n      console.log(`[Master] Worker ${workerId} completed successfully`);\n      completedResults.set(workerId, msg.results);\n      workerStats.push({\n        id: workerId,\n        files: batch.files.length,\n        peakRSS: msg.peakRSS,\n        duration: msg.duration,\n      });\n    } else if (msg.type === \"error\") {\n      console.error(\n        `[Master] Worker ${workerId} error: ${msg.errorType} - ${msg.message}`,\n      );\n      handleWorkerError(batch, msg.errorType, msg.message, msg.file);\n    }\n  });\n\n  // Handle worker exit\n  child.on(\"exit\", (code, signal) => {\n    activeWorkers.delete(workerId);\n\n    // Detect OOM (SIGKILL or exit code 137)\n    if (signal === \"SIGKILL\" || code === 137) {\n      console.error(`[Master] Worker ${workerId} killed (OOM suspected)`);\n      handleWorkerError(batch, \"oom\", \"Process killed - likely OOM\");\n    } else if (code !== 0 && !completedResults.has(workerId)) {\n      console.error(`[Master] Worker ${workerId} exited with code ${code}`);\n      handleWorkerError(batch, \"unknown\", `Exit code ${code}`);\n    }\n\n    // Save worker memory timeline\n    if (workerState.samples.length > 0) {\n      const memFile = path.join(outputDir, `worker-${workerId}-memory.json`);\n      fs.writeFileSync(memFile, JSON.stringify(workerState.samples, null, 2));\n    }\n\n    // Continue processing\n    processNextBatch(configPath);\n  });\n\n  child.on(\"error\", (err) => {\n    console.error(`[Master] Worker ${workerId} spawn error:`, err.message);\n    activeWorkers.delete(workerId);\n    handleWorkerError(batch, \"unknown\", err.message);\n    processNextBatch(configPath);\n  });\n}\n\nfunction handleWorkerError(\n  batch: Batch,\n  errorType: \"oom\" | \"parse_error\" | \"rule_crash\" | \"unknown\",\n  message: string,\n  file?: string,\n): void {\n  if (\n    errorType === \"oom\" &&\n    batch.retries < CONFIG.maxRetries &&\n    batch.files.length > 1\n  ) {\n    // Split batch and retry\n    console.log(\n      `[Master] Splitting batch ${batch.id} and retrying (attempt ${batch.retries + 1})`,\n    );\n    const newBatches = splitBatch(batch);\n    pendingBatches.push(...newBatches);\n  } else if (errorType === \"parse_error\" && file) {\n    // Mark single file as failed\n    failedFiles.push({ file, reason: errorType, message });\n  } else {\n    // Mark all files in batch as failed\n    for (const f of batch.files) {\n      failedFiles.push({ file: f, reason: errorType, message });\n    }\n  }\n}\n\nfunction processNextBatch(configPath: string): void {\n  while (pendingBatches.length > 0 && canSpawnWorker()) {\n    const batch = pendingBatches.shift()!;\n    spawnWorker(batch, configPath);\n  }\n\n  // Check if all done\n  if (pendingBatches.length === 0 && activeWorkers.size === 0) {\n    finalize();\n  }\n}\n\n// ============ Finalization ============\nfunction finalize(): void {\n  console.log(\"\\n\" + \"=\".repeat(50));\n  console.log(\"[Master] All workers completed\");\n  console.log(\"=\".repeat(50));\n\n  // Aggregate results\n  let totalErrors = 0;\n  let totalWarnings = 0;\n  let processedFiles = 0;\n\n  for (const [workerId, results] of completedResults) {\n    // Write per-worker results\n    const resultFile = path.join(outputDir, `worker-${workerId}-results.json`);\n    fs.writeFileSync(resultFile, JSON.stringify(results, null, 2));\n    console.log(`[Master] Wrote ${resultFile}`);\n\n    for (const r of results) {\n      processedFiles++;\n      totalErrors += r.errorCount;\n      totalWarnings += r.warningCount;\n    }\n  }\n\n  // Build summary\n  const allFiles =\n    workerStats.reduce((sum, w) => sum + w.files, 0) + failedFiles.length;\n  const summary: Summary = {\n    totalFiles: allFiles,\n    processedFiles,\n    failedFiles: failedFiles.length,\n    totalErrors,\n    totalWarnings,\n    workers: workerStats,\n    failures: failedFiles,\n  };\n\n  const summaryFile = path.join(outputDir, \"summary.json\");\n  fs.writeFileSync(summaryFile, JSON.stringify(summary, null, 2));\n\n  // Print summary\n  console.log(\"\\n📊 Summary:\");\n  console.log(`  Total files: ${summary.totalFiles}`);\n  console.log(`  Processed: ${summary.processedFiles}`);\n  console.log(`  Failed: ${summary.failedFiles}`);\n  console.log(`  Errors: ${summary.totalErrors}`);\n  console.log(`  Warnings: ${summary.totalWarnings}`);\n  console.log(`  Workers used: ${workerStats.length}`);\n\n  if (failedFiles.length > 0) {\n    console.log(\"\\n❌ Failed files:\");\n    for (const f of failedFiles) {\n      console.log(`  - ${f.file}: ${f.reason} - ${f.message}`);\n    }\n  }\n\n  console.log(\"\\n📁 Output:\");\n  console.log(`  ${outputDir}/`);\n  console.log(`    - summary.json`);\n  for (const w of workerStats) {\n    console.log(`    - worker-${w.id}-results.json`);\n    console.log(`    - worker-${w.id}-memory.json`);\n  }\n\n  process.exit(failedFiles.length > 0 ? 1 : 0);\n}\n\n// ============ Main ============\nasync function main(): Promise<void> {\n  console.log(\"🚀 ESLint Master-Worker Orchestrator\\n\");\n\n  // Show test mode if active\n  if (testConfig.scenario !== \"none\") {\n    console.log(`🧪 TEST MODE: ${testConfig.scenario}`);\n    if (testConfig.targetFile) {\n      console.log(`   Target file pattern: ${testConfig.targetFile}`);\n    }\n    console.log(\"\");\n  }\n\n  // Create output directory\n  fs.mkdirSync(outputDir, { recursive: true });\n\n  // 1. Load and convert config (ONCE)\n  const legacyConfigPath = path.join(projectRoot, \".eslintrc.json\");\n  if (!fs.existsSync(legacyConfigPath)) {\n    console.error(\"❌ No .eslintrc.json found\");\n    process.exit(1);\n  }\n\n  const legacyConfig = ConfigConverter.loadLegacyConfig(legacyConfigPath);\n  console.log(\"✓ Legacy config loaded\");\n  console.log(`  Parser: ${legacyConfig.parser}`);\n  console.log(`  Rules: ${Object.keys(legacyConfig.rules ?? {}).length}`);\n\n  const { source } = ConfigConverter.convert(legacyConfig);\n  const flatConfigPath = path.join(projectRoot, \"eslint.config.mjs\");\n  ConfigConverter.writeFlatConfig(source, flatConfigPath);\n  console.log(\"✓ Flat config written to eslint.config.mjs\\n\");\n\n  // 2. Find all TypeScript files\n  const files = await glob(\"src/**/*.ts\", { cwd: projectRoot, absolute: true });\n  console.log(`✓ Found ${files.length} TypeScript files\\n`);\n\n  if (files.length === 0) {\n    console.log(\"No files to lint.\");\n    process.exit(0);\n  }\n\n  // 3. Create initial batches\n  const batches = createBatches(files);\n  pendingBatches.push(...batches);\n  console.log(`✓ Created ${batches.length} batches\\n`);\n\n  // 4. Start master memory profiling\n  const profiler = new MemProfiler();\n  profiler.start(500);\n\n  // 5. Start processing\n  console.log(\"[Master] Starting workers...\\n\");\n  processNextBatch(flatConfigPath);\n\n  // Save master memory on exit\n  process.on(\"exit\", () => {\n    profiler.stop();\n    profiler.dump(path.join(outputDir, \"master-memory.json\"));\n  });\n}\n\nmain().catch((err) => {\n  console.error(\"💥 Master error:\", err);\n  process.exit(1);\n});\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/tools/eslinst_dump.ts",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/tools/config-converter.ts",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/tools/baseline.ts",
+    "messages": [
+      {
+        "ruleId": "@typescript-eslint/no-explicit-any",
+        "severity": 2,
+        "message": "Unexpected any. Specify a different type.",
+        "line": 55,
+        "column": 19,
+        "nodeType": "TSAnyKeyword",
+        "messageId": "unexpectedAny",
+        "endLine": 55,
+        "endColumn": 22,
+        "suggestions": [
+          {
+            "messageId": "suggestUnknown",
+            "fix": {
+              "range": [
+                1583,
+                1586
+              ],
+              "text": "unknown"
+            },
+            "desc": "Use `unknown` instead, this will force you to explicitly, and safely assert the type is correct."
+          },
+          {
+            "messageId": "suggestNever",
+            "fix": {
+              "range": [
+                1583,
+                1586
+              ],
+              "text": "never"
+            },
+            "desc": "Use `never` instead, this is useful when instantiating generic type parameters that you don't need to know the type of."
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Unsafe member access .message on an `any` value.",
+        "line": 61,
+        "column": 25,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 61,
+        "endColumn": 32
+      },
+      {
+        "ruleId": "@typescript-eslint/strict-boolean-expressions",
+        "severity": 2,
+        "message": "Unexpected any value in conditional. An explicit comparison or type conversion is required.",
+        "line": 63,
+        "column": 9,
+        "nodeType": "CallExpression",
+        "messageId": "conditionErrorAny",
+        "endLine": 63,
+        "endColumn": 49,
+        "suggestions": [
+          {
+            "messageId": "conditionFixCastBoolean",
+            "fix": {
+              "range": [
+                1773,
+                1813
+              ],
+              "text": "Boolean(error.message.includes(\"parserServices\"))"
+            },
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-call",
+        "severity": 2,
+        "message": "Unsafe call of an `any` typed value.",
+        "line": 63,
+        "column": 9,
+        "nodeType": "MemberExpression",
+        "messageId": "unsafeCall",
+        "endLine": 63,
+        "endColumn": 31
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Unsafe member access .message on an `any` value.",
+        "line": 63,
+        "column": 15,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 63,
+        "endColumn": 22
+      },
+      {
+        "ruleId": "@typescript-eslint/strict-boolean-expressions",
+        "severity": 2,
+        "message": "Unexpected nullable string value in conditional. Please handle the nullish/empty cases explicitly.",
+        "line": 102,
+        "column": 22,
+        "nodeType": "MemberExpression",
+        "messageId": "conditionErrorNullableString",
+        "endLine": 102,
+        "endColumn": 32,
+        "suggestions": [
+          {
+            "messageId": "conditionFixCompareNullish",
+            "fix": {
+              "range": [
+                3068,
+                3078
+              ],
+              "text": "(msg.ruleId != null)"
+            },
+            "desc": "Change condition to check for null/undefined (`value != null`)"
+          },
+          {
+            "messageId": "conditionFixDefaultEmptyString",
+            "fix": {
+              "range": [
+                3068,
+                3078
+              ],
+              "text": "(msg.ruleId ?? \"\")"
+            },
+            "desc": "Explicitly treat nullish value the same as an empty string (`value ?? \"\"`)"
+          },
+          {
+            "messageId": "conditionFixCastBoolean",
+            "fix": {
+              "range": [
+                3068,
+                3078
+              ],
+              "text": "(Boolean(msg.ruleId))"
+            },
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/strict-boolean-expressions",
+        "severity": 2,
+        "message": "Unexpected nullable number value in conditional. Please handle the nullish/zero/NaN cases explicitly.",
+        "line": 103,
+        "column": 33,
+        "nodeType": "CallExpression",
+        "messageId": "conditionErrorNullableNumber",
+        "endLine": 103,
+        "endColumn": 55,
+        "suggestions": [
+          {
+            "messageId": "conditionFixCompareNullish",
+            "fix": {
+              "range": [
+                3125,
+                3147
+              ],
+              "text": "(issuesByRule.get(rule) != null)"
+            },
+            "desc": "Change condition to check for null/undefined (`value != null`)"
+          },
+          {
+            "messageId": "conditionFixDefaultZero",
+            "fix": {
+              "range": [
+                3125,
+                3147
+              ],
+              "text": "(issuesByRule.get(rule) ?? 0)"
+            },
+            "desc": "Explicitly treat nullish value the same as 0 (`value ?? 0`)"
+          },
+          {
+            "messageId": "conditionFixCastBoolean",
+            "fix": {
+              "range": [
+                3125,
+                3147
+              ],
+              "text": "(Boolean(issuesByRule.get(rule)))"
+            },
+            "desc": "Explicitly convert value to a boolean (`Boolean(value)`)"
+          }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unsafe-member-access",
+        "severity": 2,
+        "message": "Unsafe member access .message on an `any` value.",
+        "line": 122,
+        "column": 36,
+        "nodeType": "Identifier",
+        "messageId": "unsafeMemberExpression",
+        "endLine": 122,
+        "endColumn": 43
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 8,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "// src/tools/baseline.ts\n\nimport fs from \"fs\";\nimport path from \"path\";\nimport { ESLint } from \"eslint\";\nimport { MemProfiler } from \"./mem-profiler.ts\";\nimport { ConfigConverter } from \"./config-converter.ts\";\n\nconst projectRoot = process.cwd();\n\nasync function main() {\n  console.log(\"🚀 Starting ESLint Baseline\\n\");\n\n  // 1. Load legacy config\n  const legacyConfigPath = path.join(projectRoot, \".eslintrc.json\");\n\n  if (!fs.existsSync(legacyConfigPath)) {\n    console.error(\"❌ No .eslintrc.json found\");\n    process.exit(1);\n  }\n\n  const legacyConfig = ConfigConverter.loadLegacyConfig(legacyConfigPath);\n  console.log(\"✓ Legacy config loaded\");\n  console.log(`  - Parser: ${legacyConfig.parser}`);\n  console.log(`  - Rules: ${Object.keys(legacyConfig.rules || {}).length}\\n`);\n\n  // 2. Convert to flat config\n  const { source } = ConfigConverter.convert(legacyConfig);\n  const flatConfigPath = path.join(projectRoot, \"eslint.config.mjs\");\n  ConfigConverter.writeFlatConfig(source, flatConfigPath);\n  console.log(\"✓ Flat config written\\n\");\n\n  // 3. Start profiling\n  const profiler = new MemProfiler();\n  profiler.start(100);\n  profiler.sample(\"before-eslint\");\n\n  // 4. Initialize ESLint\n  const eslint = new ESLint({\n    cwd: projectRoot,\n    overrideConfigFile: flatConfigPath,\n    cache: false,\n  });\n\n  profiler.sample(\"after-init\");\n  console.log(\"✓ ESLint initialized\\n\");\n\n  // 5. Run ESLint\n  console.log(\"🔍 Linting src/**/*.ts...\\n\");\n\n  let results;\n  try {\n    results = await eslint.lintFiles([\"src/**/*.ts\"]);\n    profiler.sample(\"after-lint\");\n  } catch (error: any) {\n    profiler.sample(\"error\");\n    profiler.stop();\n    profiler.dump(\"memory-timeline-error.json\");\n\n    console.error(\"❌ ESLint failed:\");\n    console.error(error.message);\n\n    if (error.message.includes(\"parserServices\")) {\n      console.error(\"\\n💡 Parser issue detected. Check:\");\n      console.error(\"   - TypeScript ESLint version (need v8+ for ESLint v9)\");\n      console.error(\"   - tsconfig.json exists and includes src files\");\n    }\n\n    process.exit(1);\n  }\n\n  // 6. Save results\n  fs.writeFileSync(\"eslint-results.json\", JSON.stringify(results, null, 2));\n  profiler.stop();\n  profiler.dump(\"memory-timeline.json\");\n\n  // 7. Summary\n  const totalIssues = results.reduce(\n    (s, r) => s + r.errorCount + r.warningCount,\n    0,\n  );\n  const totalErrors = results.reduce((s, r) => s + r.errorCount, 0);\n  const totalWarnings = results.reduce((s, r) => s + r.warningCount, 0);\n\n  console.log(\"✅ Complete!\\n\");\n  console.log(\"📊 Results:\");\n  console.log(`  - Files: ${results.length}`);\n  console.log(`  - Issues: ${totalIssues}`);\n  console.log(`    • Errors: ${totalErrors}`);\n  console.log(`    • Warnings: ${totalWarnings}\\n`);\n\n  console.log(\"📁 Output:\");\n  console.log(\"  - eslint-results.json\");\n  console.log(\"  - memory-timeline.json\");\n  console.log(\"  - eslint.config.mjs\");\n\n  // Top issues\n  if (totalIssues > 0) {\n    const issuesByRule = new Map<string, number>();\n    results.forEach((r) => {\n      r.messages.forEach((msg) => {\n        const rule = msg.ruleId || \"unknown\";\n        issuesByRule.set(rule, (issuesByRule.get(rule) || 0) + 1);\n      });\n    });\n\n    const top5 = Array.from(issuesByRule.entries())\n      .sort((a, b) => b[1] - a[1])\n      .slice(0, 5);\n\n    console.log(\"\\n🔝 Top 5 Issues:\");\n    top5.forEach(([rule, count], i) => {\n      console.log(`  ${i + 1}. ${rule}: ${count}x`);\n    });\n\n    console.log(\"Sleeping to allow observation...\");\n    await new Promise((res) => setTimeout(res, 30000)); // 30s\n  }\n}\n\nmain().catch((err) => {\n  console.error(\"\\n💥 Error:\", err.message);\n\n  process.exit(1);\n});\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/home/faisal/Eslint_PoC/demo_ts/src/services/userService.ts",
+    "messages": [
+      {
+        "ruleId": "@typescript-eslint/no-floating-promises",
+        "severity": 2,
+        "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+        "line": 38,
+        "column": 3,
+        "nodeType": "ExpressionStatement",
+        "messageId": "floatingVoid",
+        "endLine": 38,
+        "endColumn": 15,
+        "suggestions": [
+          {
+            "messageId": "floatingFixVoid",
+            "fix": {
+              "range": [
+                842,
+                842
+              ],
+              "text": "void "
+            },
+            "desc": "Add void operator to ignore."
+          },
+          {
+            "messageId": "floatingFixAwait",
+            "fix": {
+              "range": [
+                842,
+                842
+              ],
+              "text": "await "
+            },
+            "desc": "Add await operator."
+          }
+        ]
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import { User, UserID, ApiResponse } from \"../types\";\nimport { getUserById, saveUser } from \"../db\";\nimport { delay, riskyBoolean } from \"../utils\";\n\nexport async function createUser(\n  id: UserID,\n  name: string,\n  email: string | null,\n): Promise<ApiResponse<User>> {\n  const user: User = {\n    id,\n    name,\n    email,\n    isActive: true,\n    metadata: {},\n  };\n\n  await saveUser(user);\n  return { success: true, data: user };\n}\n\nexport async function deactivateUser(id: UserID): Promise<ApiResponse<User>> {\n  const user = await getUserById(id);\n\n  if (!user) {\n    return {\n      success: false,\n      error: { code: \"NOT_FOUND\", message: \"User not found\" },\n    };\n  }\n\n  // strict-boolean-expressions + unsafe member access\n  if (riskyBoolean(user.metadata)) {\n    user.isActive = false;\n  }\n\n  // no-floating-promises (intentional)\n  delay(1000);\n\n  await saveUser(user);\n  return { success: true, data: user };\n}\n\nexport async function getUserProfile(\n  id: UserID,\n): Promise<ApiResponse<unknown>> {\n  const user = await getUserById(id);\n\n  if (!user) {\n    return {\n      success: false,\n      error: { code: \"NOT_FOUND\", message: \"User not found\" },\n    };\n  }\n\n  // no-unsafe-assignment\n  const profile: unknown = {\n    id: user.id,\n    name: user.name,\n    email: user.email,\n  };\n\n  return { success: true, data: profile };\n}\n",
+    "usedDeprecatedRules": []
+  }
+]
